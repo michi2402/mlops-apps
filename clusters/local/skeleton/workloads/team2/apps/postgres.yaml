@@ -2,9 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: team2-postgres
-  namespace: argocd
-  labels:
-    app.kubernetes.io/part-of: workloads-team2
+  namespace: workloads-team2-postgres
   annotations:
     argocd.argoproj.io/sync-options: CreateNamespace=true
 spec:

@@ -3,8 +3,6 @@ kind: Application
 metadata:
   name: team1-postgres
   namespace: argocd
-  labels:
-    app.kubernetes.io/part-of: workloads-team1
   annotations:
     argocd.argoproj.io/sync-options: CreateNamespace=true
 spec:

@@ -3,8 +3,6 @@ kind: Application
 metadata:
   name: platform-postgres
   namespace: argocd
-  labels:
-    app.kubernetes.io/part-of: platform
   annotations:
     argocd.argoproj.io/sync-options: CreateNamespace=true
 spec:
