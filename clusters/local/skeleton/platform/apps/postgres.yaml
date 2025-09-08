@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: platform-postgres
-  namespace: platform-postgres
+  namespace: argocd
   labels:
     app.kubernetes.io/part-of: platform
   annotations:
