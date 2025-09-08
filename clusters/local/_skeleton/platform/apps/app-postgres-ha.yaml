@@ -9,8 +9,8 @@ spec:
     server: https://kubernetes.default.svc
     namespace: platform-postgres
   source:
-    repoURL: https://github.com/cloudnative-pg/charts.git
-    chart: charts/cloudnative-pg
+    repoURL: https://cloudnative-pg.github.io/charts
+    chart: cloudnative-pg
     targetRevision: 0.26.0
     helm:
       releaseName: platform-postgres-ha
