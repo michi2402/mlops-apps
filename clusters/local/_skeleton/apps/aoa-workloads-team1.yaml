@@ -3,9 +3,6 @@ kind: Application
 metadata:
   name: workloads-team1
   namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-options: CreateNamespace=true
-
 spec:
   project: default
   source:
@@ -21,3 +18,5 @@ spec:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

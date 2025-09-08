@@ -3,8 +3,6 @@ kind: Application
 metadata:
   name: workloads-team2-postgres
   namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-options: CreateNamespace=true
 spec:
   project: workloads-team2
   source:
@@ -18,3 +16,5 @@ spec:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

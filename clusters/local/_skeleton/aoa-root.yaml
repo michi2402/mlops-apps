@@ -5,9 +5,6 @@ metadata:
   namespace: argocd
   labels:
     app.kubernetes.io/part-of: root
-  annotations:
-    argocd.argoproj.io/sync-options: CreateNamespace=true
-
 spec:
   project: default
   source:
@@ -23,6 +20,8 @@ spec:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
