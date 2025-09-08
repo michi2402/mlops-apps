@@ -11,7 +11,7 @@ spec:
     path: clusters/local/_skeleton/workloads/team1/components/postgres
   destination:
     server: https://kubernetes.default.svc
-    namespace: workloads-team1
+    namespace: workloads-team1-postgres
   syncPolicy:
     automated:
       prune: true
