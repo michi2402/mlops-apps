@@ -9,11 +9,13 @@ spec:
     server: https://kubernetes.default.svc
     namespace: platform-crds
   source:
-    repoURL: https://cloudnative-pg.github.io/charts
-    chart: cloudnative-pg
-    targetRevision: 0.26.0
-    helm:
-      releaseName: platform-cloudnative-pg
+    repoURL: https://github.com/cloudnative-pg/cloudnative-pg
+    path: releases
+    targetRevision: release-1.17
+    directory:
+      recurse: false
+      include: 
+        - cnpg-1.17.5.yaml
   syncPolicy:
     automated: {}
     syncOptions:
