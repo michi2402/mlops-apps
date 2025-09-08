@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform-postgres-ha
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: platform-postgres
+  source:
+    repoURL: https://github.com/cloudnative-pg/charts.git
+    chart: charts/cloudnative-pg
+    targetRevision: 0.26.0
+    helm:
+      releaseName: platform-postgres-ha
+      values: |
+        service:
+          type: ClusterIP
+      parameters:
+        - name: replicaCount
+          value: "1"
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true

@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: workloads-team1
+  name: workloads-team2
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-options: CreateNamespace=true
@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: https://github.com/michi2402/mlops-apps
     targetRevision: master
-    path: clusters/local/skeleton/workloads/team1/apps
+    path: clusters/local/_skeleton/workloads/team2/apps
     directory:
       recurse: true
   destination:

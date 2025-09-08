@@ -13,7 +13,7 @@ spec:
   source:
     repoURL: https://github.com/michi2402/mlops-apps
     targetRevision: master
-    path: clusters/local/skeleton/apps
+    path: clusters/local/_skeleton/apps
     directory:
       recurse: true
   destination:

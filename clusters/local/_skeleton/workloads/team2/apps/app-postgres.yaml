@@ -1,22 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: workloads-team2
+  name: workloads-team2-postgres
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-options: CreateNamespace=true
-
 spec:
-  project: default
+  project: workloads-team2
   source:
     repoURL: https://github.com/michi2402/mlops-apps
     targetRevision: master
-    path: clusters/local/skeleton/workloads/team2/apps
-    directory:
-      recurse: true
+    path: clusters/local/_skeleton/workloads/team2/components/postgres
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
+    namespace: workloads-team2
   syncPolicy:
     automated:
       prune: true
