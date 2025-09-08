@@ -1,12 +1,12 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: local-skeleton-platform
+  name: platform
   namespace: argocd
   labels:
     app.kubernetes.io/part-of: root
 spec:
-  project: local-skeleton-platform
+  project: platform
   source:
     repoURL: https://github.com/michi2402/mlops-apps
     targetRevision: master

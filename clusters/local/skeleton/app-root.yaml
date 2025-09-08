@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: local-skeleton-root
+  name: root
   namespace: argocd
   labels:
     app.kubernetes.io/part-of: root
@@ -24,7 +24,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: local-skeleton-platform
+  name: platform
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
@@ -43,7 +43,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: local-skeleton-workloads-team1
+  name: workloads-team1
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "-1"
@@ -62,7 +62,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  name: local-skeleton-workloads-team2
+  name: workloads-team2
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "-1"

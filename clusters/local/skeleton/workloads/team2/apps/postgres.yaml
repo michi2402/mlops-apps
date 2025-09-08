@@ -8,7 +8,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-options: CreateNamespace=true
 spec:
-  project: local-skeleton-workloads-team2
+  project: workloads-team2
   source:
     repoURL: https://github.com/michi2402/mlops-apps
     targetRevision: master

@@ -1,12 +1,12 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: local-skeleton-workloads-team2
+  name: workloads-team2
   namespace: argocd
   labels:
     app.kubernetes.io/part-of: root
 spec:
-  project: local-skeleton-workloads-team2
+  project: workloads-team2
   source:
     repoURL: https://github.com/michi2402/mlops-apps
     targetRevision: master
