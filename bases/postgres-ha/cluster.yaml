@@ -5,4 +5,4 @@ metadata:
 spec:
   instances: 1
   storage:
-    size: 50Mi
+    size: 100Mi
