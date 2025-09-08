@@ -1,16 +1,16 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: local-example-root
+  name: local-skeleton-platform
   namespace: argocd
   labels:
     app.kubernetes.io/part-of: root
 spec:
-  project: default
+  project: local-skeleton-platform
   source:
     repoURL: https://github.com/michi2402/mlops-apps
     targetRevision: master
-    path: clusters/local/example/apps
+    path: clusters/local/skeleton/platform/apps
     directory:
       recurse: true
   destination:
@@ -20,4 +20,3 @@ spec:
     automated:
       prune: true
       selfHeal: true
-

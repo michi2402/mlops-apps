@@ -1,0 +1,79 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: local-skeleton-root
+  namespace: argocd
+  labels:
+    app.kubernetes.io/part-of: root
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/michi2402/mlops-apps
+    targetRevision: master
+    path: clusters/skeleton/skeleton/apps
+    directory:
+      recurse: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: local-skeleton-platform
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+
+spec:
+  description: Local skeleton project grouping platform apps
+  sourceRepos:
+    - '*'
+  destinations:
+    - namespace: '*'
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: local-skeleton-workloads-team1
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+
+spec:
+  description: Local skeleton project grouping team apps
+  sourceRepos:
+    - '*'
+  destinations:
+    - namespace: '*'
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: local-skeleton-workloads-team2
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+
+spec:
+  description: Local skeleton project grouping team apps
+  sourceRepos:
+    - '*'
+  destinations:
+    - namespace: '*'
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'

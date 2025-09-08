@@ -1,16 +1,16 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: local-example-workloads
+  name: local-skeleton-workloads
   namespace: argocd
   labels:
     app.kubernetes.io/part-of: root
 spec:
-  project: local-example
+  project: local-skeleton-workloads-team2
   source:
     repoURL: https://github.com/michi2402/mlops-apps
     targetRevision: master
-    path: clusters/local/example/workloads
+    path: clusters/local/skeleton/workloads/team2/apps
     directory:
       recurse: true
   destination:
