@@ -8,7 +8,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-options: CreateNamespace=true
 spec:
-  project: default
+  project: local-skeleton-platform
   source:
     repoURL: https://github.com/michi2402/mlops-apps
     targetRevision: master
