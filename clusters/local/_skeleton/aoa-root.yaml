@@ -22,15 +22,13 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
   name: platform
   namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
-
 spec:
   description: Local skeleton project grouping platform apps
   sourceRepos:
@@ -41,20 +39,13 @@ spec:
   clusterResourceWhitelist:
     - group: '*'
       kind: '*'
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: platform
+
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
   name: workloads-team1
   namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
-
 spec:
   description: Local skeleton project grouping team apps
   sourceRepos:
@@ -65,20 +56,13 @@ spec:
   clusterResourceWhitelist:
     - group: '*'
       kind: '*'
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: workloads-team1
+
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
   name: workloads-team2
   namespace: argocd
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
-
 spec:
   description: Local skeleton project grouping team apps
   sourceRepos:
@@ -89,8 +73,3 @@ spec:
   clusterResourceWhitelist:
     - group: '*'
       kind: '*'
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: workloads-team2

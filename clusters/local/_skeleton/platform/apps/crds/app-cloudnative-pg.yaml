@@ -4,7 +4,7 @@ metadata:
   name: platform-cloudnative-pg
   namespace: argocd
 spec:
-  project: default
+  project: platform
   destination:
     server: https://kubernetes.default.svc
     namespace: platform-crds
