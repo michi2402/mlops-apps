@@ -6,7 +6,7 @@ metadata:
   labels:
     app.kubernetes.io/part-of: root
 spec:
-  project: platform
+  project: default
   source:
     repoURL: https://github.com/michi2402/mlops-apps
     targetRevision: master

@@ -2,7 +2,6 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: team2-postgres
-  namespace: team2-postgres
   labels:
     app.kubernetes.io/part-of: workloads-team2
   annotations:
