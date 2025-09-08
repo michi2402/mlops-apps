@@ -15,7 +15,7 @@ spec:
     path: clusters/local/skeleton/platform/components/postgres
   destination:
     server: https://kubernetes.default.svc
-    namespace: platform
+    namespace: platform-postgres
   syncPolicy:
     automated:
       prune: true
