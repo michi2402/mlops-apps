@@ -43,6 +43,11 @@ spec:
     - group: '*'
       kind: '*'
 ---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: platform
+---
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
@@ -62,6 +67,11 @@ spec:
     - group: '*'
       kind: '*'
 ---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: workloads-team1
+---
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
@@ -80,3 +90,8 @@ spec:
   clusterResourceWhitelist:
     - group: '*'
       kind: '*'
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: workloads-team2
