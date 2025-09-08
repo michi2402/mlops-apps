@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: team1-postgres
+  name: workloads-team1-postgres
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-options: CreateNamespace=true
