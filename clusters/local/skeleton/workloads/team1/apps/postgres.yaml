@@ -2,6 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: team1-postgres
+  namespace: team1
   labels:
     app.kubernetes.io/part-of: workloads-team1
   annotations:
@@ -14,7 +15,7 @@ spec:
     path: clusters/local/skeleton/workloads/team1/components/postgres
   destination:
     server: https://kubernetes.default.svc
-    namespace: team1-postgres
+    namespace: team1
   syncPolicy:
     automated:
       prune: true

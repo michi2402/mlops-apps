@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: platform-postgres
+  name: platform
   labels:
     app.kubernetes.io/part-of: platform
   annotations:
@@ -14,7 +14,7 @@ spec:
     path: clusters/local/skeleton/platform/components/postgres
   destination:
     server: https://kubernetes.default.svc
-    namespace: platform-postgres
+    namespace: platform
   syncPolicy:
     automated:
       prune: true
