@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/michi2402/mlops-apps
     targetRevision: master
-    path: clusters/local/_skeleton/platform/components/postgres-ha
+    path: clusters/local/_skeleton/platform/components/postgres
   destination:
     server: https://kubernetes.default.svc
     namespace: platform-postgres

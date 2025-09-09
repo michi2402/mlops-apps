@@ -1,21 +1,21 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: platform-minio
+  name: platform-mlflow
   namespace: argocd
 spec:
   project: platform
   destination:
     server: https://kubernetes.default.svc
-    namespace: platform-minio
+    namespace: platform-mlflow
   sources:
-    - repoURL: https://github.com/minio/minio
-      targetRevision: RELEASE.2025-09-07T16-13-09Z
-      path: helm/minio
+    - repoURL: https://github.com/community-charts/helm-charts
+      targetRevision: mlflow-1.6.2
+      path: charts/mlflow
       helm:
-        releaseName: minio
+        releaseName: mlflow
         valueFiles:
-          - $values/clusters/local/_skeleton/platform/components/minio/values.yaml
+          - $values/clusters/local/_skeleton/platform/components/mlflow/values.yaml
 
     - repoURL: https://github.com/michi2402/mlops-apps
       targetRevision: master

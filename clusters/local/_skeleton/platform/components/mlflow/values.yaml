@@ -1,0 +1,25 @@
+backendStore:
+  databaseMigration: true
+  postgres:
+    enabled: true
+    host: platform-cnpg-cluster-rw.platform-postgres.svc
+    port: 5432
+    database: mlflow
+
+  existingDatabaseSecret:
+    name: platform-cnpg-cluster-app
+    usernameKey: username
+    passwordKey: password
+
+artifactRoot:
+  s3:
+    enabled: true
+    bucket: mlflow
+    # (prefer secrets in real setups)
+    awsAccessKeyId: minioadmin
+    awsSecretAccessKey: minioadmin
+
+extraEnvVars:
+  MLFLOW_S3_ENDPOINT_URL: "http://minio-svc.platform-minio.svc:9000"
+  MLFLOW_S3_IGNORE_TLS: "true"   # only if using HTTP/self-signed; drop for proper TLS
+  AWS_DEFAULT_REGION: "us-east-1"
