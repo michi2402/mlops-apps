@@ -1,20 +1,21 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: workloads-team2-postgres
-  namespace: argocd
-spec:
-  project: workloads-team2
-  source:
-    repoURL: https://github.com/michi2402/mlops-apps
-    targetRevision: master
-    path: clusters/local/_skeleton/workloads/team2/components/postgres
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: workloads-team2-postgres
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
+#apiVersion: argoproj.io/v1alpha1
+#kind: Application
+#metadata:
+#  name: workloads-team2-postgres
+#  namespace: argocd
+#spec:
+#  project: workloads-team2
+#  source:
+#    repoURL: https://github.com/michi2402/mlops-apps
+#    targetRevision: master
+#    path: clusters/local/_skeleton/workloads/team2/components/postgres
+#  destination:
+#    server: https://kubernetes.default.svc
+#    namespace: workloads-team2-postgres
+#  syncPolicy:
+#    automated:
+#      prune: true
+#      selfHeal: true
+#    syncOptions:
+#      - CreateNamespace=true
+#
