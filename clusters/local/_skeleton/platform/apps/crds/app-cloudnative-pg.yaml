@@ -13,11 +13,11 @@ spec:
     targetRevision: release-1.17
     path: releases
     directory:
-      include: "cnpg-1.17.5.yaml"     # <- only this file from /releases
+      include: "cnpg-1.17.5.yaml"
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-      - ServerSideApply=true          # <- important for large CRDs
+      - ServerSideApply=true
