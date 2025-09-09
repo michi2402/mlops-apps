@@ -7,16 +7,15 @@ spec:
   project: platform
   destination:
     server: https://kubernetes.default.svc
-    namespace: platform-crds
+    namespace: cnpg-system            # <- match the bundle’s namespace
   source:
     repoURL: https://github.com/cloudnative-pg/cloudnative-pg
-    path: releases
     targetRevision: release-1.17
+    path: releases
     directory:
-      recurse: false
-      include: 
-        - cnpg-1.17.5.yaml
+      include: "cnpg-1.17.5.yaml"     # <- only this file from /releases
   syncPolicy:
     automated: {}
     syncOptions:
       - CreateNamespace=true
+      - ServerSideApply=true          # <- important for large CRDs
