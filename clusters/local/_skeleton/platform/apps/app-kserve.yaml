@@ -16,7 +16,7 @@ spec:
       valuesObject:
         kserve:
           controller:
-            deploymentMode: Standard
+            deploymentMode: Serverless
 
   syncPolicy:
     automated:
