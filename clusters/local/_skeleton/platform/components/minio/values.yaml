@@ -1,0 +1,6 @@
+## Set default rootUser, rootPassword
+## rootUser and rootPassword is generated when not set
+## Distributed MinIO ref: https://docs.min.io/community/minio-object-store/operations/install-deploy-manage/deploy-minio-multi-node-multi-drive.html
+##
+rootUser: "root"
+rootPassword: "password"
