@@ -15,7 +15,9 @@ spec:
     directory:
       include: "cnpg-1.17.5.yaml"     # <- only this file from /releases
   syncPolicy:
-    automated: {}
+    automated:
+      prune: true
+      selfHeal: true
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true          # <- important for large CRDs
