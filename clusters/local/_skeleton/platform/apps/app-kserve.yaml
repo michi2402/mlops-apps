@@ -12,6 +12,11 @@ spec:
   - repoURL: ghcr.io/kserve/charts
     chart: kserve
     targetRevision: v0.15.0
+    helm:
+      valuesObject:
+        kserve:
+          controller:
+            deploymentMode: Standard
 
   syncPolicy:
     automated:
