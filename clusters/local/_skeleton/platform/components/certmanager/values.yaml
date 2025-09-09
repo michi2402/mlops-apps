@@ -1,4 +1,0 @@
-# Also install needed CRDs
-crds:
-  enabled: true
-  keep: true
