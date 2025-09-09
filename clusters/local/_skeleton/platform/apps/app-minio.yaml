@@ -18,7 +18,7 @@ spec:
           - $values/cluster/local/_skeleton/platform/components/minio/values.yaml
 
     - repoURL: https://github.com/michi2402/mlops-apps
-      targetRevision: main
+      targetRevision: master
       ref: values
 
   syncPolicy:
