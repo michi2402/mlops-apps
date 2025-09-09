@@ -2,7 +2,7 @@ backendStore:
   databaseMigration: true
   postgres:
     enabled: true
-    host: platform-cnpg-cluster-rw.platform-postgres.svc
+    host: platform-cnpg-cluster-rw.platform.svc
     port: 5432
     database: mlflow
 
