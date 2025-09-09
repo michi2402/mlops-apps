@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: minio
+  name: platform-minio
   namespace: argocd
 spec:
   project: default
@@ -10,7 +10,7 @@ spec:
     namespace: platform-minio
   sources:
     - repoURL: https://github.com/minio/minio
-      targetRevision: master         # or a tag/commit, e.g. "RELEASE.2025-08-24T03-56-07Z" when available
+      targetRevision: RELEASE.2025-09-07T16-13-09Z
       path: helm/minio
       helm:
         releaseName: minio
