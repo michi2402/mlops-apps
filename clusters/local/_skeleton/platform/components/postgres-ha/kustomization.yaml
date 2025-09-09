@@ -3,3 +3,5 @@ kind: Kustomization
 namespace: platform-postgres-ha
 resources:
   - ../../../../../../bases/postgres-ha
+patchesStrategicMerge:
+  - pg-cluster-patch.yaml
