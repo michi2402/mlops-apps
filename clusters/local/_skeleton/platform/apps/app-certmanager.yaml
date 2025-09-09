@@ -11,7 +11,7 @@ spec:
   sources:
     - repoURL: https://github.com/cert-manager/cert-manager
       targetRevision: release-1.18
-      path: deploy/charts/certmanager
+      path: deploy/charts/cert-manager
       helm:
         releaseName: certmanager
         valueFiles:
