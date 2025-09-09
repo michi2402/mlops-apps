@@ -1,7 +1,11 @@
 rootUser: "root"
 rootPassword: "password"
+mode: standalone
 replicas: 1
-
 resources:
   requests:
-    memory: 250Mi
+    cpu: 250m
+    memory: 512Mi
+  limits:
+    cpu: "1"
+    memory: 1Gi
