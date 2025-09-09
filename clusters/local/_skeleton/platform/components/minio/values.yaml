@@ -1,3 +1,7 @@
 rootUser: "root"
 rootPassword: "password"
-replicas: 3
+replicas: 1
+
+resources:
+  requests:
+    memory: 250Mi
