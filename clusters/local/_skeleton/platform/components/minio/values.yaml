@@ -1,5 +1,5 @@
-rootUser: "root"
-rootPassword: "password"
+rootUser: minioadmin
+rootPassword: minioadmin
 mode: standalone
 replicas: 1
 resources:
