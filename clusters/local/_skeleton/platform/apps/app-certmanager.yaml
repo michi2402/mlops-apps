@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform-certmanager
+  namespace: argocd
+spec:
+  project: platform
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: platform
+  sources:
+    - repoURL: https://github.com/cert-manager/cert-manager
+      targetRevision: release-1.18
+      path: deploy/charts/certmanager
+      helm:
+        releaseName: certmanager
+        valueFiles:
+          - $values/clusters/local/_skeleton/platform/components/certmanager/values.yaml
+
+    - repoURL: https://github.com/michi2402/mlops-apps
+      targetRevision: master
+      ref: values
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
