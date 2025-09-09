@@ -9,17 +9,13 @@ spec:
     server: https://kubernetes.default.svc
     namespace: platform
   sources:
-    - repoURL: https://github.com/cert-manager/cert-manager
-      targetRevision: release-1.18
-      path: deploy/charts/cert-manager
-      helm:
-        releaseName: certmanager
-        valueFiles:
-          - $values/clusters/local/_skeleton/platform/components/certmanager/values.yaml
-
-    - repoURL: https://github.com/michi2402/mlops-apps
-      targetRevision: master
-      ref: values
+  - repoURL: quay.io/jetstack/charts
+    chart: cert-manager
+    targetRevision: v1.18.2
+    helm:
+      valuesObject:
+        crds:
+          enabled: true
 
   syncPolicy:
     automated:
