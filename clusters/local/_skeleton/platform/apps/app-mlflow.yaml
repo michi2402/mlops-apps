@@ -7,7 +7,7 @@ spec:
   project: platform
   destination:
     server: https://kubernetes.default.svc
-    namespace: platform-mlflow
+    namespace: platform
   sources:
     - repoURL: https://github.com/community-charts/helm-charts
       targetRevision: mlflow-1.6.2
