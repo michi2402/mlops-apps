@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: platform-postgres-ha
+  name: platform-postgres
   namespace: argocd
 spec:
   project: platform
@@ -11,7 +11,7 @@ spec:
     path: clusters/local/_skeleton/platform/components/postgres-ha
   destination:
     server: https://kubernetes.default.svc
-    namespace: platform-postgres-ha
+    namespace: platform-postgres
   syncPolicy:
     automated:
       prune: true
