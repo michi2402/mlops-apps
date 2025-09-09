@@ -10,10 +10,10 @@ spec:
     namespace: cnpg-system
   source:
     repoURL: https://github.com/cloudnative-pg/cloudnative-pg
-    targetRevision: release-1.17
+    targetRevision: release-1.27
     path: releases
     directory:
-      include: "cnpg-1.17.5.yaml"
+      include: cnpg-1.27.0.yaml
   syncPolicy:
     automated:
       prune: true
