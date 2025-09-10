@@ -7,7 +7,7 @@ backendStore:
     database: app
 
   existingDatabaseSecret:
-    name: platform-cnpg-cluster-app
+    name: postgres-cluster-app
     usernameKey: username
     passwordKey: password
 
