@@ -4,7 +4,7 @@ backendStore:
     enabled: true
     host: postgres-cluster-rw.platform.svc
     port: 5432
-    database: app
+    database: mlflow
 
   existingDatabaseSecret:
     name: postgres-cluster-app
