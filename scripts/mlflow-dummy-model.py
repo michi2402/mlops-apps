@@ -11,13 +11,9 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
 
-# MLflow tracking API (your port-forward)
-MLFLOW_TRACKING_URI="http://127.0.0.1:5000"
+mlflow.set_tracking_uri("http://127.0.0.1:5000")
 
-# Optional: be explicit rather than relying on env var
-mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI", "http://127.0.0.1:5000"))
-
-EXPERIMENT_NAME = "demo-diabetes"
+EXPERIMENT_NAME = "demo-diabetes-experiment"
 mlflow.set_experiment(EXPERIMENT_NAME)
 
 # Simple dataset
