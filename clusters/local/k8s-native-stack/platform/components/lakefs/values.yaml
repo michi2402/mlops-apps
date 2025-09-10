@@ -1,5 +1,5 @@
 secrets:
-  databaseConnectionString: postgres://mlflow:vsy3rrPpVj5eFCx5DZZxJbCekV0CHj81J9NmaWdDpXYavNBeS58bKCXKmI1wGaAA@postgres.platform.svc.cluster.local:5432/lakefs?sslmode=disable
+  databaseConnectionString: postgres://mlflow:vsy3rrPpVj5eFCx5DZZxJbCekV0CHj81J9NmaWdDpXYavNBeS58bKCXKmI1wGaAA@postgres-cluster-rw.platform.svc.cluster.local:5432/lakefs?sslmode=disable
   authEncryptSecretKey: aVerySecret
 fullnameOverride: lakefs
 lakefsConfig: |
