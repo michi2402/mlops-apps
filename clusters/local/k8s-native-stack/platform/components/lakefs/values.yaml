@@ -5,7 +5,7 @@ lakefsConfig: |
   database:
     type: postgres
     postgres:
-      connection_string: "postgres://user:pass@postgres.platform.svc.cluster.local:5432/lakefs?sslmode=disable"
+      connection_string: "postgres://mlflow:vsy3rrPpVj5eFCx5DZZxJbCekV0CHj81J9NmaWdDpXYavNBeS58bKCXKmI1wGaAA@postgres.platform.svc.cluster.local:5432/lakefs?sslmode=disable"
   blockstore:
     type: s3
     s3:
