@@ -16,10 +16,11 @@ artifactRoot:
   s3:
     enabled: true
     bucket: mlflow
-    # (prefer secrets in real setups)
-    awsAccessKeyId: minioadmin
+    awsAccessKeyId: minioadmin # TODO: replace with secret
     awsSecretAccessKey: minioadmin
 
 extraEnvVars:
-  MLFLOW_S3_ENDPOINT_URL: "http://minio-svc.platform-minio.svc:9000"
-  MLFLOW_S3_IGNORE_TLS: "true"   # only if using HTTP/self-signed; drop for proper TLS
+  MLFLOW_S3_ENDPOINT_URL: "http://minio.platform.svc.cluster.local:9000"
+
+extraFlags:
+  - serveArtifacts
