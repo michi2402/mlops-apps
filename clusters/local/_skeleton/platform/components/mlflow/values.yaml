@@ -12,6 +12,7 @@ backendStore:
     passwordKey: password
 
 artifactRoot:
+  proxiedArtifactStorage: true
   s3:
     enabled: true
     bucket: mlflow
@@ -22,4 +23,3 @@ artifactRoot:
 extraEnvVars:
   MLFLOW_S3_ENDPOINT_URL: "http://minio-svc.platform-minio.svc:9000"
   MLFLOW_S3_IGNORE_TLS: "true"   # only if using HTTP/self-signed; drop for proper TLS
-  AWS_DEFAULT_REGION: "us-east-1"
