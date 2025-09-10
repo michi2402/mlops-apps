@@ -6,4 +6,4 @@ cluster:
   initdb:
     database: mlflow
     postInitApplicationSQL:
-        - CREATE DATABASE lakefs OWNER CURRENT_USER;
+        - CREATE DATABASE lakefs OWNER mlflow;
