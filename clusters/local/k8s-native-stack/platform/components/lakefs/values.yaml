@@ -1,0 +1,46 @@
+secrets:
+  authEncryptSecretKey: authEncryptSecretKey
+
+lakefsConfig: |
+  database:
+    type: postgres
+    postgres:
+      connection_string: "postgres://user:pass@postgres.platform.svc.cluster.local:5432/lakefs?sslmode=disable"
+  blockstore:
+    type: s3
+    s3:
+      endpoint: "http://minio.platform.svc.cluster.local:9000"
+      region: "us-east-1"
+      force_path_style: true
+      # Same MinIO credentials as mlflow (replace later with a Secret in prod)
+      credentials:
+        access_key_id: "minioadmin"
+        secret_access_key: "minioadmin"
+
+# --- Service / Ingress --------------------------------------------------------
+service:
+  type: ClusterIP
+  port: 8000
+
+ingress:
+  enabled: false
+  className: ""
+  hosts: []
+
+# --- Resources (tune as needed) ----------------------------------------------
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 1Gi
+
+# --- Probes ------------------------------------------------------------------
+readinessProbe:
+  enabled: true
+livenessProbe:
+  enabled: true
+
+# --- Replica count ------------------------------------------------------------
+replicaCount: 1
