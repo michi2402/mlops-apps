@@ -7,13 +7,11 @@ spec:
   project: platform
   destination:
     server: https://kubernetes.default.svc
-    namespace: cnpg-system
+    namespace: platform
   source:
-    repoURL: https://github.com/cloudnative-pg/cloudnative-pg
-    targetRevision: release-1.27
-    path: releases
-    directory:
-      include: cnpg-1.27.0.yaml
+    repoURL: https://github.com/cloudnative-pg/charts
+    targetRevision: cloudnative-pg-v0.26.0
+    path: charts/cloudnative-pg
   syncPolicy:
     automated:
       prune: true
