@@ -2,7 +2,7 @@ backendStore:
   databaseMigration: true
   postgres:
     enabled: true
-    host: platform-cnpg-cluster-rw.platform.svc
+    host: postgres-cluster-rw.platform.svc
     port: 5432
     database: app
 
