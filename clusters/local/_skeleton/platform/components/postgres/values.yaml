@@ -1,0 +1,8 @@
+namespaceOverride: platform
+cluster:
+  instances: 2
+  storage:
+    size: 1Gi
+  postgresql:
+    initdb:
+      database: mlflow
