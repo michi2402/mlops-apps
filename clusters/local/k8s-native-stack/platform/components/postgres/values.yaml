@@ -6,9 +6,6 @@ cluster:
   initdb:
     database: mlflow
     owner: mlflow
-    users:
-      - name: lakefs
-        password: lakefspassword
-        options: "CREATEDB"
     postInitApplicationSQL:
-      - CREATE DATABASE lakefs OWNER lakefs;
+    - CREATE USER lakefs WITH PASSWORD 'lakefspassword';
+    - CREATE DATABASE lakefs OWNER lakefs;
