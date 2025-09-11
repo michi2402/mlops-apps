@@ -1,0 +1,10 @@
+namespaceOverride: platform
+cluster:
+  instances: 2
+  storage:
+    size: 1Gi
+  initdb:
+    database: mlflow
+    postInitApplicationSQL:
+    - CREATE USER lakefs WITH PASSWORD 'lakefspassword';
+    - CREATE DATABASE lakefs OWNER lakefs;

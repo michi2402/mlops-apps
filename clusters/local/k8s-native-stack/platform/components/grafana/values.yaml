@@ -1,0 +1,19 @@
+grafana:
+  adminUser: admin
+  adminPassword: admin123
+  service:
+    type: NodePort
+    nodePort: 32000
+  ingress:
+    enabled: false
+  persistence:
+    enabled: true
+    size: 2Gi
+  plugins:
+    - grafana-piechart-panel
+  dashboards:
+    default:
+      k8s-cluster:
+        gnetId: 6417
+        revision: 1
+        datasource: Prometheus

@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform-lakefs
+  namespace: argocd
+spec:
+  project: platform
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: platform
+  sources:
+    - repoURL: https://charts.lakefs.io
+      chart: lakefs
+      targetRevision: 1.7.5
+      helm:
+        releaseName: lakefs
+        valueFiles:
+          - $values/clusters/local/k8s-native-stack/platform/components/lakefs/values.yaml
+    - repoURL: https://github.com/michi2402/mlops-apps
+      targetRevision: master
+      ref: values
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true

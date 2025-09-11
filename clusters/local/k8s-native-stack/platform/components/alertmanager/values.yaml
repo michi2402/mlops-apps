@@ -1,0 +1,18 @@
+alertmanager:
+  enabled: true
+  config:
+    global:
+      resolve_timeout: 5m
+    route:
+      receiver: "default"
+    receivers:
+      - name: "default"
+        email_configs:
+          - to: "alerts@example.com"
+            from: "k8s@example.com"
+            smarthost: "smtp.example.com:587"
+            auth_username: "user"
+            auth_identity: "user"
+            auth_password: "password"
+  service:
+    type: ClusterIP

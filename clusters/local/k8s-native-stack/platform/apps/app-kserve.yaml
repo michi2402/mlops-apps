@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform-kserve
+  namespace: argocd
+spec:
+  project: platform
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: platform
+  sources:
+  - repoURL: ghcr.io/kserve/charts
+    chart: kserve
+    targetRevision: v0.15.0
+    helm:
+      valuesObject:
+        kserve:
+          controller:
+            deploymentMode: RawDeployment
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
