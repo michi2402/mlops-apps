@@ -7,3 +7,4 @@ cluster:
     database: mlflow
     postInitApplicationSQL:
     - CREATE USER lakefs WITH PASSWORD 'lakefspassword';
+    - CREATE DATABASE lakefs OWNER lakefs;
