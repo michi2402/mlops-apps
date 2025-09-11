@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform-monitoring
+  namespace: argocd
+spec:
+  project: platform
+  sources:
+    - repoURL: ghcr.io/prometheus-community/charts
+      chart: kube-prometheus-stack
+      targetRevision: 77.6.1
+      helm:
+        releaseName: monitoring
+        valueFiles:
+          - $values/clusters/local/_skeleton/platform/components/mlflow/values.yaml
+
+    - repoURL: https://github.com/michi2402/mlops-apps
+      targetRevision: master
+      path: clusters/local/_skeleton/platform/components/monitoring
+      ref: values
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
