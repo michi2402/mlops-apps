@@ -7,7 +7,7 @@ backendStore:
     database: mlflow
 
   existingDatabaseSecret:
-    name: postgres-cluster-app
+    name: platform-postgres-mlflow-secret
     usernameKey: username
     passwordKey: password
 
@@ -16,8 +16,10 @@ artifactRoot:
   s3:
     enabled: true
     bucket: mlflow
-    awsAccessKeyId: minioadmin # TODO: replace with secret
-    awsSecretAccessKey: minioadmin
+    existingSecret:
+      name: platform-minio-secret
+      keyOfAccessKeyId: rootUser
+      keyOfSecretAccessKey: rootPassword
 
 extraEnvVars:
   MLFLOW_S3_ENDPOINT_URL: "http://minio.platform.svc.cluster.local:9000"

@@ -1,5 +1,24 @@
-# Local Cluster Skeleton
-## Connect to services (port forwarding)
+# Local Cluster Skeleton Setup
+## 1. Initialize External Secrets
+```bash
+TENANT_ID="<from tofu output>"
+CLIENT_ID="<from tofu output>"
+CLIENT_SECRET="<from tofu output>"
+
+kubectl create namespace external-secrets
+kubectl -n external-secrets create secret generic azure-sp-secret \
+  --from-literal=TenantID="$TENANT_ID" \
+  --from-literal=ClientID="$CLIENT_ID" \
+  --from-literal=ClientSecret="$CLIENT_SECRET"
+```
+
+## 2. Install ArgoCD
+```bash
+# This also automatically starts the first port forwarding from below
+./mlops-apps/scripts/install-argo.sh
+```
+
+## 3. Connect to services (port forwarding)
 ```bash
 # ArgoCD -> https://localhost:8080
 kubectl -n argocd port-forward svc/argocd-server 8080:443

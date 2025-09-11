@@ -7,8 +7,12 @@ spec:
   project: platform
   destination:
     server: https://kubernetes.default.svc
-    namespace: platform
+    namespace: platform-postgres
   sources:
+    - repoURL: https://github.com/cloudnative-pg/charts
+      targetRevision: cloudnative-pg-v0.26.0
+      path: charts/cloudnative-pg
+
     - repoURL: https://github.com/cloudnative-pg/charts
       targetRevision: cluster-v0.3.1
       path: charts/cluster
@@ -19,6 +23,7 @@ spec:
 
     - repoURL: https://github.com/michi2402/mlops-apps
       targetRevision: master
+      path: clusters/local/_skeleton/platform/components/postgres
       ref: values
 
   syncPolicy:

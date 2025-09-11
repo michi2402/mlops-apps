@@ -1,5 +1,4 @@
-rootUser: minioadmin
-rootPassword: minioadmin
+existingSecret: platform-minio-secret
 mode: standalone
 replicas: 1
 resources:

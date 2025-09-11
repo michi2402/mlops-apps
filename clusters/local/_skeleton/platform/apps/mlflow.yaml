@@ -7,7 +7,7 @@ spec:
   project: platform
   destination:
     server: https://kubernetes.default.svc
-    namespace: platform
+    namespace: platform-mlflow
   sources:
     - repoURL: https://github.com/community-charts/helm-charts
       targetRevision: mlflow-1.6.2
@@ -19,6 +19,7 @@ spec:
 
     - repoURL: https://github.com/michi2402/mlops-apps
       targetRevision: master
+      path: clusters/local/_skeleton/platform/components/mlflow
       ref: values
 
   syncPolicy:
