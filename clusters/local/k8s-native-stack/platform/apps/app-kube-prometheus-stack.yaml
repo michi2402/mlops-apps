@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: platform-postgres
+  name: platform-kube-prometheus-stack
   namespace: argocd
 spec:
   project: platform
@@ -22,7 +22,7 @@ spec:
     - repoURL: https://github.com/michi2402/mlops-apps
       targetRevision: master
       ref: values
-      
+
   syncPolicy:
     automated:
       prune: true
