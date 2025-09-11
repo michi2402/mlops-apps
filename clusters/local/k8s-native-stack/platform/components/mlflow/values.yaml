@@ -16,11 +16,11 @@ artifactRoot:
   s3:
     enabled: true
     bucket: mlflow
-    awsAccessKeyId: minioadmin # TODO: replace with secret
+    awsAccessKeyId: minioadmin
     awsSecretAccessKey: minioadmin
 
 extraEnvVars:
-  MLFLOW_S3_ENDPOINT_URL: "http://minio.platform.svc.cluster.local:9000"
+  MLFLOW_S3_ENDPOINT_URL: "http://lakefs.platform.svc.cluster.local:8000"
 
 extraFlags:
   - serveArtifacts
