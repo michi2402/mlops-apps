@@ -15,9 +15,10 @@ artifactRoot:
   proxiedArtifactStorage: true
   s3:
     enabled: true
-    bucket: mlflow
+    bucket: mlflowj-artifacts
     awsAccessKeyId: minioadmin
     awsSecretAccessKey: minioadmin
+    createBucket: true
 
 extraEnvVars:
   MLFLOW_S3_ENDPOINT_URL: "http://lakefs.platform.svc.cluster.local:8000"
