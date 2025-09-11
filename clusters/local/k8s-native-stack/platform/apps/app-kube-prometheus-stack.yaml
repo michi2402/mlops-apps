@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform-postgres
+  namespace: argocd
+spec:
+  project: platform
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: platform
+  sources:
+    - repoURL: https://prometheus-community.github.io/helm-charts
+      targetRevision: 77.6.0
+      path: kube-prometheus-stack
+      helm:
+        releaseName: kube-prometheus-stack
+        valueFiles:
+          - $values/clusters/local/k8s-native-stack/platform/components/prometheus/values.yaml
+          - $values/clusters/local/k8s-native-stack/platform/components/alertmanager/values.yaml
+          - $values/clusters/local/k8s-native-stack/platform/components/grafana/values.yaml
+
+    - repoURL: https://github.com/michi2402/mlops-apps
+      targetRevision: master
+      ref: values
+      
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
