@@ -11,3 +11,4 @@ resources:
     memory: 1Gi
 buckets:
   - name: mlflow
+  - name: lakefs

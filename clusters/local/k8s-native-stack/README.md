@@ -9,4 +9,7 @@ kubectl -n platform port-forward svc/minio-console 9001:9001
 
 # MLFlow -> https://localhost:5000
 kubectl -n platform port-forward svc/mlflow 5000:80
+
+# LakeFS -> https://localhost:6000
+kubectl -n platform port-forward svc/lakefs 6001:80
 ```
