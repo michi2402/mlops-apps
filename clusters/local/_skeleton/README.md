@@ -1,13 +1,11 @@
 # Local Cluster Skeleton Setup
 ## 1. Initialize External Secrets
 ```bash
-TENANT_ID="<from tofu output>"
 CLIENT_ID="<from tofu output>"
 CLIENT_SECRET="<from tofu output>"
 
 kubectl create namespace external-secrets
 kubectl -n external-secrets create secret generic azure-sp-secret \
-  --from-literal=TenantID="$TENANT_ID" \
   --from-literal=ClientID="$CLIENT_ID" \
   --from-literal=ClientSecret="$CLIENT_SECRET"
 ```
