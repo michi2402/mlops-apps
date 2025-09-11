@@ -2,7 +2,7 @@ backendStore:
   databaseMigration: true
   postgres:
     enabled: true
-    host: postgres-cluster-rw.platform.svc
+    host: postgres-cluster-rw.platform-postgres.svc
     port: 5432
     database: mlflow
 
@@ -22,7 +22,7 @@ artifactRoot:
       keyOfSecretAccessKey: rootPassword
 
 extraEnvVars:
-  MLFLOW_S3_ENDPOINT_URL: "http://minio.platform.svc.cluster.local:9000"
+  MLFLOW_S3_ENDPOINT_URL: "http://minio.platform-minio.svc.cluster.local:9000"
 
 extraFlags:
   - serveArtifacts
