@@ -5,6 +5,5 @@ cluster:
     size: 1Gi
   initdb:
     database: mlflow
-    owner: mlflow
     postInitApplicationSQL:
     - CREATE USER lakefs WITH PASSWORD 'lakefspassword';
