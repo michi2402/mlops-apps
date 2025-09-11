@@ -5,5 +5,10 @@ cluster:
     size: 1Gi
   initdb:
     database: mlflow
-    postInitApplicationSQL:
-        - CREATE DATABASE lakefs OWNER mlflow;
+  owner: mlflow
+  users:
+    - name: lakefs
+      password: lakefspassword
+      options: "CREATEDB"
+  postInitApplicationSQL:
+    - CREATE DATABASE lakefs OWNER lakefs;
