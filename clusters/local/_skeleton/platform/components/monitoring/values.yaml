@@ -15,7 +15,7 @@ prometheus:
           accessModes: ["ReadWriteOnce"]
           resources:
             requests:
-              storage: 100Gi
+              storage: 3Gi
     ruleSelectorNilUsesHelmValues: false
     serviceMonitorSelectorNilUsesHelmValues: false
     podMonitorSelectorNilUsesHelmValues: false
@@ -33,8 +33,10 @@ alertmanager:
 grafana:
   enabled: true
   defaultDashboardsEnabled: true
-  adminUser: admin
-  adminPassword: admin # change via secret or valuesFrom
+  admin:
+    existingSecret: platform-grafana-secret
+    userKey: username
+    passwordKey: password
   service:
     type: ClusterIP
   persistence:
