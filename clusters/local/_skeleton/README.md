@@ -1,6 +1,8 @@
 # Local Cluster Skeleton Setup
 ## 1. Initialize External Secrets
 ```bash
+tofu output -raw <output_name>
+
 CLIENT_ID="<from tofu output>"
 CLIENT_SECRET="<from tofu output>"
 
@@ -22,8 +24,8 @@ kubectl -n external-secrets create secret generic azure-sp-secret \
 kubectl -n argocd port-forward svc/argocd-server 8080:443
 
 # MinIO -> https://localhost:9001
-kubectl -n platform port-forward svc/minio-console 9001:9001
+kubectl -n platform-minio port-forward svc/minio-console 9001:9001
 
 # MLFlow -> https://localhost:5000
-kubectl -n platform port-forward svc/mlflow 5000:80
+kubectl -n platform-mlflow port-forward svc/mlflow 5000:80
 ```
