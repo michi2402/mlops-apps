@@ -10,7 +10,7 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: platform-kubeflow-spark-operator
-  source:
+  sources:
   - repoURL: https://kubeflow.github.io/spark-operator
     chart: spark-operator
     targetRevision: 2.3.0
