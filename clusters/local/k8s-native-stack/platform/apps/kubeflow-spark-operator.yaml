@@ -11,18 +11,18 @@ spec:
     server: https://kubernetes.default.svc
     namespace: platform-kubeflow-spark-operator
   source:
-    - repoURL: https://kubeflow.github.io/spark-operator
-      chart: spark-operator
-      targetRevision: 2.3.0
-      helm:
-        releaseName: spark-operator
-        valueFiles:
-          - $values/clusters/local/k8s-native-stack/platform/components/kubeflow-spark-operator/values.yaml
+  - repoURL: https://kubeflow.github.io/spark-operator
+    chart: spark-operator
+    targetRevision: 2.3.0
+    helm:
+      releaseName: spark-operator
+      valueFiles:
+        - $values/clusters/local/k8s-native-stack/platform/components/kubeflow-spark-operator/values.yaml
 
-    - repoURL: https://github.com/michi2402/mlops-apps
-      targetRevision: master
-      path: clusters/local/k8s-native-stack/platform/components/kubeflow-spark-operator
-      ref: values
+  - repoURL: https://github.com/michi2402/mlops-apps
+    targetRevision: master
+    path: clusters/local/k8s-native-stack/platform/components/kubeflow-spark-operator
+    ref: values
   syncPolicy:
     automated: { prune: true, selfHeal: true }
     syncOptions:
