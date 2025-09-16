@@ -1,23 +1,25 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: platform-lakefs
+  name: platform-minio
   namespace: argocd
 spec:
   project: platform
   destination:
     server: https://kubernetes.default.svc
-    namespace: platform
+    namespace: platform-minio
   sources:
-    - repoURL: https://charts.lakefs.io
-      chart: lakefs
-      targetRevision: 1.7.5
+    - repoURL: https://github.com/minio/minio
+      targetRevision: RELEASE.2025-09-07T16-13-09Z
+      path: helm/minio
       helm:
-        releaseName: lakefs
+        releaseName: minio
         valueFiles:
-          - $values/clusters/local/k8s-native-stack/platform/components/lakefs/values.yaml
+          - $values/clusters/local/k8s-native-stack/platform/components/minio/values.yaml
+
     - repoURL: https://github.com/michi2402/mlops-apps
       targetRevision: master
+      path: clusters/local/k8s-native-stack/platform/components/minio
       ref: values
 
   syncPolicy:

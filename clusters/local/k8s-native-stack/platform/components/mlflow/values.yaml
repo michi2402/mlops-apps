@@ -2,12 +2,12 @@ backendStore:
   databaseMigration: true
   postgres:
     enabled: true
-    host: postgres-cluster-rw.platform.svc
+    host: postgres-cluster-rw.platform-postgres.svc
     port: 5432
     database: mlflow
 
   existingDatabaseSecret:
-    name: postgres-cluster-app
+    name: platform-postgres-mlflow-secret
     usernameKey: username
     passwordKey: password
 
@@ -16,11 +16,13 @@ artifactRoot:
   s3:
     enabled: true
     bucket: mlflow
-    awsAccessKeyId: minioadmin
-    awsSecretAccessKey: minioadmin
+    existingSecret:
+      name: platform-minio-secret
+      keyOfAccessKeyId: rootUser
+      keyOfSecretAccessKey: rootPassword
 
 extraEnvVars:
-  MLFLOW_S3_ENDPOINT_URL: "http://lakefs.platform.svc.cluster.local:8000"
+  MLFLOW_S3_ENDPOINT_URL: "http://lakefs.platform-lakefs.svc.cluster.local:9000"
 
 extraFlags:
   - serveArtifacts

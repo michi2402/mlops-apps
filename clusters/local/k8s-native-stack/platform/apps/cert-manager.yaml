@@ -1,13 +1,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: platform-certmanager
+  name: platform-cert-manager
   namespace: argocd
 spec:
   project: platform
   destination:
     server: https://kubernetes.default.svc
-    namespace: platform
+    namespace: cert-manager
   sources:
   - repoURL: quay.io/jetstack/charts
     chart: cert-manager

@@ -1,17 +1,18 @@
-secrets:
-  databaseConnectionString: postgres://lakefs:lakefspassword@postgres-cluster-rw.platform.svc.cluster.local:5432/lakefs?sslmode=disable
-  authEncryptSecretKey: aVerySecret
 fullnameOverride: lakefs
+
+existingSecret: platform-lakefs-secret
+secretKeys:
+  databaseConnectionString: databaseConnectionString
+  authEncryptSecretKey: authEncryptSecretKey
+
 lakefsConfig: |
   database:
     type: postgres
   blockstore:
     type: s3
     s3:
-      endpoint: "http://minio.platform.svc.cluster.local:9000"
+      endpoint: "http://minio.platform-minio.svc.cluster.local:9000"
       region: "us-east-1"
       force_path_style: true
-      # Same MinIO credentials as mlflow (replace later with a Secret in prod)
-      credentials:
-        access_key_id: "minioadmin"
-        secret_access_key: "minioadmin"
+
+extraEnvVarsSecret: platform-lakefs-s3-env

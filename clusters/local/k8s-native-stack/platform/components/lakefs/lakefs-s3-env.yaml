@@ -1,0 +1,25 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: platform-lakefs-s3-env
+  namespace: platform-lakefs
+spec:
+  refreshInterval: 24h
+  secretStoreRef:
+    name: azure-keyvault
+    kind: ClusterSecretStore
+  target:
+    name: platform-lakefs-s3-env
+    creationPolicy: Owner
+    template:
+      type: Opaque
+      data:
+        LAKEFS_BLOCKSTORE_S3_CREDENTIALS_ACCESS_KEY_ID: "{{ .rootUser }}"
+        LAKEFS_BLOCKSTORE_S3_CREDENTIALS_SECRET_ACCESS_KEY: "{{ .rootPassword }}"
+  data:
+    - secretKey: rootUser
+      remoteRef:
+        key: platform-minio-username
+    - secretKey: rootPassword
+      remoteRef:
+        key: platform-minio-password

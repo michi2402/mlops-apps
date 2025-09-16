@@ -1,0 +1,66 @@
+fullnameOverride: monitoring
+namespaceOverride: platform-monitoring
+
+prometheus:
+  prometheusSpec:
+    retention: 1d
+    retentionSize: 3GiB
+    walCompression: true
+    scrapeInterval: 30s
+    evaluationInterval: 30s
+    enableAdminAPI: false
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 3Gi
+    ruleSelectorNilUsesHelmValues: false
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+
+alertmanager:
+  alertmanagerSpec:
+    storage:
+      volumeClaimTemplate:
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 1Gi
+
+grafana:
+  enabled: true
+  defaultDashboardsEnabled: true
+  admin:
+    existingSecret: platform-grafana-secret
+    userKey: username
+    passwordKey: password
+  service:
+    type: ClusterIP
+  persistence:
+    enabled: true
+    size: 1Gi
+  additionalDataSources:
+    - name: Prometheus
+      type: prometheus
+      access: proxy
+      url: http://monitoring-kube-prometheus-prometheus.platform-monitoring.svc:9090
+      isDefault: true
+  sidecar:
+    dashboards:
+      enabled: true
+    datasources:
+      enabled: true
+
+kube-state-metrics:
+  metricLabelsAllowlist:
+    - "pods=[*]"
+    - "deployments=[*]"
+
+nodeExporter:
+  tolerations:
+    - key: "node-role.kubernetes.io/control-plane"
+      operator: "Exists"
+      effect: "NoSchedule"
