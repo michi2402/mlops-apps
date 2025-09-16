@@ -3,8 +3,8 @@
 ```bash
 tofu output -raw <output_name>
 
-CLIENT_ID="d2eeb9d5-b225-49e9-8546-e83450bc711f"
-CLIENT_SECRET="piQ8Q~R~3tcvsssu3uP5Ybvf4cmhxOFHQycxwart%"
+CLIENT_ID="<from tofu output>"
+CLIENT_SECRET="<from tofu output>"
 
 kubectl create namespace external-secrets
 kubectl -n external-secrets create secret generic azure-sp-secret \

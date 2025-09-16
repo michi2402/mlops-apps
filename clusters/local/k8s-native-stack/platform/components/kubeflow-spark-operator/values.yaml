@@ -1,0 +1,19 @@
+webhook:
+  enable: false   # für Minikube zum Start aus, später gerne aktivieren
+
+spark:
+  jobNamespaces:
+    - compute
+    - mlops
+
+metrics:
+  enable: true
+  # podMonitor.enable: true   # falls du Prometheus Operator nutzt
+
+resources:
+  limits:
+    cpu: "1"
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
