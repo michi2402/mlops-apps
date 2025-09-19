@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: platform-kubeflow-trainer
+  name: platform-kubeflow-trainer-runtimes
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "-2"
+    argocd.argoproj.io/sync-wave: "-1"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   project: platform
@@ -14,9 +14,7 @@ spec:
   source:
     repoURL: https://github.com/kubeflow/trainer.git
     targetRevision: v2.0.0
-    path: manifests/overlays
-    directory:
-      recurse: true
+    path: manifests/overlays/runtimes
   syncPolicy:
     automated: { prune: true, selfHeal: true }
     syncOptions:
