@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Namespace
+metadata: { name: compute }
+---
+apiVersion: v1
+kind: Namespace
+metadata: { name: mlops }
+---
+apiVersion: v1
+kind: Namespace
+metadata: { name: platform-kubeflow-system }
