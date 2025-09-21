@@ -24,9 +24,8 @@ grafana:
   resources:
     requests: { cpu: 50m, memory: 128Mi }
     limits: { cpu: 200m, memory: 256Mi }
+  defaultDatasourceEnabled: false
   datasources:
-    defaultDatasourceEnabled: false
-    datasources:
       datasources.yaml:
         apiVersion: 1
         datasources:
