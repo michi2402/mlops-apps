@@ -4,12 +4,11 @@ prometheus:
     retention: 12h
     resources:
       requests: { cpu: 100m, memory: 256Mi }
-      limits:   { cpu: 500m, memory: 512Mi }
+      limits: { cpu: 500m, memory: 512Mi }
     # allow Probes from all namespaces (not only those with Helm-set labels)
     probeSelectorNilUsesHelmValues: false
     serviceMonitorSelectorNilUsesHelmValues: false
     podMonitorSelectorNilUsesHelmValues: false
-
 
 alertmanager:
   alertmanagerSpec:
@@ -24,7 +23,7 @@ grafana:
     type: ClusterIP
   resources:
     requests: { cpu: 50m, memory: 128Mi }
-    limits:   { cpu: 200m, memory: 256Mi }
+    limits: { cpu: 200m, memory: 256Mi }
   datasources:
     defaultDatasourceEnabled: false
     datasources:
@@ -42,7 +41,7 @@ grafana:
       providers:
         - name: default
           orgId: 1
-          folder: ""                # root (folders come from each dashboard below)
+          folder: "" # root (folders come from each dashboard below)
           type: file
           disableDeletion: false
           editable: true
@@ -56,20 +55,19 @@ grafana:
         datasource: Prometheus
         folder: "MinIO"
 
-
 # Trim non-essential control-plane targets for tiny clusters
 kubeControllerManager: { enabled: false }
-kubeScheduler:         { enabled: false }
-coreDns:               { enabled: false }
-kubeEtcd:              { enabled: false }
+kubeScheduler: { enabled: false }
+coreDns: { enabled: false }
+kubeEtcd: { enabled: false }
 
 # Light exporter footprints
 nodeExporter:
   resources:
     requests: { cpu: 50m, memory: 64Mi }
-    limits:   { cpu: 200m, memory: 128Mi }
+    limits: { cpu: 200m, memory: 128Mi }
 
 kubeStateMetrics:
   resources:
     requests: { cpu: 50m, memory: 64Mi }
-    limits:   { cpu: 200m, memory: 128Mi }
+    limits: { cpu: 200m, memory: 128Mi }
