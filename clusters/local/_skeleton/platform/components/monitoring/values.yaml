@@ -26,14 +26,16 @@ grafana:
     requests: { cpu: 50m, memory: 128Mi }
     limits:   { cpu: 200m, memory: 256Mi }
   datasources:
-    datasources.yaml:
-      apiVersion: 1
-      datasources:
-        - name: Prometheus
-          type: prometheus
-          url: http://prometheus-operated.platform-monitoring.svc:9090
-          access: proxy
-          isDefault: true
+    defaultDatasourceEnabled: false
+    datasources:
+      datasources.yaml:
+        apiVersion: 1
+        datasources:
+          - name: Prometheus
+            type: prometheus
+            url: http://prometheus-operated.platform-monitoring.svc:9090
+            access: proxy
+            isDefault: true
   dashboardProviders:
     dashboardproviders.yaml:
       apiVersion: 1
