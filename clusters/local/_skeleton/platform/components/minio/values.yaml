@@ -16,14 +16,12 @@ buckets:
 env:
   - name: MINIO_PROMETHEUS_AUTH_TYPE
     value: public
+  - name: MINIO_PROMETHEUS_JOB_ID
+    value: minio
 
 metrics:
   serviceMonitor:
     enabled: true
-    # If your Prometheus stack only scrapes SMs with a label, add it:
     additionalLabels:
       release: kube-prometheus-stack
-    # If your Prometheus stack ONLY watches the "monitoring" ns for SMs, set this:
-    # namespace: monitoring
-    # Scrape per-pod (node) metrics too (optional):
     includeNode: true

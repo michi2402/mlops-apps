@@ -5,6 +5,11 @@ prometheus:
     resources:
       requests: { cpu: 100m, memory: 256Mi }
       limits:   { cpu: 500m, memory: 512Mi }
+    # allow Probes from all namespaces (not only those with Helm-set labels)
+    probeSelectorNilUsesHelmValues: false
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+
 
 alertmanager:
   alertmanagerSpec:
