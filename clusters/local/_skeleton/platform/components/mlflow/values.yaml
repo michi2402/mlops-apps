@@ -23,6 +23,7 @@ artifactRoot:
 
 serviceMonitor:
   enabled: true
+  namespace: platform-mlflow
 
 extraEnvVars:
   MLFLOW_S3_ENDPOINT_URL: "http://minio.platform-minio.svc.cluster.local:9000"
