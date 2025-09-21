@@ -26,6 +26,8 @@ serviceMonitor:
   namespace: platform-mlflow
   interval: 30s
   telemetryPath: /metrics
+  labels:
+    release: prometheus
   timeout: 10s
   targetLabels: []
   metricRelabelings:
