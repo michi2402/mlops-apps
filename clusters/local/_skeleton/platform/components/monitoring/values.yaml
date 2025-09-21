@@ -52,6 +52,8 @@ grafana:
         datasource:
           - name: DS_PROMETHEUS
             value: Prometheus
+      mlflow:
+        url: https://github.com/michi2402/mlops-apps/clusters/local/_skeleton/platform/components/monitoring/mlflow-dashboard.json
 
 # Trim non-essential control-plane targets for tiny clusters
 kubeControllerManager: { enabled: false }
