@@ -8,3 +8,5 @@ cluster:
       login: true
       passwordSecret:
         name: platform-postgres-mlflow-secret
+  monitoring:
+    enabled: true
