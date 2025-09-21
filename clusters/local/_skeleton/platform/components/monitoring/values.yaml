@@ -37,8 +37,9 @@ grafana:
       minio-overview:
         gnetId: 13502
         revision: 26
-        datasource: Prometheus
-
+        datasource:
+          - name: DS_PROMETHEUS
+            value: Prometheus
 # Trim non-essential control-plane targets for tiny clusters
 kubeControllerManager: { enabled: false }
 kubeScheduler: { enabled: false }
