@@ -24,16 +24,6 @@ grafana:
   resources:
     requests: { cpu: 50m, memory: 128Mi }
     limits: { cpu: 200m, memory: 256Mi }
-  defaultDatasourceEnabled: false
-  datasources:
-      datasources.yaml:
-        apiVersion: 1
-        datasources:
-          - name: Prometheus
-            type: prometheus
-            url: http://prometheus-operated.platform-monitoring.svc:9090
-            access: proxy
-            isDefault: true
   dashboardProviders:
     dashboardproviders.yaml:
       apiVersion: 1
@@ -51,7 +41,7 @@ grafana:
       minio-overview:
         gnetId: 13502
         revision: 26
-        datasource: Prometheus
+        datasource: prometheus
         folder: "MinIO"
 
 # Trim non-essential control-plane targets for tiny clusters
