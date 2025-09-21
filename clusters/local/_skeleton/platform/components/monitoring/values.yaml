@@ -46,6 +46,12 @@ grafana:
         datasource:
           - name: DS_PROMETHEUS
             value: Prometheus
+      cert-manager:
+        gnetId: 20340
+        revision: 1
+        datasource:
+          - name: DS_PROMETHEUS
+            value: Prometheus
 
 # Trim non-essential control-plane targets for tiny clusters
 kubeControllerManager: { enabled: false }
