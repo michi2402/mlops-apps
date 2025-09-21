@@ -23,9 +23,6 @@ artifactRoot:
 
 serviceMonitor:
   enabled: true
-  interval: 30s
-  labels:
-    release: kube-prometheus-stack
 
 extraEnvVars:
   MLFLOW_S3_ENDPOINT_URL: "http://minio.platform-minio.svc.cluster.local:9000"
