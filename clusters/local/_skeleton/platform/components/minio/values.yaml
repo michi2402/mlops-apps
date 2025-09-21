@@ -10,3 +10,6 @@ resources:
     memory: 1Gi
 buckets:
   - name: mlflow
+metrics:
+  serviceMonitor:
+    enabled: false
