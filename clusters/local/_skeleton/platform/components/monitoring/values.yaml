@@ -29,20 +29,15 @@ grafana:
       apiVersion: 1
       providers:
         - name: default
-          orgId: 1
-          folder: "" # root (folders come from each dashboard below)
+          folder: ""
           type: file
-          disableDeletion: false
-          editable: true
-          options:
-            path: /var/lib/grafana/dashboards/default
+          options: { path: /var/lib/grafana/dashboards/default }
   dashboards:
     default:
       minio-overview:
         gnetId: 13502
         revision: 26
-        datasource: prometheus
-        folder: "MinIO"
+        datasource: Prometheus
 
 # Trim non-essential control-plane targets for tiny clusters
 kubeControllerManager: { enabled: false }
