@@ -30,13 +30,6 @@ serviceMonitor:
   enabled: true
   useServicePort: true
   namespace: platform-mlflow
-  interval: 30s
-  telemetryPath: /metrics
-  labels:
-    release: prometheus
-  timeout: 10s
-  targetLabels: []
-  metricRelabelings: []
 
 extraEnvVars:
   MLFLOW_S3_ENDPOINT_URL: "http://minio.platform-minio.svc.cluster.local:9000"
