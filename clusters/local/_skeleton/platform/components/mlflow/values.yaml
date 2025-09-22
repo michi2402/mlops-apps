@@ -1,3 +1,8 @@
+service:
+  port: 80
+  portName: http
+  targetPort: mlflow
+
 backendStore:
   databaseMigration: true
   postgres:
@@ -27,15 +32,12 @@ serviceMonitor:
   namespace: platform-mlflow
   interval: 30s
   telemetryPath: /metrics
- # labels:
- #   release: prometheus
+  labels:
+    release: prometheus
   timeout: 10s
- # targetLabels: []
- # metricRelabelings:
- #   - sourceLabels: [__name__]
- #     regex: 'mlflow_(.+)'
- #     targetLabel: mlflow_metric
- #     replacement: '${1}'
+  targetLabels: []
+  metricRelabelings: []
+
 
 extraEnvVars:
   MLFLOW_S3_ENDPOINT_URL: "http://minio.platform-minio.svc.cluster.local:9000"
