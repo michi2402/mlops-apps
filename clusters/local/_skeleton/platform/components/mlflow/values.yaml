@@ -23,6 +23,7 @@ artifactRoot:
 
 serviceMonitor:
   enabled: true
+  useServicePort: true
   namespace: platform-mlflow
   interval: 30s
   telemetryPath: /metrics
