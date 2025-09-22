@@ -1,7 +1,7 @@
-service:
-  port: 80
-  name: http
-  containerPortName: mlflow
+#service:
+#  port: 80
+#  name: http
+#  containerPortName: mlflow
 
 backendStore:
   databaseMigration: true
