@@ -28,4 +28,8 @@ kubectl -n platform-minio port-forward svc/minio-console 9001:9001
 
 # MLFlow -> https://localhost:5000
 kubectl -n platform-mlflow port-forward svc/mlflow 5000:80
+
+kubectl -n platform-monitoring port-forward svc/monitoring-grafana 5555:80
+
+kubectl -n platform-monitoring port-forward svc/prometheus-operated 9090:9090
 ```
