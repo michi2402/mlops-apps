@@ -2,10 +2,9 @@ kserve:
   controller:
     deploymentMode: RawDeployment
     gateway:
-      domain: 127.0.0.1.sslip.io
+      domain: mlops.local
       ingressGateway:
         enableGatewayApi: true
-        kserveGateway: platform-kserve/kserve-ingress-gateway
-        createGateway: true
+        kserveGateway: platform-envoy-gateway/ingress-gateway
   metricsaggregator:
     enablePrometheusScraping: true
