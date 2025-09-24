@@ -2,7 +2,7 @@ kserve:
   controller:
     deploymentMode: RawDeployment
     gateway:
-      domain: 127.0.0.1.nip.io
+      domain: 127.0.0.1.sslip.io
       ingressGateway:
         enableGatewayApi: true
         createGateway: true
