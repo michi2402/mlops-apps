@@ -14,4 +14,4 @@ spec:
           from: All
   infrastructure:
     labels:
-      serving.kserve.io/gateway: kserve-ingress-gateway
+      serving.kserve.io/gateway: ingress-gateway

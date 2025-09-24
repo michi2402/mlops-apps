@@ -1,5 +1,5 @@
 curl -s -v \
-  -H "Host: dummy-model-predictor-team1-dummy-model.127.0.0.1.sslip.io" \
+  -H "Host: dummy-model-team1-dummy-model.mlops.local" \
   -H "Content-Type: application/json" \
   -d '{
     "inputs": [{
