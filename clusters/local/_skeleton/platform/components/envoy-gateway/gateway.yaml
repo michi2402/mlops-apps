@@ -12,18 +12,6 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
-    - name: https
-      protocol: HTTPS
-      port: 443
-      tls:
-        mode: Terminate
-        certificateRefs:
-          - kind: Secret
-            name: my-secret
-            namespace: kserve
-      allowedRoutes:
-        namespaces:
-          from: All
   infrastructure:
     labels:
       serving.kserve.io/gateway: kserve-ingress-gateway
