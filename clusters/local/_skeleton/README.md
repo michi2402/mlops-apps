@@ -20,6 +20,9 @@ kubectl -n external-secrets create secret generic azure-sp-secret \
 
 ## 3. Connect to services (port forwarding)
 ```bash
+kubectl -n argocd get secret argocd-initial-admin-secret \
+  -o jsonpath='{.data.password}' | base64 -d; echo
+
 # ArgoCD -> https://localhost:8080
 kubectl -n argocd port-forward svc/argocd-server 8080:443
 
