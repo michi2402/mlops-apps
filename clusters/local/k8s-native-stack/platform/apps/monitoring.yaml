@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: platform-monitoring
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-8"
 spec:
   project: platform
   sources:
@@ -12,11 +14,11 @@ spec:
       helm:
         releaseName: monitoring
         valueFiles:
-          - $values/clusters/local/k8s-native-stack/platform/components/monitoring/values.yaml
+          - $values/clusters/local/_skeleton/platform/components/monitoring/values.yaml
 
     - repoURL: https://github.com/michi2402/mlops-apps
       targetRevision: master
-      path: clusters/local/k8s-native-stack/platform/components/monitoring
+      path: clusters/local/_skeleton/platform/components/monitoring
       ref: values
 
   destination:
