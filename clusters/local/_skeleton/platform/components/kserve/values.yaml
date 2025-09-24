@@ -1,0 +1,9 @@
+kserve:
+  controller:
+    deploymentMode: RawDeployment
+    gateway:
+      ingressGateway:
+        enableGatewayApi: true
+        createGateway: true
+  metricsaggregator:
+    enablePrometheusScraping: true

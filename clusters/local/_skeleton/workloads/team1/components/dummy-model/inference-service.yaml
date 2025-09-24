@@ -1,0 +1,13 @@
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: mlflow-wine
+  namespace: team1-dummy-model
+spec:
+  predictor:
+    serviceAccountName: kserve-minio-sa
+    model:
+      modelFormat:
+        name: mlflow
+      protocolVersion: v2
+      storageUri: "s3://mlflow/2/models/m-e5ef5b59c108428cbc459346f5c6d781/artifacts"

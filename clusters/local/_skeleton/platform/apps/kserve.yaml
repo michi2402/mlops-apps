@@ -19,16 +19,14 @@ spec:
     chart: kserve
     targetRevision: v0.15.0
     helm:
-      valuesObject:
-        kserve:
-          controller:
-            deploymentMode: RawDeployment
-            gateway:
-              ingressGateway:
-                enableGatewayApi: true
-                createGateway: true
-          metricsaggregator:
-            enablePrometheusScraping: true
+      releaseName: kserve
+      valueFiles:
+        - $values/clusters/local/_skeleton/platform/components/kserve/values.yaml
+
+  - repoURL: https://github.com/michi2402/mlops-apps
+    targetRevision: master
+    path: clusters/local/_skeleton/platform/components/kserve
+    ref: values
 
   syncPolicy:
     automated:

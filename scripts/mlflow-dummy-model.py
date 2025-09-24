@@ -1,53 +1,62 @@
-import os
-import time
 import mlflow
-import mlflow.sklearn
-from mlflow.models.signature import infer_signature
+from mlflow.models import infer_signature
 
-import numpy as np
 import pandas as pd
-from sklearn.datasets import load_diabetes
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error
+from sklearn import datasets
 from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+
+EXPERIMENT_NAME = "demo-iris"
 
 mlflow.set_tracking_uri("http://127.0.0.1:5000")
-
-EXPERIMENT_NAME = "demo-diabetes-experiment"
 mlflow.set_experiment(EXPERIMENT_NAME)
 
-# Simple dataset
-X, y = load_diabetes(return_X_y=True, as_frame=True)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Load the Iris dataset
+X, y = datasets.load_iris(return_X_y=True)
 
-with mlflow.start_run(run_name=f"linreg-{int(time.time())}") as run:
-    model = LinearRegression()
-    model.fit(X_train, y_train)
+# Split the data into training and test sets
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
 
-    preds = model.predict(X_test)
-    rmse = mean_squared_error(y_test, preds, squared=False)
+# Define the model hyperparameters
+params = {
+    "solver": "lbfgs",
+    "max_iter": 1000,
+    "multi_class": "auto",
+    "random_state": 8888,
+}
 
-    # Log basic stuff
-    mlflow.log_param("model_type", "LinearRegression")
-    mlflow.log_param("test_size", 0.2)
-    mlflow.log_metric("rmse", rmse)
+# Train the model
+lr = LogisticRegression(**params)
+lr.fit(X_train, y_train)
 
-    # Log artifacts
-    df_pred = pd.DataFrame({"y_true": y_test.values, "y_pred": preds})
-    out_csv = "predictions.csv"
-    df_pred.to_csv(out_csv, index=False)
-    mlflow.log_artifact(out_csv, artifact_path="eval")
+# Predict on the test set
+y_pred = lr.predict(X_test)
 
-    # Log model
-    sig = infer_signature(X_test, preds)
-    # This both logs the model artifact and (if registry is enabled) can auto-register:
-    mlflow.sklearn.log_model(
-        model,
-        artifact_path="model",
-        signature=sig,
-        input_example=X_test.head(2),
-        registered_model_name="demo-diabetes-linreg"  # comment out if you don't want registry use
+# Calculate metrics
+accuracy = accuracy_score(y_test, y_pred)
+
+# Start an MLflow run
+with mlflow.start_run():
+    # Log the hyperparameters
+    mlflow.log_params(params)
+
+    # Log the loss metric
+    mlflow.log_metric("accuracy", accuracy)
+
+    # Set a tag that we can use to remind ourselves what this run was for
+    mlflow.set_tag("Training Info", "Basic LR model for iris data")
+
+    # Infer the model signature
+    signature = infer_signature(X_train, lr.predict(X_train))
+
+    # Log the model
+    model_info = mlflow.sklearn.log_model(
+        sk_model=lr,
+        artifact_path="iris_model",
+        signature=signature,
+        input_example=X_train,
+        registered_model_name="tracking-quickstart",
     )
-
-    print("Run ID:", run.info.run_id)
-    print("Artifact URI:", mlflow.get_artifact_uri())
