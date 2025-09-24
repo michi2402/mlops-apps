@@ -5,6 +5,7 @@ kserve:
       domain: 127.0.0.1.sslip.io
       ingressGateway:
         enableGatewayApi: true
+        kserveGateway: platform-kserve/kserve-ingress-gateway
         createGateway: true
   metricsaggregator:
     enablePrometheusScraping: true
