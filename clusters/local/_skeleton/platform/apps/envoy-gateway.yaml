@@ -10,10 +10,13 @@ spec:
   destination:
     server: https://kubernetes.default.svc
     namespace: platform-envoy-gateway
-  source:
-    repoURL: docker.io/envoyproxy
-    chart: gateway-helm
-    targetRevision: v1.5.1
+  sources:
+    - repoURL: docker.io/envoyproxy
+      chart: gateway-helm
+      targetRevision: v1.5.1
+    - repoURL: https://github.com/michi2402/mlops-apps
+      targetRevision: master
+      path: clusters/local/_skeleton/platform/components/envoy-gateway
   syncPolicy:
     automated:
       prune: true
