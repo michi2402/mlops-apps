@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: workloads-team1-dummy-model
+  name: workloads-team1-iris
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -10,12 +10,12 @@ spec:
   source:
     repoURL: https://github.com/michi2402/mlops-apps
     targetRevision: master
-    path: clusters/local/_skeleton/workloads/team1/components/dummy-model
+    path: clusters/local/_skeleton/workloads/team1/components/iris
     directory:
       recurse: true
   destination:
     server: https://kubernetes.default.svc
-    namespace: team1-dummy-model
+    namespace: team1-iris
   syncPolicy:
     automated:
       prune: true

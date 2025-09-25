@@ -1,5 +1,8 @@
+# minikube tunnel needs to be running
+# ensure ingress gateway service has LoadBalancer IP 127.0.0.1 assigned
+
 curl -s -v \
-  -H "Host: dummy-model-team1-dummy-model.mlops.local" \
+  -H "Host: iris-team1-iris.mlops.local" \
   -H "Content-Type: application/json" \
   -d '{
     "inputs": [{
@@ -13,4 +16,4 @@ curl -s -v \
       ]
     }]
   }' \
-  http://127.0.0.1:80/v2/models/dummy-model/infer | jq .
+  http://127.0.0.1:80/v2/models/iris/infer | jq .
