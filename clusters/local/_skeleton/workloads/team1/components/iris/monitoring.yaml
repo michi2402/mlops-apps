@@ -1,0 +1,35 @@
+# svc: expose the metrics port on the predictor
+apiVersion: v1
+kind: Service
+metadata:
+  name: iris-metrics
+  namespace: team1-iris
+  labels:
+    app: iris
+spec:
+  selector:
+    serving.kserve.io/inferenceservice: iris   # matches the predictor pod
+  ports:
+    - name: metrics
+      port: 8080
+      targetPort: 8080
+
+---
+# ServiceMonitor: tell Prometheus what/where to scrape
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: iris
+  namespace: team1-iris
+spec:
+  namespaceSelector:
+    matchNames:
+      - team1-iris
+  selector:
+    matchLabels:
+      app: iris
+  endpoints:
+    - port: metrics
+      path: /metrics
+      interval: 15s
+      scrapeTimeout: 10s
