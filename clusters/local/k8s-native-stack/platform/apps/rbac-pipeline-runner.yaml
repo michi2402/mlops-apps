@@ -4,7 +4,7 @@ metadata:
   name: platform-rbac-pipeline-runner
   namespace: argocd
 spec:
-  project: default
+  project: platform
   source:
     repoURL: https://github.com/michi2402/mlops-apps
     targetRevision: master
