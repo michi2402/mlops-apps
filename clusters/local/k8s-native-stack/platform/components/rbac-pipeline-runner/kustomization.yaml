@@ -6,4 +6,4 @@ resources:
   - clusterrole.yaml
   - rb-spark.yaml
   - rb-katib.yaml
-  - rb-trainop.yaml
+  - rb-training-operator.yaml
