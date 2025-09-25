@@ -1,0 +1,19 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: pipeline-runner-cr
+rules:
+  # SparkApplication (Spark Operator)
+  - apiGroups: ["sparkoperator.k8s.io"]
+    resources: ["sparkapplications"]
+    verbs: ["get", "list", "watch", "create", "delete"]
+
+  # Katib Experiment
+  - apiGroups: ["kubeflow.org"]
+    resources: ["experiments"]
+    verbs: ["get", "list", "watch", "create", "delete"]
+
+  # Training Operator (PyTorchJob / optional: XGBoostJob)
+  - apiGroups: ["kubeflow.org"]
+    resources: ["pytorchjobs", "xgboostjobs"]
+    verbs: ["get", "list", "watch", "create", "delete"]
