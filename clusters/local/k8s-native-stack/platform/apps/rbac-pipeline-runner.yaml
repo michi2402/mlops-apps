@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: rbac-pipeline-runner
+  name: platform-rbac-pipeline-runner
   namespace: argocd
 spec:
   project: default
