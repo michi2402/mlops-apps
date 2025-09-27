@@ -6,14 +6,14 @@ rules:
   # SparkApplication (Spark Operator)
   - apiGroups: ["sparkoperator.k8s.io"]
     resources: ["sparkapplications"]
-    verbs: ["get", "list", "watch", "create", "delete"]
+    verbs: ["get","list","watch","create","update","patch","delete"] 
 
   # Katib Experiment
   - apiGroups: ["kubeflow.org"]
     resources: ["experiments"]
-    verbs: ["get", "list", "watch", "create", "delete"]
+    verbs: ["get","list","watch","create","update","patch","delete"] 
 
   # Training Operator (PyTorchJob / optional: XGBoostJob)
   - apiGroups: ["kubeflow.org"]
     resources: ["pytorchjobs", "xgboostjobs"]
-    verbs: ["get", "list", "watch", "create", "delete"]
+    verbs: ["get","list","watch","create","update","patch","delete"] 
