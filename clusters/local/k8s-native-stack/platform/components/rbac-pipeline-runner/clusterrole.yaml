@@ -27,6 +27,10 @@ rules:
     resources: ["services","configmaps"]
     verbs: ["get","list","watch","create","delete","patch","update","deletecollection"]
 
+  - apiGroups: [""]
+    resources: ["persistentvolumeclaims"]
+    verbs: ["get","list","watch","create","delete","patch","update","deletecollection"]
+
   # Events schreiben (optional, aber hilfreich)
   - apiGroups: [""]
     resources: ["events"]
