@@ -2,7 +2,7 @@ apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
   name: ghcr-creds
-  namespace: platform-compute
+  namespace: compute
 spec:
   refreshInterval: 24h
   secretStoreRef:
