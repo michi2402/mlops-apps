@@ -17,3 +17,17 @@ rules:
   - apiGroups: ["kubeflow.org"]
     resources: ["pytorchjobs", "xgboostjobs"]
     verbs: ["get","list","watch","create","update","patch","delete"] 
+
+  - apiGroups: [""]
+    resources: ["pods", "pods/log"]
+    verbs: ["get","list","watch","create","delete","patch","update"]
+
+  # Services/ConfigMaps für Spark UI / Stages / shuffle
+  - apiGroups: [""]
+    resources: ["services","configmaps"]
+    verbs: ["get","list","watch","create","delete","patch","update"]
+
+  # Events schreiben (optional, aber hilfreich)
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["create","patch","update"]
