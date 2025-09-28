@@ -22,7 +22,7 @@ artifactRoot:
       keyOfSecretAccessKey: rootPassword
 
 extraEnvVars:
-  MLFLOW_S3_ENDPOINT_URL: "http://lakefs.platform-lakefs.svc.cluster.local:9000"
+  MLFLOW_S3_ENDPOINT_URL: "http://lakefs.platform-lakefs.svc.cluster.local:80"
 
 extraFlags:
   - serveArtifacts

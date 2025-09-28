@@ -39,7 +39,7 @@ extraEnv:
     value: "true"
   # lakeFS S3-Gateway statt direktem MinIO, damit Branches/Commits wirken:
   - name: S3_ENDPOINT
-    value: "http://lakefs.platform-lakefs.svc.cluster.local:9000"
+    value: "http://lakefs.platform-lakefs.svc.cluster.local:80"
   - name: S3_USE_HTTPS
     value: "false"
   - name: S3_VERIFY_SSL
