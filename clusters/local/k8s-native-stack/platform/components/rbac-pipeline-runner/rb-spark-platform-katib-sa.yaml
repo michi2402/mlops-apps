@@ -6,7 +6,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: pipeline-runner
-    namespace: platform-katib
+    namespace: platform-kubeflow
 roleRef:
   kind: ClusterRole
   name: pipeline-runner-cr
