@@ -9,3 +9,10 @@ metadata: { name: mlops }
 apiVersion: v1
 kind: Namespace
 metadata: { name: platform-kubeflow-system }
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kubeflow
+  labels:
+    katib.kubeflow.org/metrics-collector-injection: "enabled"
