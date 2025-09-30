@@ -6,7 +6,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: pipeline-runner
-    namespace: compute
+    namespace: kubeflow
 roleRef:
   kind: ClusterRole
   name: pipeline-runner-cr
