@@ -17,9 +17,9 @@ artifactRoot:
     enabled: true
     bucket: mlflow
     existingSecret:
-      name: platform-minio-secret
-      keyOfAccessKeyId: rootUser
-      keyOfSecretAccessKey: rootPassword
+      name: platform-lakefs-secret
+      keyOfAccessKeyId: accessKeyID
+      keyOfSecretAccessKey: secretAccessKey
 
 extraEnvVars:
   MLFLOW_S3_ENDPOINT_URL: "http://lakefs.platform-lakefs.svc.cluster.local:80"
