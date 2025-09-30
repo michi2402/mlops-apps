@@ -13,8 +13,8 @@ spec:
     namespace: platform-kubeflow
   source:
     repoURL: https://github.com/kubeflow/katib.git
-    targetRevision: v0.17.0
-    path: manifests/v1beta1/installs/katib-standalone
+    targetRevision: v0.17.0    
+    path: manifests/v1beta1/installs/katib-cert-manager
   syncPolicy:
     automated: { prune: true, selfHeal: true }
     syncOptions:
