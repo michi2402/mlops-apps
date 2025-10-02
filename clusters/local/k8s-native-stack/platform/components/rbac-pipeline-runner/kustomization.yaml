@@ -10,3 +10,4 @@ resources:
   - clusterrole.yaml
   - rb-katib.yaml
   - rb-training-operator.yaml
+  - katib-trainer-rb-and-clusterrole.yaml
