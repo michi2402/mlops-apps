@@ -15,10 +15,6 @@ spec:
     - repoURL: https://github.com/kubeflow/pipelines.git
       targetRevision: 2.14.0
       path: manifests/kustomize/cluster-scoped-resources
-
-    - repoURL: https://github.com/michi2402/mlops-apps
-      targetRevision: master
-      path: clusters/local/k8s-native-stack/platform/components/trainer-runtime
   syncPolicy:
     automated: { prune: true, selfHeal: true }
     syncOptions:
