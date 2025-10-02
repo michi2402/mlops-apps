@@ -15,7 +15,7 @@ rules:
 
   # Training Operator (PyTorchJob / optional: XGBoostJob)
   - apiGroups: ["kubeflow.org"]
-    resources: ["pytorchjobs", "xgboostjobs"]
+    resources: ["pytorchjobs", "xgboostjobs", "trainjobs"]
     verbs: ["get","list","watch","create","update","patch","delete","deletecollection"] 
 
   - apiGroups: [""]
