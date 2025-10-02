@@ -3,7 +3,7 @@ kind: ClusterTrainingRuntime
 metadata:
   name: trainer-runtime-pytorch
 spec:
-  framework: pytorch
+  runtime: pytorch
   template:
     spec:
       serviceAccountName: pipeline-runner
