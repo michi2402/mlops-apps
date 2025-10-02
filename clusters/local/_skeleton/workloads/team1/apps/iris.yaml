@@ -12,7 +12,7 @@ spec:
     namespace: team1-iris
   source:
     repoURL: https://github.com/michi2402/mlops-apps
-    chart: model
+    path: base/charts/model
     targetRevision: master
     helm:
       valuesObject:
