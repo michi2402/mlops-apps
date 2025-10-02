@@ -10,4 +10,4 @@ spec:
       modelFormat:
         name: mlflow
       protocolVersion: v2
-      storageUri: {{ include ".Values.minio.modelUri" . }}
+      storageUri: {{ .Values.minio.modelUri | quote }}
