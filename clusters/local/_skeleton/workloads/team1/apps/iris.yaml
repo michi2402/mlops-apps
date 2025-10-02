@@ -7,15 +7,18 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
-  source:
-    repoURL: https://github.com/michi2402/mlops-apps
-    targetRevision: master
-    path: clusters/local/_skeleton/workloads/team1/components/iris
-    directory:
-      recurse: true
   destination:
     server: https://kubernetes.default.svc
     namespace: team1-iris
+  source:
+    repoURL: https://github.com/michi2402/mlops-apps
+    chart: model
+    targetRevision: master
+    helm:
+      valuesObject:
+        nameOverride: "iris"
+        minio:
+          modelUri: "s3://mlflow/2/models/m-e5ef5b59c108428cbc459346f5c6d781/artifacts"
   syncPolicy:
     automated:
       prune: true
