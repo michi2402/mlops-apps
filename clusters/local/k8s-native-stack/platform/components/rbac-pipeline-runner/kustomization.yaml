@@ -5,6 +5,7 @@ resources:
   - sa-kubeflow.yaml
   - rb-spark-kubeflow-sa.yaml
   - rb-spark-compute-sa.yaml
+  - rb-kubeflow-sa.yaml
   - sa-compute.yaml
   - sa-platform-katib.yaml
   - clusterrole.yaml
