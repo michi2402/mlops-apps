@@ -1,0 +1,22 @@
+apiVersion: trainer.kubeflow.org/v1alpha1
+kind: ClusterTrainingRuntime
+metadata:
+  name: trainer-runtime-pytorch
+spec:
+  framework: pytorch
+  template:
+    spec:
+      serviceAccountName: pipeline-runner
+      restartPolicy: Never
+      containers:
+        - name: trainer
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "515Mi"
+            limits:
+              cpu: "2"
+              memory: "2Gi"
+      volumes:
+        - name: shm
+          emptyDir: { medium: Memory }
