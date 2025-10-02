@@ -16,7 +16,7 @@ spec:
     targetRevision: master
     helm:
       valuesObject:
-        fullNameOverride: "iris"
+        fullnameOverride: "iris"
         minio:
           modelUri: "s3://mlflow/2/models/m-e5ef5b59c108428cbc459346f5c6d781/artifacts"
   syncPolicy:
