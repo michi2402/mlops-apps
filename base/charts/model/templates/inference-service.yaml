@@ -2,6 +2,10 @@ apiVersion: serving.kserve.io/v1beta1
 kind: InferenceService
 metadata:
   name: {{ include "model.fullname" . }}
+  annotations:
+    serving.kserve.io/enable-prometheus-scraping: "true"
+    prometheus.kserve.io/port: "8080"
+    prometheus.kserve.io/path: "/metrics"
   labels: {{- include "model.labels" . | nindent 4 }}
 spec:
   predictor:
