@@ -13,6 +13,14 @@ spec:
     - repoURL: https://github.com/michi2402/mlops-apps
       targetRevision: master
       path: clusters/local/_skeleton/platform/components/kafka
+      ref: values
+    
+    - repoURL: https://kafbat.github.io/helm-charts
+      chart: kafbat-ui
+      targetRevision: 1.3.0
+      helm:
+        valueFiles:
+          - $values/clusters/local/_skeleton/platform/components/kafka/kafbat-values.yaml
     
   destination:
     server: https://kubernetes.default.svc
