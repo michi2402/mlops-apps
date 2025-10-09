@@ -1,31 +1,49 @@
+# 1) Kafka (KRaft) resource
 apiVersion: kafka.strimzi.io/v1beta2
 kind: Kafka
 metadata:
   name: platform-kafka
+  annotations:
+    strimzi.io/kraft: "enabled"
+    strimzi.io/node-pools: "enabled"
 spec:
   kafka:
     version: 4.1.0
-    replicas: 3
-    listeners:
-      - name: plain
-        port: 9092
-        type: internal
-        tls: false
     config:
-      offsets.topic.replication.factor: 3
-      transaction.state.log.min.isr: 2
-      transaction.state.log.replication.factor: 3
-      log.retention.hours: 168
-    storage:
-      type: persistent-claim
-      size: 100Gi
-      class: standard
-  zookeeper:
-    replicas: 3
-    storage:
-      type: persistent-claim
-      size: 20Gi
-      class: standard
+      inter.broker.protocol.version: "4.1"
+      log.message.format.version: "4.1"
   entityOperator:
     topicOperator: {}
     userOperator: {}
+---
+
+# 2) Controller node pool
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaNodePool
+metadata:
+  name: platform-kafka-controllers
+  labels:
+    strimzi.io/cluster: platform-kafka
+spec:
+  replicas: 3
+  roles: [controller]
+  storage:
+    type: persistent-claim
+    size: 2Gi
+    class: standard
+---
+
+# 3) Broker node pool
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaNodePool
+metadata:
+  name: platform-kafka-brokers
+  labels:
+    strimzi.io/cluster: platform-kafka
+spec:
+  replicas: 3
+  roles: [broker]
+  storage:
+    type: persistent-claim
+    size: 10Gi
+    class: standard
