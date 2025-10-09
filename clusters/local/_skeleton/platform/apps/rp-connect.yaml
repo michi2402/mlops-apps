@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform-rp-connect
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - repoURL: https://charts.redpanda.com/
+      chart: connect
+      targetRevision: 3.0.3
+      helm:
+        valueFiles:
+        - $values/clusters/local/_skeleton/platform/components/rp-connect/values.yaml
+
+    - repoURL: https://github.com/michi2402/mlops-apps
+      targetRevision: master
+      ref: values
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: platform-rp-connect
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

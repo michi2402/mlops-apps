@@ -1,0 +1,45 @@
+replicaCount: 2
+
+service:
+  type: ClusterIP
+  port: 8080
+  annotations: {}
+  labels: {}
+
+# Minimal pipeline: HTTP server input -> (optional) header extraction -> Kafka output
+config: |
+  input:
+    http_server:
+      address: 0.0.0.0:8080
+      path: /ingest/kserve
+      # Accept CloudEvents content types transparently
+      allowed_verbs: [ POST ]
+      rate_limit: ""
+  pipeline:
+    processors:
+      - bloblang: |
+          root = {
+            "body": this,                # raw event body (CloudEvent in structured mode)
+            "headers": meta()            # all HTTP headers (includes CE- prefixed headers if binary)
+          }
+  output:
+    kafka:
+      addresses:
+        - ml-kafka-kafka-bootstrap.kafka.svc.cluster.local:9092
+      topic: inference-events
+      max_in_flight: 64
+      compression: none
+      static_headers:
+        content-type: ${! meta("Content-Type") }
+  metrics:
+    prometheus: {}
+  logger:
+    level: INFO
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi

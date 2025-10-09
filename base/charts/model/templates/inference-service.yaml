@@ -2,10 +2,6 @@ apiVersion: serving.kserve.io/v1beta1
 kind: InferenceService
 metadata:
   name: {{ include "model.fullname" . }}
-  annotations:
-    serving.kserve.io/enable-prometheus-scraping: "true"
-    prometheus.kserve.io/port: "8080"
-    prometheus.kserve.io/path: "/metrics"
   labels: {{- include "model.labels" . | nindent 4 }}
 spec:
   predictor:
@@ -15,3 +11,13 @@ spec:
         name: mlflow
       protocolVersion: v2
       storageUri: {{ .Values.minio.modelUri | quote }}
+  logger:
+    mode: all
+    url: http://rp-connect-3.0.3.platform-rp-connect.svc.cluster.local:8080/ingest/kserve
+    metadataHeaders:
+      - "ce-id"
+      - "ce-type"
+      - "ce-source"
+      - "ce-specversion"
+      - "ce-subject"
+      - "x-request-id"

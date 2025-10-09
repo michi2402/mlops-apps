@@ -1,0 +1,11 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: inference-events
+  labels:
+    strimzi.io/cluster: platform-kafka
+spec:
+  partitions: 4
+  replicas: 2
+  config:
+    retention.ms: 604800000   # 7 days
