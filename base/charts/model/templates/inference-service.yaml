@@ -11,6 +11,6 @@ spec:
         name: mlflow
       protocolVersion: v2
       storageUri: {{ .Values.minio.modelUri | quote }}
-  logger:
-    mode: all
-    url: http://platform-rp-connect-redpanda-connect.platform-rp-connect.svc.cluster.local:8080/ingest/kserve
+    logger:
+      mode: all
+      url: http://platform-rp-connect-redpanda-connect.platform-rp-connect.svc.cluster.local:8080/ingest/kserve
