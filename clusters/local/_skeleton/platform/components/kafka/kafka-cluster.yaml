@@ -38,6 +38,14 @@ metadata:
 spec:
   kafka:
     version: 4.1.0
+    listeners:
+      - name: plain
+        port: 9092
+        type: internal
+        tls: false
+    config:
+      inter.broker.protocol.version: "4.1"
+      log.message.format.version: "4.1"
   entityOperator:
     topicOperator: {}
     userOperator: {}
