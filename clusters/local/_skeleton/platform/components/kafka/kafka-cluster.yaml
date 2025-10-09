@@ -1,32 +1,32 @@
-apiVersion: kafka.strimzi.io/v1beta2
-kind: KafkaNodePool
-metadata:
-  name: platform-kafka-controllers
-  labels:
-    strimzi.io/cluster: platform-kafka
-spec:
-  replicas: 3
-  roles: [controller]
-  storage:
-    type: persistent-claim
-    size: 2Gi
-    class: standard
----
-
-apiVersion: kafka.strimzi.io/v1beta2
-kind: KafkaNodePool
-metadata:
-  name: platform-kafka-brokers
-  labels:
-    strimzi.io/cluster: platform-kafka
-spec:
-  replicas: 3
-  roles: [broker]
-  storage:
-    type: persistent-claim
-    size: 10Gi
-    class: standard
----
+#apiVersion: kafka.strimzi.io/v1beta2
+#kind: KafkaNodePool
+#metadata:
+#  name: platform-kafka-controllers
+#  labels:
+#    strimzi.io/cluster: platform-kafka
+#spec:
+#  replicas: 3
+#  roles: [controller]
+#  storage:
+#    type: persistent-claim
+#    size: 2Gi
+#    class: standard
+#---
+#
+#apiVersion: kafka.strimzi.io/v1beta2
+#kind: KafkaNodePool
+#metadata:
+#  name: platform-kafka-brokers
+#  labels:
+#    strimzi.io/cluster: platform-kafka
+#spec:
+#  replicas: 3
+#  roles: [broker]
+#  storage:
+#    type: persistent-claim
+#    size: 10Gi
+#    class: standard
+#---
 
 apiVersion: kafka.strimzi.io/v1beta2
 kind: Kafka
