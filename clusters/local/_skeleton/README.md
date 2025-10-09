@@ -35,6 +35,8 @@ kubectl -n platform-mlflow port-forward svc/mlflow 5000:80
 kubectl -n platform-monitoring port-forward svc/monitoring-grafana 5555:80
 
 kubectl -n platform-monitoring port-forward svc/prometheus-operated 9090:9090
+
+kubectl -n platform-kafka port-forward svc/platform-kafka-kafka-ui 7777:80
 ```
 
 ## 4. Tunnel the Envoy Gateway

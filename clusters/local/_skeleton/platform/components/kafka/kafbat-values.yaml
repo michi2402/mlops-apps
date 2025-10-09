@@ -1,7 +1,7 @@
 yamlApplicationConfig:
   kafka:
     clusters:
-      - name: yaml
+      - name: "Platform Kafka"
         bootstrapServers:  platform-kafka-kafka-brokers.platform-kafka.svc.cluster.local:9092
   auth:
     type: disabled
