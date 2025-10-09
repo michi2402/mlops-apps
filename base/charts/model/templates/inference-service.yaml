@@ -13,11 +13,4 @@ spec:
       storageUri: {{ .Values.minio.modelUri | quote }}
   logger:
     mode: all
-    url: http://rp-connect-3.0.3.platform-rp-connect.svc.cluster.local:8080/ingest/kserve
-    metadataHeaders:
-      - "ce-id"
-      - "ce-type"
-      - "ce-source"
-      - "ce-specversion"
-      - "ce-subject"
-      - "x-request-id"
+    url: http://platform-rp-connect-redpanda-connect.platform-rp-connect.svc.cluster.local:8080/ingest/kserve
