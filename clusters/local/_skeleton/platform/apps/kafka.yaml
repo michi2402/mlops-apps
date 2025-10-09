@@ -16,7 +16,7 @@ spec:
       ref: values
     
     - repoURL: https://kafbat.github.io/helm-charts
-      chart: kafbat-ui
+      chart: kafka-ui
       targetRevision: 1.3.0
       helm:
         valueFiles:
