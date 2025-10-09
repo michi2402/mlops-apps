@@ -2,7 +2,7 @@ yamlApplicationConfig:
   kafka:
     clusters:
       - name: yaml
-        bootstrapServers:  kafka-cluster-broker-endpoints:9092
+        bootstrapServers:  platform-kafka-kafka-brokers.platform-kafka.svc.cluster.local:9092
   auth:
     type: disabled
   management:
