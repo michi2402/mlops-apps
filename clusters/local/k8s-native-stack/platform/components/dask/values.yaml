@@ -29,10 +29,10 @@ worker:
 extraEnv:
   - name: AWS_ACCESS_KEY_ID
     valueFrom:
-      secretKeyRef: { name: platform-minio-secret, key: rootUser }   # TODO: Secret anlegen
+      secretKeyRef: { name: platform-lakefs-secret, key: accessKeyID }   # TODO: Secret anlegen
   - name: AWS_SECRET_ACCESS_KEY
     valueFrom:
-      secretKeyRef: { name: platform-minio-secret, key: rootPassword }   # TODO: Secret anlegen
+      secretKeyRef: { name: platform-lakefs-secret, key: secretAccessKey }   # TODO: Secret anlegen
   - name: AWS_REGION
     value: "us-east-1"
   - name: AWS_EC2_METADATA_DISABLED
