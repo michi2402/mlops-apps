@@ -1,0 +1,73 @@
+prometheus:
+  prometheusSpec:
+    replicas: 1
+    retention: 12h
+    resources:
+      requests: { cpu: 100m, memory: 256Mi }
+      limits: { cpu: 500m, memory: 512Mi }
+    # allow Probes from all namespaces (not only those with Helm-set labels)
+    probeSelectorNilUsesHelmValues: false
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+
+alertmanager:
+  alertmanagerSpec:
+    replicas: 1
+
+grafana:
+  admin:
+    existingSecret: platform-grafana-secret
+    userKey: username
+    passwordKey: password
+  service:
+    type: ClusterIP
+  resources:
+    requests: { cpu: 50m, memory: 128Mi }
+    limits: { cpu: 200m, memory: 256Mi }
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+        - name: default
+          folder: ""
+          type: file
+          options: { path: /var/lib/grafana/dashboards/default }
+  dashboards:
+    default:
+      minio-overview:
+        gnetId: 13502
+        revision: 26
+        datasource:
+          - name: DS_PROMETHEUS
+            value: Prometheus
+      cloud-native-pg:
+        gnetId: 20417
+        revision: 4
+        datasource:
+          - name: DS_PROMETHEUS
+            value: Prometheus
+      cert-manager:
+        gnetId: 20340
+        revision: 1
+        datasource:
+          - name: DS_PROMETHEUS
+            value: Prometheus
+      mlflow:
+        url: https://raw.githubusercontent.com/michi2402/mlops-apps/refs/heads/master/base/dashboards/mlflow.json
+
+# Trim non-essential control-plane targets for tiny clusters
+kubeControllerManager: { enabled: false }
+kubeScheduler: { enabled: false }
+coreDns: { enabled: false }
+kubeEtcd: { enabled: false }
+
+# Light exporter footprints
+nodeExporter:
+  resources:
+    requests: { cpu: 50m, memory: 64Mi }
+    limits: { cpu: 200m, memory: 128Mi }
+
+kubeStateMetrics:
+  resources:
+    requests: { cpu: 50m, memory: 64Mi }
+    limits: { cpu: 200m, memory: 128Mi }

@@ -1,0 +1,9 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: mlflow-db
+spec:
+  name: mlflow
+  owner: postgres-mlflow
+  cluster: 
+    name: postgres-cluster

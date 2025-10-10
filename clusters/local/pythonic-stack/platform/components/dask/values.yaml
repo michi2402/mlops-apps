@@ -1,0 +1,52 @@
+# Scheduler
+scheduler:
+  replicas: 1
+  serviceType: NodePort       # Dashboard leicht erreichbar
+  nodePort: 31040             # http://$(minikube ip):31040/status
+  resources:
+    requests: { cpu: 100m, memory: 256Mi }
+    limits:   { cpu: "1",  memory: 1Gi }
+  # optional: feste Image-Version pinnen
+  # image:
+  #   repository: ghcr.io/dask/dask
+  #   tag: 2024.8.0
+
+# Worker
+worker:
+  replicas: 2
+  resources:
+    requests: { cpu: 200m, memory: 512Mi }
+    limits:   { cpu: "2",  memory: 2Gi }
+  env:
+    - name: DASK_DISTRIBUTED__WORKER__MEMORY__TARGET
+      value: "0.85"
+    - name: DASK_DISTRIBUTED__WORKER__MEMORY__SPILL
+      value: "0.90"
+    - name: DASK_DISTRIBUTED__WORKER__MEMORY__PAUSE
+      value: "0.95"
+
+# Gemeinsame ENV für S3/lakeFS (falls du von Jobs/TSFresh direkt darauf zugreifst)
+extraEnv:
+  - name: AWS_ACCESS_KEY_ID
+    valueFrom:
+      secretKeyRef: { name: platform-lakefs-secret, key: accessKeyID }   # TODO: Secret anlegen
+  - name: AWS_SECRET_ACCESS_KEY
+    valueFrom:
+      secretKeyRef: { name: platform-lakefs-secret, key: secretAccessKey }   # TODO: Secret anlegen
+  - name: AWS_REGION
+    value: "us-east-1"
+  - name: AWS_EC2_METADATA_DISABLED
+    value: "true"
+  # lakeFS S3-Gateway statt direktem MinIO, damit Branches/Commits wirken:
+  - name: S3_ENDPOINT
+    value: "http://lakefs.platform-lakefs.svc.cluster.local:80"
+  - name: S3_USE_HTTPS
+    value: "false"
+  - name: S3_VERIFY_SSL
+    value: "false"
+
+# Optionale Prometheus-Erfassung (falls du Prometheus Operator nutzt)
+# metrics:
+#   enabled: true
+#   serviceMonitor:
+#     enabled: true

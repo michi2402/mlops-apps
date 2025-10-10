@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform-mlflow
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  project: platform
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: platform-mlflow
+  sources:
+    - repoURL: https://github.com/community-charts/helm-charts
+      targetRevision: mlflow-1.6.2
+      path: charts/mlflow
+      helm:
+        releaseName: mlflow
+        valueFiles:
+          - $values/clusters/local/pythonic-stack/platform/components/mlflow/values.yaml
+
+    - repoURL: https://github.com/michi2402/mlops-apps
+      targetRevision: master
+      path: clusters/local/pythonic-stack/platform/components/mlflow
+      ref: values
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true

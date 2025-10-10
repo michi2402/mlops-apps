@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform-postgres
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-6"
+spec:
+  project: platform
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: platform-postgres
+  sources:
+    - repoURL: https://github.com/cloudnative-pg/charts
+      targetRevision: cloudnative-pg-v0.26.0
+      path: charts/cloudnative-pg
+
+    - repoURL: https://github.com/cloudnative-pg/charts
+      targetRevision: cluster-v0.3.1
+      path: charts/cluster
+      helm:
+        releaseName: postgres
+        valueFiles:
+          - $values/clusters/local/pythonic-stack/platform/components/postgres/values.yaml
+
+    - repoURL: https://github.com/michi2402/mlops-apps
+      targetRevision: master
+      path: clusters/local/pythonic-stack/platform/components/postgres
+      ref: values
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true

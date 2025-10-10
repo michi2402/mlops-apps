@@ -1,0 +1,9 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: lakefs-db
+spec:
+  name: lakefs
+  owner: postgres-lakefs
+  cluster: 
+    name: postgres-cluster

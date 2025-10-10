@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: pipeline-runner
+  namespace: compute
+imagePullSecrets:
+  - name: ghcr-creds

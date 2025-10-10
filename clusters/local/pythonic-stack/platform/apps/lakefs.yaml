@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform-lakefs
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-4"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  project: platform
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: platform-lakefs
+  sources:
+    - repoURL: https://charts.lakefs.io
+      chart: lakefs
+      targetRevision: 1.7.5
+      helm:
+        releaseName: lakefs
+        valueFiles:
+          - $values/clusters/local/pythonic-stack/platform/components/lakefs/values.yaml
+
+    - repoURL: https://github.com/michi2402/mlops-apps
+      targetRevision: master
+      path: clusters/local/pythonic-stack/platform/components/lakefs
+      ref: values
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true

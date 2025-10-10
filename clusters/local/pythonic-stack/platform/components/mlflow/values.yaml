@@ -1,0 +1,28 @@
+backendStore:
+  databaseMigration: true
+  postgres:
+    enabled: true
+    host: postgres-cluster-rw.platform-postgres.svc
+    port: 5432
+    database: mlflow
+
+  existingDatabaseSecret:
+    name: platform-postgres-mlflow-secret
+    usernameKey: username
+    passwordKey: password
+
+artifactRoot:
+  proxiedArtifactStorage: true
+  s3:
+    enabled: true
+    bucket: mlflow
+    existingSecret:
+      name: platform-lakefs-secret
+      keyOfAccessKeyId: accessKeyID
+      keyOfSecretAccessKey: secretAccessKey
+
+extraEnvVars:
+  MLFLOW_S3_ENDPOINT_URL: "http://lakefs.platform-lakefs.svc.cluster.local:80"
+
+extraFlags:
+  - serveArtifacts
