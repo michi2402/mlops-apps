@@ -1,0 +1,21 @@
+worker:
+  # v2/v3 Worker (Agents sind deprecated)
+  apiConfig: selfHostedServer
+  config:
+    # Dein Work Pool Name (vorher im UI/CLI anlegen)
+    workPool: k8s-pythonic
+  selfHostedServerApiConfig:
+    apiUrl: http://prefect-server.platform-prefect.svc.cluster.local:4200/api
+    basicAuth:
+      enabled: true
+      existingSecret: prefect-basic-auth
+
+  # (Optional) Logs lauter stellen
+  env:
+    - name: PREFECT_LOGGING_LEVEL
+      value: INFO
+
+# Wenn du statt des Chart-ServiceAccounts einen vorhandenen nutzen willst:
+serviceAccount:
+  create: false
+  name: prefect-worker

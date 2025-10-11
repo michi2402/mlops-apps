@@ -12,3 +12,7 @@ cluster:
       login: true
       passwordSecret:
         name: platform-postgres-lakefs-secret
+    - name: postgres-prefect
+      login: true
+      passwordSecret:
+        name: platform-postgres-prefect-secret

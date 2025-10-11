@@ -1,0 +1,17 @@
+# Use existing Postgres from your platform
+postgresql:
+  enabled: false
+
+# Use existing secret with DSN "connection-string"
+secret:
+  create: false
+  name: platform-postgres-secret
+
+server:
+  # Protect UI with basic auth (admin:change-me Secret oben)
+  basicAuth:
+    enabled: true
+    existingSecret: prefect-basic-auth
+
+  # Interne API-URL (für Dokus/Notes; Service heißt 'prefect-server')
+  prefectApiUrl: http://prefect-server.platform-prefect.svc.cluster.local:4200/api

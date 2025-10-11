@@ -1,0 +1,32 @@
+# app-prefect-server.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform-prefect-server
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: platform-prefect
+  sources:
+    - repoURL: https://prefecthq.github.io/prefect-helm
+      chart: prefect-server
+      targetRevision: "*"
+      helm:
+        releaseName: prefect
+        valueFiles:
+          - $values/clusters/local/pythonic-stack/platform/components/prefect/values-server.yaml
+
+    - repoURL: https://github.com/michi2402/mlops-apps
+      targetRevision: master
+      path: clusters/local/pythonic-stack/platform/components/prefect
+      ref: values
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true

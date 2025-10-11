@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: prefect-worker
+  namespace: compute
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "pods/log", "events", "configmaps", "secrets", "persistentvolumeclaims"]
+    verbs: ["create", "get", "list", "watch", "delete", "deletecollection"]
+  - apiGroups: ["batch"]
+    resources: ["jobs"]
+    verbs: ["create", "get", "list", "watch", "delete", "deletecollection"]

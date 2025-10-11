@@ -1,0 +1,9 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: prefect-db
+spec:
+  name: prefect
+  owner: postgres-prefect
+  cluster: 
+    name: postgres-cluster

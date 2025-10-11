@@ -3,4 +3,7 @@ kind: Kustomization
 
 resources:
   - sa-compute.yaml
+  - sa-prefect-compute.yaml
   - clusterrole.yaml
+  - clusterrole-prefect.yaml
+  - rb-prefect-compute.yaml
