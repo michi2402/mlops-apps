@@ -12,6 +12,3 @@ server:
   basicAuth:
     enabled: true
     existingSecret: prefect-basic-auth
-
-  # Interne API-URL (für Dokus/Notes; Service heißt 'prefect-server')
-  prefectApiUrl: http://prefect-server.platform-prefect.svc.cluster.local:4200/api
