@@ -11,9 +11,9 @@ worker:
       existingSecret: prefect-basic-auth
 
   # (Optional) Logs lauter stellen
-  env:
+  extraEnvVars:
     - name: PREFECT_LOGGING_LEVEL
-      value: INFO
+      value: "INFO"
 
 # Wenn du statt des Chart-ServiceAccounts einen vorhandenen nutzen willst:
 serviceAccount:
