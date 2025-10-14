@@ -10,4 +10,4 @@ resources:
   - sa-prefect-platform-prefect.yaml
   - rb-prefect-platform-prefect.yaml
   - rbac-prefect-worker-clusterjobs.yaml
-  - ghrc-creds-compute.yaml
+  - ghcr-creds-compute.yaml
