@@ -1,0 +1,35 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: pythonic-flow-env
+  namespace: compute
+spec:
+  refreshInterval: 24h
+  secretStoreRef:
+    name: azure-keyvault
+    kind: ClusterSecretStore
+  target:
+    name: pythonic-flow-env
+    creationPolicy: Owner
+    template:
+      type: Opaque
+      data:
+        # Static values kept in-cluster
+        AWS_DEFAULT_REGION: "us-east-1"
+        AWS_EC2_METADATA_DISABLED: "true"
+        AWS_ENDPOINT_URL_S3: "http://minio.platform-minio.svc.cluster.local:9000"
+        MLFLOW_TRACKING_URI: "http://mlflow.platform-mlflow.svc.cluster.local:80"
+        MLFLOW_S3_ENDPOINT_URL: "http://minio.platform-minio.svc.cluster.local:9000"
+        GIT_USER_NAME: "prefect-bot"
+        GIT_USER_EMAIL: "prefect-bot@example.local"
+        GIT_REMOTE_URL: "https://github.com/julianzeilinger/mlops-pipelines.git"
+  data:
+    - secretKey: AWS_ACCESS_KEY_ID
+      remoteRef:
+        key: platform-minio-username
+    - secretKey: AWS_SECRET_ACCESS_KEY
+      remoteRef:
+        key: platform-minio-password
+    - secretKey: GIT_AUTH_TOKEN
+      remoteRef:
+        key: platform-compute-ghcr-password
