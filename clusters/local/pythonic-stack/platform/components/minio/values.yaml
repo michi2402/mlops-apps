@@ -11,3 +11,4 @@ resources:
 buckets:
   - name: mlflow
   - name: lakefs
+  - name: dvc
