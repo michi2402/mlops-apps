@@ -9,4 +9,4 @@ resources:
   - rb-prefect-compute.yaml
   - sa-prefect-platform-prefect.yaml
   - rb-prefect-platform-prefect.yaml
-  - rb-prefect-compute-platform-prefect.yaml
+  - rbac-prefect-worker-clusterjobs.yaml
