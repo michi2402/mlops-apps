@@ -3,3 +3,5 @@ kind: ServiceAccount
 metadata:
   name: prefect-worker
   namespace: compute
+imagePullSecrets:
+  - name: ghcr-creds
