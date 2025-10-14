@@ -37,3 +37,6 @@ spec:
     - secretKey: PREFECT_API_AUTH_STRING
       remoteRef:
         key: platform-prefect-basic-auth
+    - secretKey: PREFECT_SERVER_API_AUTH_STRING
+      remoteRef:
+        key: platform-prefect-basic-auth
