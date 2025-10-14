@@ -7,3 +7,5 @@ resources:
   - clusterrole.yaml
   - clusterrole-prefect.yaml
   - rb-prefect-compute.yaml
+  - sa-prefect-platform-prefect.yaml
+  - rb-prefect-platform-prefect.yaml
