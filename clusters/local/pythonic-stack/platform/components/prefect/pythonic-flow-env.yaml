@@ -24,6 +24,7 @@ spec:
         GIT_USER_EMAIL: "prefect-bot@example.local"
         GIT_REMOTE_URL: "https://github.com/julianzeilinger/mlops-pipelines.git"
         PREFECT_CLIENT_CUSTOM_HEADERS: "{\"Authorization\":\"Basic YWRtaW46Y2hhbmdlLW1l\"}"
+        PREFECT_SERVER_API_AUTH_STRING: "{{ .PREFECT_SERVER_API_AUTH_STRING }}"
   data:
     - secretKey: AWS_ACCESS_KEY_ID
       remoteRef:
