@@ -33,3 +33,6 @@ spec:
     - secretKey: GIT_AUTH_TOKEN
       remoteRef:
         key: platform-compute-ghcr-password
+    - secretKey: PREFECT_API_AUTH_STRING
+      remoteRef:
+        key: platform-prefect-basic-auth
