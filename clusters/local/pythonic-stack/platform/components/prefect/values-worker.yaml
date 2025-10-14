@@ -6,9 +6,6 @@ worker:
     workPool: k8s-pythonic
   selfHostedServerApiConfig:
     apiUrl: http://prefect-server.platform-prefect.svc.cluster.local:4200/api
-    basicAuth:
-      enabled: true
-      existingSecret: prefect-basic-auth
 
   # (Optional) Logs lauter stellen
   extraEnvVars:
