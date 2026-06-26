@@ -1,0 +1,18 @@
+fullnameOverride: lakefs
+
+existingSecret: platform-lakefs-secret
+secretKeys:
+  databaseConnectionString: databaseConnectionString
+  authEncryptSecretKey: authEncryptSecretKey
+
+lakefsConfig: |
+  database:
+    type: postgres
+  blockstore:
+    type: s3
+    s3:
+      endpoint: "http://minio.platform-minio.svc.cluster.local:9000"
+      region: "us-east-1"
+      force_path_style: true
+
+extraEnvVarsSecret: platform-lakefs-s3-env

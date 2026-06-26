@@ -8,5 +8,9 @@ cluster:
       login: true
       passwordSecret:
         name: platform-postgres-mlflow-secret
+    - name: postgres-lakefs
+      login: true
+      passwordSecret:
+        name: platform-postgres-lakefs-secret
   monitoring:
     enabled: true

@@ -18,7 +18,7 @@ spec:
       valuesObject:
         fullnameOverride: "iris"
         minio:
-          modelUri: "s3://mlflow/2/models/m-e5ef5b59c108428cbc459346f5c6d781/artifacts"
+          modelUri: "s3://mlflow/1/models/m-12701b8c11df4471a2d6855bcd100003/artifacts"
   syncPolicy:
     automated:
       prune: true

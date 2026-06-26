@@ -10,7 +10,9 @@ spec:
   storage:
     type: persistent-claim
     size: 2Gi
-    class: standard
+    # No class set on purpose: use the cluster's default StorageClass
+    # (minikube -> "standard", OpenStack/Cinder dataLAB -> "csi-cinder").
+    # Pinning class: standard leaves PVCs Pending on clusters without it.
 ---
 
 apiVersion: kafka.strimzi.io/v1beta2
@@ -25,7 +27,6 @@ spec:
   storage:
     type: persistent-claim
     size: 10Gi
-    class: standard
 ---
 
 apiVersion: kafka.strimzi.io/v1beta2

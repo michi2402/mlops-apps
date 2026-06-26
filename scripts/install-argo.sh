@@ -40,8 +40,11 @@ log "Creating namespace: ${ARGOCD_NAMESPACE} (if not present)"
 kubectl create namespace "${ARGOCD_NAMESPACE}" --dry-run=client -o yaml | kubectl apply -f -
 
 # --- Install Argo CD ---
-log "Applying Argo CD install manifest"
-kubectl apply -n "${ARGOCD_NAMESPACE}" -f "${MANIFEST_URL}"
+# Server-side apply is required: the applicationsets.argoproj.io CRD is larger than
+# the 256 KB limit for the client-side "last-applied-configuration" annotation, so a
+# plain `kubectl apply` fails with "metadata.annotations: Too long".
+log "Applying Argo CD install manifest (server-side apply)"
+kubectl apply --server-side=true --force-conflicts -n "${ARGOCD_NAMESPACE}" -f "${MANIFEST_URL}"
 
 # --- Wait for the API server pod(s) ---
 log "Waiting for argocd-server rollout (timeout 180s)"

@@ -24,7 +24,6 @@ X_train, X_test, y_train, y_test = train_test_split(
 params = {
     "solver": "lbfgs",
     "max_iter": 1000,
-    "multi_class": "auto",
     "random_state": 8888,
 }
 
@@ -53,10 +52,13 @@ with mlflow.start_run():
     signature = infer_signature(X_train, lr.predict(X_train))
 
     # Log the model
+    # cloudpickle (not MLflow 3.x's new default "skops"): the KServe MLServer
+    # runtime (seldonio/mlserver) can only deserialize pickle/cloudpickle.
     model_info = mlflow.sklearn.log_model(
         sk_model=lr,
         artifact_path="iris_model",
         signature=signature,
         input_example=X_train,
         registered_model_name="tracking-quickstart",
+        serialization_format="cloudpickle",
     )
