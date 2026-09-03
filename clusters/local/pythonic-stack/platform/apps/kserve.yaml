@@ -4,7 +4,7 @@ metadata:
   name: platform-kserve
   namespace: argocd
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "-4"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   project: platform
@@ -20,10 +20,14 @@ spec:
     chart: kserve
     targetRevision: v0.15.0
     helm:
-      valuesObject:
-        kserve:
-          controller:
-            deploymentMode: RawDeployment
+      releaseName: kserve
+      valueFiles:
+        - $values/clusters/local/pythonic-stack/platform/components/kserve/values.yaml
+
+  - repoURL: https://github.com/michi2402/mlops-apps
+    targetRevision: master
+    path: clusters/local/pythonic-stack/platform/components/kserve
+    ref: values
 
   syncPolicy:
     automated:

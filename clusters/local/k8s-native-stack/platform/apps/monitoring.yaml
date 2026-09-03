@@ -14,11 +14,11 @@ spec:
       helm:
         releaseName: monitoring
         valueFiles:
-          - $values/clusters/local/_skeleton/platform/components/monitoring/values.yaml
+          - $values/clusters/local/k8s-native-stack/platform/components/monitoring/values.yaml
 
     - repoURL: https://github.com/michi2402/mlops-apps
       targetRevision: master
-      path: clusters/local/_skeleton/platform/components/monitoring
+      path: clusters/local/k8s-native-stack/platform/components/monitoring
       ref: values
 
   destination:

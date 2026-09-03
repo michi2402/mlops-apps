@@ -6,7 +6,7 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "-10"
 spec:
-  project: default
+  project: platform
   source:
     repoURL: https://github.com/michi2402/mlops-apps
     targetRevision: HEAD

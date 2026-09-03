@@ -1,0 +1,52 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaNodePool
+metadata:
+  name: platform-kafka-controllers
+  labels:
+    strimzi.io/cluster: platform-kafka
+spec:
+  replicas: 3
+  roles: [controller]
+  storage:
+    type: persistent-claim
+    size: 2Gi
+    # No class set on purpose: use the cluster's default StorageClass
+    # (minikube -> "standard", OpenStack/Cinder dataLAB -> "csi-cinder").
+    # Pinning class: standard leaves PVCs Pending on clusters without it.
+---
+
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaNodePool
+metadata:
+  name: platform-kafka-brokers
+  labels:
+    strimzi.io/cluster: platform-kafka
+spec:
+  replicas: 3
+  roles: [broker]
+  storage:
+    type: persistent-claim
+    size: 10Gi
+---
+
+apiVersion: kafka.strimzi.io/v1beta2
+kind: Kafka
+metadata:
+  name: platform-kafka
+  annotations:
+    strimzi.io/kraft: "enabled"
+    strimzi.io/node-pools: "enabled"
+spec:
+  kafka:
+    version: 4.1.0
+    listeners:
+      - name: plain
+        port: 9092
+        type: internal
+        tls: false
+    config:
+      inter.broker.protocol.version: "4.1"
+      log.message.format.version: "4.1"
+  entityOperator:
+    topicOperator: {}
+    userOperator: {}

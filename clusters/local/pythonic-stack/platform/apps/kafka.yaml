@@ -1,0 +1,35 @@
+# argocd/app-strimzi.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform-kafka
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+
+spec:
+  project: platform
+  sources:
+    - repoURL: https://github.com/michi2402/mlops-apps
+      targetRevision: master
+      path: clusters/local/pythonic-stack/platform/components/kafka
+      ref: values
+    
+    - repoURL: https://kafbat.github.io/helm-charts
+      chart: kafka-ui
+      targetRevision: 1.3.0
+      helm:
+        valueFiles:
+          - $values/clusters/local/pythonic-stack/platform/components/kafka/kafbat-values.yaml
+    
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: platform-kafka
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true

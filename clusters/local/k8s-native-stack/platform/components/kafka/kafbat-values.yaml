@@ -1,0 +1,11 @@
+yamlApplicationConfig:
+  kafka:
+    clusters:
+      - name: "Platform Kafka"
+        bootstrapServers:  platform-kafka-kafka-brokers.platform-kafka.svc.cluster.local:9092
+  auth:
+    type: disabled
+  management:
+    health:
+      ldap:
+        enabled: false
