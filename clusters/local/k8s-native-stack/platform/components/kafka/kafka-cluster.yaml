@@ -10,11 +10,17 @@ spec:
   storage:
     type: persistent-claim
     size: 2Gi
+    deleteClaim: false
     # No class set on purpose: use the cluster's default StorageClass
     # (minikube -> "standard", OpenStack/Cinder dataLAB -> "csi-cinder").
     # Pinning class: standard leaves PVCs Pending on clusters without it.
+  resources:
+    requests: { cpu: 100m, memory: 768Mi }
+    limits:   { cpu: 500m, memory: 1Gi }
+  jvmOptions:
+    -Xms: 512m
+    -Xmx: 512m
 ---
-
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaNodePool
 metadata:
@@ -27,8 +33,14 @@ spec:
   storage:
     type: persistent-claim
     size: 10Gi
+    deleteClaim: false
+  resources:
+    requests: { cpu: 200m, memory: 1Gi }
+    limits:   { cpu: "1",  memory: 2Gi }
+  jvmOptions:
+    -Xms: 1024m
+    -Xmx: 1024m
 ---
-
 apiVersion: kafka.strimzi.io/v1beta2
 kind: Kafka
 metadata:
@@ -45,8 +57,22 @@ spec:
         type: internal
         tls: false
     config:
-      inter.broker.protocol.version: "4.1"
-      log.message.format.version: "4.1"
+      # Durability settings matched to the three-broker topology declared above.
+      default.replication.factor: 3
+      min.insync.replicas: 2
+      offsets.topic.replication.factor: 3
+      transaction.state.log.replication.factor: 3
+      transaction.state.log.min.isr: 2
+      # Topics are provisioned declaratively as KafkaTopic resources. Disabling
+      # auto-creation means a producer cannot bring a topic into existence as a
+      # side effect, so the declared topic is load-bearing rather than incidental.
+      auto.create.topics.enable: false
   entityOperator:
-    topicOperator: {}
-    userOperator: {}
+    topicOperator:
+      resources:
+        requests: { cpu: 50m,  memory: 256Mi }
+        limits:   { cpu: 200m, memory: 512Mi }
+    userOperator:
+      resources:
+        requests: { cpu: 50m,  memory: 256Mi }
+        limits:   { cpu: 200m, memory: 512Mi }

@@ -1,4 +1,10 @@
-# argocd/app-strimzi.yaml
+# Kafka event bus: the cluster custom resources plus the Kafbat UI.
+#
+# The three sources are deliberately single-purpose. ArgoCD treats a source
+# carrying `path` as a manifest generator and one carrying `ref` as a value-file
+# reference; a source carrying both is ambiguous, and that ambiguity previously
+# made it impossible to tell whether these custom resources were rendered at all.
+# Each source below does exactly one job.
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -6,22 +12,27 @@ metadata:
   namespace: argocd
   annotations:
     argocd.argoproj.io/sync-wave: "1"
-
 spec:
   project: platform
   sources:
+    # 1. Kafka custom resources. Manifests only; this directory holds no value files.
     - repoURL: https://github.com/michi2402/mlops-apps
       targetRevision: master
       path: clusters/local/k8s-native-stack/platform/components/kafka
+
+    # 2. Value-file reference only. Carries no `path`, so it generates no manifests.
+    - repoURL: https://github.com/michi2402/mlops-apps
+      targetRevision: master
       ref: values
-    
+
+    # 3. Kafbat UI, configured from the referenced value file.
     - repoURL: https://kafbat.github.io/helm-charts
       chart: kafka-ui
       targetRevision: 1.3.0
       helm:
         valueFiles:
-          - $values/clusters/local/k8s-native-stack/platform/components/kafka/kafbat-values.yaml
-    
+          - $values/clusters/local/k8s-native-stack/platform/components/kafka-ui/values.yaml
+
   destination:
     server: https://kubernetes.default.svc
     namespace: platform-kafka
@@ -33,3 +44,7 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
+      # The Kafka CRDs arrive with the operator in wave 0. Skipping the client-side
+      # dry run keeps the first reconciliation from failing while they are still
+      # being established.
+      - SkipDryRunOnMissingResource=true

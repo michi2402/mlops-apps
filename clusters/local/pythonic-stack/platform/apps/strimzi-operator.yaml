@@ -1,4 +1,13 @@
-# argocd/app-strimzi.yaml
+# Strimzi Kafka operator: installs the Kafka CRDs and the cluster operator.
+#
+# Occupies the first wave of the streaming tier so that the custom resources in
+# platform-kafka (wave 1) have their definitions in place before they are applied.
+#
+# watchAnyNamespace is deliberately false. Every Kafka resource in this platform
+# lives in the operator's own namespace, which Strimzi watches by default, so a
+# cluster-wide watch would grant the operator three further ClusterRoleBindings it
+# has no use for. Per-tenant topics in tenant namespaces would be the reason to
+# revisit this, and would be a value change rather than a structural one.
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -14,8 +23,8 @@ spec:
       targetRevision: 0.48.0
       helm:
         valuesObject:
-          watchAnyNamespace: true
-    
+          watchAnyNamespace: false
+
   destination:
     server: https://kubernetes.default.svc
     namespace: platform-kafka

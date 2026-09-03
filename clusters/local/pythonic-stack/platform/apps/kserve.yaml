@@ -24,9 +24,10 @@ spec:
       valueFiles:
         - $values/clusters/local/pythonic-stack/platform/components/kserve/values.yaml
 
+  # Value-file reference only: this source carries no `path`, so it generates no
+  # manifests. The referenced directory holds a values file, not a manifest.
   - repoURL: https://github.com/michi2402/mlops-apps
     targetRevision: master
-    path: clusters/local/pythonic-stack/platform/components/kserve
     ref: values
 
   syncPolicy:
