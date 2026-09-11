@@ -27,6 +27,13 @@ config: |
       addresses:
         - platform-kafka-kafka-bootstrap.platform-kafka.svc.cluster.local:9092
       topic: inference-events
+      # Key by CloudEvent id. KServe emits two events per inference -- the request
+      # before the predictor is invoked and the response after -- carrying the same
+      # ce-id. Keying co-partitions the pair, so a drift detector reconstructs
+      # (features, prediction) within one partition instead of joining across all of
+      # them. Messages without an identifiable id fall back to a random key so they
+      # still spread rather than piling onto one partition.
+      key: ${! meta("ce-id").or(meta("Ce-Id")).or(json("body.id")).or(uuid_v4()) }
       max_in_flight: 64
       compression: none
       static_headers:
