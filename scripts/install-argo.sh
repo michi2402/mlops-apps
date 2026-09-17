@@ -46,9 +46,23 @@ kubectl create namespace "${ARGOCD_NAMESPACE}" --dry-run=client -o yaml | kubect
 log "Applying Argo CD install manifest (server-side apply)"
 kubectl apply --server-side=true --force-conflicts -n "${ARGOCD_NAMESPACE}" -f "${MANIFEST_URL}"
 
+# --- Enable Applications in tenant namespaces ---
+# Tenant Application resources live in the tenant's own namespace rather than in
+# `argocd`, so that each AppProject's `sourceNamespaces` binds them to that project
+# alone. Without this, a tenant manifest could name `default` and escape its project.
+# The controller only honours namespaces listed here, so the list must cover every
+# tenant namespace the cluster declares.
+TENANT_NAMESPACES="${TENANT_NAMESPACES:-team1,team2}"
+log "Enabling Applications in namespaces: ${TENANT_NAMESPACES}"
+kubectl -n "${ARGOCD_NAMESPACE}" patch configmap argocd-cmd-params-cm --type merge \
+  -p "{\"data\":{\"application.namespaces\":\"${TENANT_NAMESPACES}\"}}"
+kubectl -n "${ARGOCD_NAMESPACE}" rollout restart deploy/argocd-server
+kubectl -n "${ARGOCD_NAMESPACE}" rollout restart statefulset/argocd-application-controller
+
 # --- Wait for the API server pod(s) ---
 log "Waiting for argocd-server rollout (timeout 180s)"
 kubectl -n "${ARGOCD_NAMESPACE}" rollout status deploy/argocd-server --timeout=180s
+kubectl -n "${ARGOCD_NAMESPACE}" rollout status statefulset/argocd-application-controller --timeout=180s
 
 # --- Fetch initial admin password ---
 log "Fetching initial admin password"

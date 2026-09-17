@@ -15,7 +15,9 @@ spec:
       recurse: true
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
+    # Child Applications are created in the tenant namespace rather than in
+    # argocd, which is what binds them to this project via sourceNamespaces.
+    namespace: team2
   syncPolicy:
     automated:
       prune: true

@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: workloads-team1-iris
-  namespace: argocd
+  namespace: team1
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:

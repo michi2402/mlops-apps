@@ -46,14 +46,23 @@ metadata:
   namespace: argocd
 spec:
   description: Local skeleton project grouping team apps
+  # Applications claiming this project may additionally live in the tenant's own
+  # namespace. A project without sourceNamespaces accepts Applications only from the
+  # ArgoCD namespace, so a tenant manifest naming `default` or `platform` is refused.
+  sourceNamespaces:
+    - team1
   sourceRepos:
     - '*'
   destinations:
-    - namespace: '*'
+    - namespace: team1
       server: https://kubernetes.default.svc
+    - namespace: 'team1-*'
+      server: https://kubernetes.default.svc
+  # Namespace only: the tenant chart renders namespaced resources exclusively, so a
+  # wildcard here would permit ClusterRoleBinding and similar escalation vectors.
   clusterResourceWhitelist:
-    - group: '*'
-      kind: '*'
+    - group: ''
+      kind: Namespace
 
 ---
 apiVersion: argoproj.io/v1alpha1
@@ -63,11 +72,20 @@ metadata:
   namespace: argocd
 spec:
   description: Local skeleton project grouping team apps
+  # Applications claiming this project may additionally live in the tenant's own
+  # namespace. A project without sourceNamespaces accepts Applications only from the
+  # ArgoCD namespace, so a tenant manifest naming `default` or `platform` is refused.
+  sourceNamespaces:
+    - team2
   sourceRepos:
     - '*'
   destinations:
-    - namespace: '*'
+    - namespace: team2
       server: https://kubernetes.default.svc
+    - namespace: 'team2-*'
+      server: https://kubernetes.default.svc
+  # Namespace only: the tenant chart renders namespaced resources exclusively, so a
+  # wildcard here would permit ClusterRoleBinding and similar escalation vectors.
   clusterResourceWhitelist:
-    - group: '*'
-      kind: '*'
+    - group: ''
+      kind: Namespace
