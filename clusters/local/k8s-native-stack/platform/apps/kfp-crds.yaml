@@ -15,6 +15,19 @@ spec:
     - repoURL: https://github.com/kubeflow/pipelines.git
       targetRevision: 2.14.0
       path: manifests/kustomize/cluster-scoped-resources
+      kustomize:
+        patches:
+          # KFP ships the kubeflow namespace too and would drop the Katib label from
+          # kubeflow-namespaces; without it Katib injects no metrics collector and
+          # trials hang in Running forever
+          - target:
+              kind: Namespace
+              name: kubeflow
+            patch: |-
+              - op: add
+                path: /metadata/labels
+                value:
+                  katib.kubeflow.org/metrics-collector-injection: "enabled"
   syncPolicy:
     automated: { prune: true, selfHeal: true }
     syncOptions:
