@@ -15,6 +15,10 @@ spec:
     repoURL: https://github.com/kubeflow/pipelines.git
     targetRevision: 2.14.0
     path: manifests/kustomize/env/platform-agnostic
+    kustomize:
+      images:
+        # gcr.io/ml-pipeline/minio is no longer available; same MinIO as the platform stack
+        - gcr.io/ml-pipeline/minio=quay.io/minio/minio:RELEASE.2024-12-18T13-15-44Z
   syncPolicy:
     automated: { prune: true, selfHeal: true }
     syncOptions:
