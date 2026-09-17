@@ -19,6 +19,17 @@ spec:
       images:
         # gcr.io/ml-pipeline/minio is no longer available; same MinIO as the platform stack
         - gcr.io/ml-pipeline/minio=quay.io/minio/minio:RELEASE.2024-12-18T13-15-44Z
+      patches:
+        # KFP also ships kubeflow/pipeline-runner; without this it overrides the SA from
+        # rbac-pipeline-runner and Katib trials / TrainJobs cannot pull the private GHCR images
+        - target:
+            kind: ServiceAccount
+            name: pipeline-runner
+          patch: |-
+            - op: add
+              path: /imagePullSecrets
+              value:
+                - name: ghcr-creds
   syncPolicy:
     automated: { prune: true, selfHeal: true }
     syncOptions:
