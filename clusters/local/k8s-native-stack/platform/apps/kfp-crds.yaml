@@ -20,9 +20,9 @@ spec:
           # KFP ships the kubeflow namespace too and would drop the Katib label from
           # kubeflow-namespaces; without it Katib injects no metrics collector and
           # trials hang in Running forever
+          # Name erst nach der Variablenersetzung 'kubeflow', daher nur nach Kind filtern
           - target:
               kind: Namespace
-              name: kubeflow
             patch: |-
               - op: add
                 path: /metadata/labels
