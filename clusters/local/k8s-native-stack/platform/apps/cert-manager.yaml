@@ -18,6 +18,11 @@ spec:
       valuesObject:
         crds:
           enabled: true
+        # Backs the provisioned cert-manager Grafana dashboard.
+        prometheus:
+          enabled: true
+          servicemonitor:
+            enabled: true
 
   syncPolicy:
     automated:
