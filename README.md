@@ -83,7 +83,7 @@ mlops-apps/
 │   ├── charts/model/            # Reusable Helm chart: KServe InferenceService for an MLflow model
 │   ├── dashboards/              # Grafana dashboard JSON (e.g. mlflow.json)
 │   └── external-secrets/        # ClusterSecretStore pointing at Azure Key Vault
-├── clusters/local/
+├── clusters/base/
 │   ├── k8s-native-stack/        # Concrete stack, Kubeflow-centric — J. Zeilinger
 │   ├── pythonic-stack/          # Concrete stack, Prefect-centric  — J. Zeilinger
 │   └── _skeleton/               # Reference architecture - M. Mayrhofer
@@ -228,7 +228,7 @@ kubectl -n argocd get secret argocd-initial-admin-secret \
 Apply the stack's root Application. Argo CD takes over and reconciles everything else:
 
 ```bash
-kubectl apply -f clusters/local/_skeleton/aoa-root.yaml
+kubectl apply -f clusters/base/_skeleton/aoa-root.yaml
 ```
 
 ### 6. Watch the rollout
@@ -367,7 +367,7 @@ monitoring.
    instead of the branch, for when exact bytes matter more than convenience.
 
 3. **Deploy it with KServe** using the reusable `model` chart. The workload
-   ([`k8s-native-stack/workloads/team1/apps/iris.yaml`](clusters/local/k8s-native-stack/workloads/team1/apps/iris.yaml))
+   ([`k8s-native-stack/workloads/team1/apps/iris.yaml`](clusters/base/k8s-native-stack/workloads/team1/apps/iris.yaml))
    renders `base/charts/model` with two values and no artifact path at all:
 
    ```yaml
@@ -423,7 +423,7 @@ monitoring.
 
 ```bash
 # Remove a stack (deletes its Applications; finalizers prune the managed resources)
-kubectl delete -f clusters/local/_skeleton/aoa-root.yaml
+kubectl delete -f clusters/base/_skeleton/aoa-root.yaml
 
 # Or nuke the whole local cluster
 minikube delete

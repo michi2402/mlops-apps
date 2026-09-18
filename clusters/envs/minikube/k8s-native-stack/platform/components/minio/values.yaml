@@ -1,0 +1,14 @@
+# Object store, single-node profile: standalone. Erasure coding needs at least four
+# drives across distinct failure domains, which a single node cannot offer, so the
+# distributed mode would be a more expensive way of obtaining the same durability.
+#
+# This is the one profile parameter that is not structurally neutral: the chart
+# renders a Deployment here and a StatefulSet under the multi-node profile. It is
+# declared as an exception rather than hidden.
+mode: standalone
+replicas: 1
+persistence:
+  size: 10Gi
+resources:
+  requests: { cpu: 100m, memory: 256Mi }
+  limits:   { cpu: 500m, memory: 512Mi }

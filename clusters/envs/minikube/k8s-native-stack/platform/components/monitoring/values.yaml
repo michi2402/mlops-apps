@@ -1,0 +1,9 @@
+# Observability, single-node profile. Retention is short and in-memory: a local
+# cluster is exercised for the duration of a campaign run, not operated, so paying a
+# volume for history that outlives the cluster would be spurious.
+prometheus:
+  prometheusSpec:
+    retention: 12h
+    resources:
+      requests: { cpu: 100m, memory: 256Mi }
+      limits:   { cpu: 500m, memory: 512Mi }

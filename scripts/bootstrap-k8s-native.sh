@@ -3,13 +3,18 @@
 # Idempotent: safe to re-run against a cluster this script already bootstrapped.
 #
 # Required env vars:
+#   CLUSTER_ENV                — which environment profile to deploy: minikube | datalab.
+#                                 There is no default on purpose. The profiles differ in
+#                                 event-bus topology, replica counts and storage, and
+#                                 deploying the wrong one is the kind of mistake that is
+#                                 only obvious an hour later.
 #   CLIENT_ID, CLIENT_SECRET   — Azure Key Vault service-principal creds (tofu output
 #                                 from ../mlops-eso-azure), used to seed the one
 #                                 out-of-band secret ESO needs.
 #
 # Optional env vars (defaults match the repo's k8s-native-stack):
 #   REPO_ROOT        — path to mlops-apps checkout (default: script's parent dir)
-#   STACK_DIR         — cluster config dir under clusters/local (default: k8s-native-stack)
+#   STACK_DIR         — stack directory name (default: k8s-native-stack)
 #   SYNC_TIMEOUT      — seconds to wait for all ArgoCD Applications Healthy (default: 1200)
 #   INFERENCE_TIMEOUT — seconds to wait for the iris InferenceService Ready (default: 600)
 #
@@ -34,7 +39,8 @@ require_cmd curl
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="${REPO_ROOT:-$(cd "${SCRIPT_DIR}/.." && pwd)}"
 STACK_DIR="${STACK_DIR:-k8s-native-stack}"
-STACK_PATH="clusters/local/${STACK_DIR}"
+: "${CLUSTER_ENV:?CLUSTER_ENV is required — one of: minikube, datalab}"
+STACK_PATH="clusters/envs/${CLUSTER_ENV}/${STACK_DIR}"
 SYNC_TIMEOUT="${SYNC_TIMEOUT:-1200}"
 INFERENCE_TIMEOUT="${INFERENCE_TIMEOUT:-600}"
 
@@ -42,7 +48,10 @@ INFERENCE_TIMEOUT="${INFERENCE_TIMEOUT:-600}"
 : "${CLIENT_SECRET:?CLIENT_SECRET is required (tofu output -raw client_secret in ../mlops-eso-azure)}"
 
 cd "$REPO_ROOT"
-[ -f "${STACK_PATH}/aoa-root.yaml" ] || die "No such stack: ${STACK_PATH} (run from mlops-apps or set STACK_DIR)"
+[ -f "${STACK_PATH}/aoa-root.yaml" ] || die "No such environment profile: ${STACK_PATH}
+Available: $(ls -1 clusters/envs 2>/dev/null | tr '
+' ' ')
+(run from the mlops-apps root, and set CLUSTER_ENV)"
 
 PORT_FORWARD_PIDS=()
 cleanup() {
@@ -71,7 +80,7 @@ log "2/7 Installing Argo CD"
 SKIP_PORT_FORWARD=1 "${SCRIPT_DIR}/install-argo.sh"
 
 # --- 3/7: apply the stack root Application (S2 step 2) ---
-log "3/7 Applying ${STACK_PATH}/aoa-root.yaml"
+log "3/7 Applying ${STACK_PATH}/aoa-root.yaml (profile: ${CLUSTER_ENV})"
 kubectl apply -f "${STACK_PATH}/aoa-root.yaml"
 
 # --- 4/7: wait for the platform tier to converge ---

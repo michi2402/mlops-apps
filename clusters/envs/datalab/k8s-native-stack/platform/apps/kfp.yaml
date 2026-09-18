@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform-kfp
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  project: platform
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: platform-kubeflow
+  source:
+    repoURL: https://github.com/kubeflow/pipelines.git
+    targetRevision: 2.14.0
+    path: manifests/kustomize/env/platform-agnostic
+    kustomize:
+      images:
+        # gcr.io/ml-pipeline/minio is no longer available; same MinIO as the platform stack
+        - gcr.io/ml-pipeline/minio=quay.io/minio/minio:RELEASE.2024-12-18T13-15-44Z
+      patches:
+        # KFP also ships kubeflow/pipeline-runner; without this it overrides the SA from
+        # rbac-pipeline-runner and Katib trials / TrainJobs cannot pull the private GHCR images
+        - target:
+            kind: ServiceAccount
+            name: pipeline-runner
+          patch: |-
+            - op: add
+              path: /imagePullSecrets
+              value:
+                - name: ghcr-creds
+  syncPolicy:
+    automated: { prune: true, selfHeal: true }
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true

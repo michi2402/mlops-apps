@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform-kfp-crds
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-4"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  project: platform
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: platform-kubeflow
+  sources:
+    - repoURL: https://github.com/kubeflow/pipelines.git
+      targetRevision: 2.14.0
+      path: manifests/kustomize/cluster-scoped-resources
+      kustomize:
+        patches:
+          # KFP ships the kubeflow namespace too and would drop the Katib label from
+          # kubeflow-namespaces; without it Katib injects no metrics collector and
+          # trials hang in Running forever
+          # Name erst nach der Variablenersetzung 'kubeflow', daher nur nach Kind filtern
+          - target:
+              kind: Namespace
+            patch: |-
+              - op: add
+                path: /metadata/labels
+                value:
+                  katib.kubeflow.org/metrics-collector-injection: "enabled"
+  syncPolicy:
+    automated: { prune: true, selfHeal: true }
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+  ignoreDifferences:
+    - group: ""
+      kind: Namespace
+      name: kubeflow
+      jsonPointers:
+        - /metadata/labels

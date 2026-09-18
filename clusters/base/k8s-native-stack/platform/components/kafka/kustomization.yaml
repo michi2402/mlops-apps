@@ -1,0 +1,9 @@
+# The event bus is the one component whose environment profile is a topology rather
+# than a set of Helm values, so it is delivered as a kustomize base that each
+# environment overlay patches. The resources below are the structure; every value an
+# environment varies is listed in clusters/envs/<env>/.../components/kafka/.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - kafka-cluster.yaml
+  - inference-topic.yaml

@@ -1,0 +1,8 @@
+# Distributed compute, single-node profile: one worker. Two workers on one node
+# contend for the same cores, so the second buys scheduling overhead rather than
+# parallelism.
+worker:
+  replicas: 1
+  resources:
+    requests: { cpu: 200m, memory: 512Mi }
+    limits:   { cpu: "1",  memory: 1Gi }

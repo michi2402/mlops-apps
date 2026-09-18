@@ -31,7 +31,7 @@ Everything else is automated by `scripts/bootstrap-k8s-native.sh`. What you prov
 2. **Run the bootstrap script** from the repo root:
    ```bash
    cd poc/mlops-apps
-   CLIENT_ID="..." CLIENT_SECRET="..." ./scripts/bootstrap-k8s-native.sh
+   CLUSTER_ENV=datalab CLIENT_ID="..." CLIENT_SECRET="..." ./scripts/bootstrap-k8s-native.sh
    ```
    It seeds the credential, installs Argo CD, applies the stack, waits for the platform tier
    to be `Synced`/`Healthy`, initialises lakeFS (admin user plus the `mlflow` and `datasets`
@@ -114,7 +114,7 @@ python3 scripts/promote-model.py --name timeseries-model --version 1
 ```
 
 No manifest is edited. Rolling out a later version is one line —
-`model.version` in `clusters/local/k8s-native-stack/workloads/team2/apps/timeseries.yaml` — plus
+`model.version` in `clusters/base/k8s-native-stack/workloads/team2/apps/timeseries.yaml` — plus
 the matching promotion. That Git commit *is* the rollout, and Argo CD rolls a new predictor from it.
 
 ---
@@ -122,7 +122,7 @@ the matching promotion. That Git commit *is* the rollout, and Argo CD rolls a ne
 ## Teardown
 
 ```bash
-kubectl delete -f clusters/local/k8s-native-stack/aoa-root.yaml   # prunes everything Argo CD created
+kubectl delete -f clusters/envs/<env>/k8s-native-stack/aoa-root.yaml   # prunes everything Argo CD created
 # or, to discard the whole cluster:
 minikube delete
 ```

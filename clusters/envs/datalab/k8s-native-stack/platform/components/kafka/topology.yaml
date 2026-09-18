@@ -1,0 +1,66 @@
+# Event bus, multi-node profile.
+#
+# Three controllers and three brokers, with a replication factor of three and a
+# minimum in-sync replica count of two. The topology spread constraint is what makes
+# those numbers mean something: without it the scheduler may place every broker on
+# one node, and the replicas would sit in a single failure domain while the
+# configuration claimed otherwise. `DoNotSchedule` is deliberate -- a broker that
+# cannot be placed in its own domain should stay Pending and be visible, rather than
+# be placed anywhere and leave the durability claim quietly false.
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaNodePool
+metadata:
+  name: platform-kafka-controllers
+spec:
+  replicas: 3
+  template:
+    pod:
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              strimzi.io/pool-name: platform-kafka-controllers
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaNodePool
+metadata:
+  name: platform-kafka-brokers
+spec:
+  replicas: 3
+  storage:
+    type: persistent-claim
+    size: 10Gi
+    deleteClaim: false
+  template:
+    pod:
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              strimzi.io/pool-name: platform-kafka-brokers
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: Kafka
+metadata:
+  name: platform-kafka
+spec:
+  kafka:
+    config:
+      default.replication.factor: 3
+      min.insync.replicas: 2
+      offsets.topic.replication.factor: 3
+      transaction.state.log.replication.factor: 3
+      transaction.state.log.min.isr: 2
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  name: inference-events
+spec:
+  replicas: 3
+  config:
+    min.insync.replicas: 2

@@ -1,0 +1,43 @@
+# Kafka event bus: the cluster custom resources plus the Kafbat UI.
+#
+# The first source both renders the manifests under `path` and, through `ref`,
+# supplies the `$values` prefix used below. This is the source topology that has
+# been exercised on the cluster; the Kafbat values file has been moved out of the
+# rendered directory so that `path` now points at manifests exclusively.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform-kafka
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: platform
+  sources:
+    - repoURL: https://github.com/michi2402/mlops-apps
+      targetRevision: master
+      path: clusters/base/pythonic-stack/platform/components/kafka
+      ref: values
+
+    - repoURL: https://kafbat.github.io/helm-charts
+      chart: kafka-ui
+      targetRevision: 1.3.0
+      helm:
+        valueFiles:
+          - $values/clusters/base/pythonic-stack/platform/components/kafka-ui/values.yaml
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: platform-kafka
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+      # The Kafka CRDs arrive with the operator in wave 0. Skipping the client-side
+      # dry run keeps the first reconciliation from failing while they are still
+      # being established.
+      - SkipDryRunOnMissingResource=true
