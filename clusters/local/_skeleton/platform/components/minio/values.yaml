@@ -22,3 +22,11 @@ metrics:
   serviceMonitor:
     enabled: true
     includeNode: true
+
+# The chart's default PVC is 500Gi, which exceeds a typical OpenStack project quota
+# and leaves the claim Pending with no other symptom than a stalled platform. The
+# working set here is a synthetic dataset, its features and a handful of models --
+# tens of megabytes. Sized to the environment rather than to the chart, which is the
+# value-level override the environment-independence goal exists for.
+persistence:
+  size: 20Gi
