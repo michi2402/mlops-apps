@@ -1,7 +1,6 @@
 existingSecret: platform-minio-secret
 mode: standalone
 replicas: 1
-
 resources:
   requests:
     cpu: 250m
@@ -9,9 +8,9 @@ resources:
   limits:
     cpu: "1"
     memory: 1Gi
-
 buckets:
   - name: mlflow
+  - name: lakefs
 
 env:
   - name: MINIO_PROMETHEUS_AUTH_TYPE
