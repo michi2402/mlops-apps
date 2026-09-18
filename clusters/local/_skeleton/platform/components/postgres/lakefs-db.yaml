@@ -5,5 +5,5 @@ metadata:
 spec:
   name: lakefs
   owner: postgres-lakefs
-  cluster:
+  cluster: 
     name: postgres-cluster

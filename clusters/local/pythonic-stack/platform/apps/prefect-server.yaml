@@ -5,7 +5,7 @@ metadata:
   name: platform-prefect-server
   namespace: argocd
 spec:
-  project: default
+  project: platform
   destination:
     server: https://kubernetes.default.svc
     namespace: platform-prefect

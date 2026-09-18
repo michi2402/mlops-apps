@@ -1,4 +1,4 @@
-# Local Cluster Skeleton Setup
+# Local Cluster Setup — Kubernetes-native Stack
 ## 1. Initialize External Secrets
 ```bash
 tofu output -raw <output_name>
@@ -28,4 +28,27 @@ kubectl -n platform-minio port-forward svc/minio-console 9001:9001
 
 # MLFlow -> https://localhost:5000
 kubectl -n platform-mlflow port-forward svc/mlflow 5000:80
+# Grafana -> https://localhost:5555
+kubectl -n platform-monitoring port-forward svc/monitoring-grafana 5555:80
+
+# Prometheus -> https://localhost:9090
+kubectl -n platform-monitoring port-forward svc/prometheus-operated 9090:9090
+
+# Kafka UI -> https://localhost:7777
+kubectl -n platform-kafka port-forward svc/platform-kafka-kafka-ui 7777:80
+```
+
+## 4. Tunnel the Envoy Gateway
+```bash
+minikube tunnel
+```
+
+If the tunnel doesn't work, it could be the case that WSL/Linux has still another tunnel not
+properly resetted/cleaned up. In this case run the following:
+```bash
+# stop the running tunnel process
+sudo pkill -f "minikube tunnel" || true
+
+# clean up routes and the tun device created by the tunnel
+sudo -E minikube tunnel --cleanup
 ```

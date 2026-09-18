@@ -11,4 +11,14 @@ resources:
 buckets:
   - name: mlflow
   - name: lakefs
-  - name: dvc
+
+env:
+  - name: MINIO_PROMETHEUS_AUTH_TYPE
+    value: public
+  - name: MINIO_PROMETHEUS_JOB_ID
+    value: minio
+
+metrics:
+  serviceMonitor:
+    enabled: true
+    includeNode: true

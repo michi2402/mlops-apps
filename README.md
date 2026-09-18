@@ -21,6 +21,11 @@ service and workload from the manifests in `clusters/`.
 > pushed** before Argo CD will see it. If you work from a fork, update `repoURL` in the
 > `aoa-*.yaml` files accordingly.
 
+> **Fast path.** To go from a bare cluster to a served, queryable model on
+> `k8s-native-stack` in one command, see [`RUNBOOK.md`](RUNBOOK.md) and
+> `scripts/bootstrap-k8s-native.sh`. The walkthrough below is the general, manual,
+> stack-agnostic path — read it if you want to understand or adapt the individual steps.
+
 ---
 
 ## Contents
@@ -91,7 +96,8 @@ mlops-apps/
 │           └── workloads/team*/apps/    # ML workloads (e.g. the iris InferenceService)
 └── scripts/
     ├── install-argo.sh          # Installs Argo CD, prints admin password, port-forwards :8080
-    ├── mlflow-dummy-model.py    # Trains + registers a demo iris model in MLflow
+    ├── bootstrap-k8s-native.sh  # One-shot: credential → Argo CD → stack → served model (see RUNBOOK.md)
+    ├── mlflow-dummy-model.py    # Trains + registers a demo iris model, prints its s3:// URI
     └── test/iris-batch-request.sh   # Sample KServe v2 inference request
 ```
 
@@ -342,27 +348,48 @@ monitoring.
 
    This trains a logistic-regression iris classifier, logs metrics/params to the
    `demo-iris` experiment, and registers it as `tracking-quickstart`. Artifacts land in
-   MinIO under the `mlflow` bucket.
+   lakeFS, in the `mlflow` repository on branch `main` — MLflow's artifact root is the
+   lakeFS S3 gateway, and MinIO is the block store underneath it rather than the interface.
 
-2. **Deploy it with KServe** using the reusable `model` chart. The example workload
-   ([`_skeleton/workloads/team1/apps/iris.yaml`](clusters/local/_skeleton/workloads/team1/apps/iris.yaml))
-   renders `base/charts/model` with the model's S3 URI:
+2. **Promote it.** MLflow names artefacts with identifiers it mints at training time (an
+   auto-increment experiment id and a random `m-<32 hex>` logged-model id), which cannot be
+   written into a manifest ahead of the run. `promote-model.py` copies a registered version
+   to a location composed only of names:
+
+   ```bash
+   kubectl -n platform-lakefs port-forward svc/lakefs 18000:80   # separate terminal
+   export LAKEFS_ACCESS_KEY=... LAKEFS_SECRET_KEY=...            # or source ml-pipelines/tools/env_from_keyvault.sh
+   python scripts/promote-model.py --name tracking-quickstart --version 1
+   ```
+
+   The copy is staged on a lakeFS branch and committed, so every promotion is an addressable,
+   revertible lakeFS commit. The script prints a `MODEL_URI_PINNED` that names that commit
+   instead of the branch, for when exact bytes matter more than convenience.
+
+3. **Deploy it with KServe** using the reusable `model` chart. The workload
+   ([`k8s-native-stack/workloads/team1/apps/iris.yaml`](clusters/local/k8s-native-stack/workloads/team1/apps/iris.yaml))
+   renders `base/charts/model` with two values and no artifact path at all:
 
    ```yaml
    helm:
      valuesObject:
        fullnameOverride: "iris"
-       minio:
-         modelUri: "s3://mlflow/2/models/m-.../artifacts"
+       model:
+         name: "tracking-quickstart"
+         version: "1"
    ```
 
-   Update `modelUri` to the artifact path printed by MLflow for your run, commit, push, and
-   let Argo CD sync — or add an equivalent workload `Application` under your stack's
-   `workloads/team1/apps/`. The `modelUri` **must point to a model that already exists** in
-   MinIO; otherwise the KServe storage-initializer fails with `NoSuchBucket` /
-   `NoSuchKey` and the predictor pod stays in `Init`. On a fresh cluster, do step 1 first.
+   which the chart composes into
+   `s3://mlflow/main/serving/tracking-quickstart/1`. Because both values are known in advance,
+   the manifest is written **before** the model exists and is never rewritten by a cluster run.
+   Raising `model.version` is the promotion event: it changes the `storageUri`, which is what
+   makes KServe roll a new predictor, and it is a reviewable Git commit.
 
-3. **Query it** via the gateway (see [Ingress & model serving](#ingress--model-serving)).
+   If the promotion step has not run for that name and version, the storage-initializer fails
+   with `NoSuchKey` and the predictor stays in `Init`. That is the intended signal: the manifest
+   declares an intent the registry has not yet satisfied.
+
+4. **Query it** via the gateway (see [Ingress & model serving](#ingress--model-serving)).
 
 ---
 
@@ -442,7 +469,20 @@ default SC; ensure a default StorageClass exists (`kubectl get sc`). On minikube
 MLflow 3.x logs scikit-learn models in the `skops` format by default, but the KServe
 MLServer runtime can only deserialize `pickle`/`cloudpickle`. Log the model with
 `mlflow.sklearn.log_model(..., serialization_format="cloudpickle")` (the demo
-`scripts/mlflow-dummy-model.py` already does). Then point `modelUri` at the new model.
+`scripts/mlflow-dummy-model.py` already does). Then promote the new version and raise
+`model.version` in the workload manifest.
+
+**KServe predictor `CrashLoopBackOff` with `ModuleNotFoundError` after the artefact
+downloaded successfully.** The MLServer MLflow runtime loads the model through
+`mlflow.pyfunc`, so every dependency of the logged flavour must already be in the
+`seldonio/mlserver` image. A PyTorch-flavoured model needs `torch` there; the stock image is
+not guaranteed to carry it. Check before deploying with
+`docker run --rm --entrypoint python seldonio/mlserver:1.5.0 -c "import torch, mlflow; print(torch.__version__, mlflow.__version__)"`.
+
+**MLflow artifact upload fails against lakeFS.** The lakeFS S3 gateway reads the first path
+segment of a key as the ref, so the artifact destination must carry a branch:
+`artifactRoot.s3.path: main`. Without it the chart renders `--artifacts-destination=s3://mlflow/`,
+MLflow writes to `s3://mlflow/<experiment-id>/…`, and lakeFS rejects the unknown ref.
 
 **KServe predictor stuck `Pending` ("Insufficient cpu").** The predictor defaults to a
 `1` CPU / `2Gi` request (request == limit). On a small/loaded cluster, set lighter

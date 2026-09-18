@@ -1,6 +1,9 @@
 namespaceOverride: platform-postgres
 cluster:
   instances: 2
+  # Backs the provisioned cloud-native-pg Grafana dashboard.
+  monitoring:
+    enabled: true
   storage:
     size: 1Gi
   roles:

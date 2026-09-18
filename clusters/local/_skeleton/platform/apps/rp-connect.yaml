@@ -3,8 +3,10 @@ kind: Application
 metadata:
   name: platform-rp-connect
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
-  project: default
+  project: platform
   sources:
     - repoURL: https://charts.redpanda.com/
       chart: connect

@@ -1,0 +1,10 @@
+kserve:
+  controller:
+    deploymentMode: RawDeployment
+    gateway:
+      domain: mlops.local
+      ingressGateway:
+        enableGatewayApi: true
+        kserveGateway: platform-envoy-gateway/ingress-gateway
+  metricsaggregator:
+    enablePrometheusScraping: true
