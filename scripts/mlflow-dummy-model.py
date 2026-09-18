@@ -62,3 +62,15 @@ with mlflow.start_run():
         registered_model_name="tracking-quickstart",
         serialization_format="cloudpickle",
     )
+
+# Deliberately NOT printing the resolved s3:// artifact location. That path carries
+# MLflow's randomly minted logged-model id, so a manifest containing it could only be
+# written after this script had already run — which is what made the repository a
+# function of a cluster run. The serving manifest names the registry coordinate below
+# instead, and scripts/promote-model.py copies this version to the deterministic
+# lakeFS location that coordinate maps to.
+client = mlflow.MlflowClient()
+latest = max(client.search_model_versions("name='tracking-quickstart'"),
+             key=lambda v: int(v.version))
+print("MODEL_NAME=tracking-quickstart")
+print(f"MODEL_VERSION={latest.version}")
