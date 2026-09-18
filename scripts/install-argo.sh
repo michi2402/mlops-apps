@@ -4,7 +4,14 @@ set -euo pipefail
 # --- Config (override with env vars) ---
 ARGOCD_NAMESPACE="${ARGOCD_NAMESPACE:-argocd}"
 PORT="${PORT:-8080}"
-MANIFEST_URL="${MANIFEST_URL:-https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml}"
+# Pinned, not the floating "stable" tag — a floating tag is a reproducibility hole
+# (the same script run a month apart installs different Argo CD versions).
+# Bump deliberately; record the version used in evidence/SUMMARY.md when validating.
+ARGOCD_VERSION="${ARGOCD_VERSION:-v3.5.3}"
+MANIFEST_URL="${MANIFEST_URL:-https://raw.githubusercontent.com/argoproj/argo-cd/${ARGOCD_VERSION}/manifests/install.yaml}"
+# Set to a non-empty value to skip the final foreground port-forward — used when
+# another script calls this one and needs control back (e.g. bootstrap-k8s-native.sh).
+SKIP_PORT_FORWARD="${SKIP_PORT_FORWARD:-}"
 
 log() { printf "\n\033[1;36m[INFO]\033[0m %s\n" "$*"; }
 err() { printf "\n\033[1;31m[ERR]\033[0m  %s\n" "$*" >&2; }
@@ -82,6 +89,12 @@ ADMIN_PASSWORD="$(decode_b64 "$b64pass")"
 log "Initial admin password (user: admin):"
 echo "$ADMIN_PASSWORD"
 printf "\n"
+
+if [ -n "$SKIP_PORT_FORWARD" ]; then
+  log "SKIP_PORT_FORWARD set — not starting a port-forward. Reach the UI later with:"
+  log "  kubectl -n ${ARGOCD_NAMESPACE} port-forward svc/argocd-server ${PORT}:443"
+  exit 0
+fi
 
 # --- Port-forward (foreground; Ctrl+C to stop) ---
 log "Starting port-forward to https://localhost:${PORT} (Ctrl+C to stop)"
