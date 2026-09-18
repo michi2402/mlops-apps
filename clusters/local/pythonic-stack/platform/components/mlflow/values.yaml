@@ -15,7 +15,14 @@ artifactRoot:
   proxiedArtifactStorage: true
   s3:
     enabled: true
+    # lakeFS repository. The gateway resolves <bucket>/<first path segment> as
+    # repository/ref, so the destination must carry a ref: without `path`, the
+    # chart renders --artifacts-destination=s3://mlflow/ and MLflow then writes to
+    # s3://mlflow/<experiment-id>/..., where lakeFS reads the experiment id as a
+    # branch name and rejects the upload. `path: main` makes the default artifact
+    # root resolve to the repository's default branch.
     bucket: mlflow
+    path: main
     existingSecret:
       name: platform-lakefs-secret
       keyOfAccessKeyId: accessKeyID
@@ -24,5 +31,7 @@ artifactRoot:
 extraEnvVars:
   MLFLOW_S3_ENDPOINT_URL: "http://lakefs.platform-lakefs.svc.cluster.local:80"
 
-extraFlags:
-  - serveArtifacts
+serviceMonitor:
+  enabled: true
+  useServicePort: true
+  namespace: platform-mlflow
