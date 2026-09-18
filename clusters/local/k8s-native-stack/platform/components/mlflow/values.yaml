@@ -16,6 +16,8 @@ artifactRoot:
   s3:
     enabled: true
     bucket: mlflow
+    # lakeFS erwartet <repo>/<branch>/..., ohne Branch schlaegt der Upload mit NoSuchBucket fehl
+    path: main
     existingSecret:
       name: platform-lakefs-secret
       keyOfAccessKeyId: accessKeyID
