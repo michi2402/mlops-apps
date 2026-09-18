@@ -472,12 +472,24 @@ MLServer runtime can only deserialize `pickle`/`cloudpickle`. Log the model with
 `scripts/mlflow-dummy-model.py` already does). Then promote the new version and raise
 `model.version` in the workload manifest.
 
-**KServe predictor `CrashLoopBackOff` with `ModuleNotFoundError` after the artefact
-downloaded successfully.** The MLServer MLflow runtime loads the model through
-`mlflow.pyfunc`, so every dependency of the logged flavour must already be in the
-`seldonio/mlserver` image. A PyTorch-flavoured model needs `torch` there; the stock image is
-not guaranteed to carry it. Check before deploying with
-`docker run --rm --entrypoint python seldonio/mlserver:1.5.0 -c "import torch, mlflow; print(torch.__version__, mlflow.__version__)"`.
+**KServe predictor `CrashLoopBackOff` *after* the artefact downloaded successfully**, with
+`TypeError: code expected at most 16 arguments, got 18`. The artefact was pickled under a newer
+Python than the serving runtime's. `seldonio/mlserver` is **Python 3.10** on every released tag
+through 1.7.1, and MLflow's PyTorch flavour cloudpickles a model class defined in `__main__` *by
+value*, embedding code objects the older interpreter cannot read. Models whose class comes from a
+library (scikit-learn, XGBoost) pickle by reference and are unaffected, which is why the iris
+demonstration never hit this.
+
+Fix it on the producing side: build the training image on `python:3.10-slim`, or move the model
+class into an importable module so it pickles by reference. Check a runtime's versions with:
+
+```bash
+docker run --rm --entrypoint python seldonio/mlserver:1.5.0 \
+  -c "import sys, mlflow, torch; print(sys.version, mlflow.__version__, torch.__version__)"
+```
+
+The MLflow *major* version is not the issue: mlflow 2.10.2 in the runtime reads an `MLmodel`
+written by mlflow 3.3.2 without complaint.
 
 **MLflow artifact upload fails against lakeFS.** The lakeFS S3 gateway reads the first path
 segment of a key as the ref, so the artifact destination must carry a branch:

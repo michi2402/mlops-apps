@@ -141,6 +141,6 @@ likelihood:
 | Symptom | Check |
 |---|---|
 | Storage initializer `CrashLoopBackOff` | `kubectl -n team1-iris logs <pod> -c storage-initializer`. Either the promotion step never ran for that name and version, or lakeFS rejected the ref. |
-| Predictor container fails *after* the download succeeded | `kubectl -n team1-iris logs <pod> -c kserve-container`. The MLServer MLflow runtime loads through `mlflow.pyfunc`; a flavour whose dependencies are absent from `seldonio/mlserver` (notably `torch`) fails here, not at deploy time. |
+| Predictor container fails *after* the download succeeded | `kubectl -n <ns> logs <pod> -c kserve-container`. `TypeError: code expected at most 16 arguments, got 18` means the artefact was pickled under Python 3.11 while `seldonio/mlserver` is Python 3.10 on every tag through 1.7.1. Rebuild the training image on `python:3.10-slim`, or move the model class out of `__main__` so it pickles by reference. See [`README.md`](README.md#troubleshooting). |
 | MLflow artifact upload fails | lakeFS reads the first path segment of a key as the ref, so `artifactRoot.s3.path` must name a real branch. Without it MLflow writes to `s3://mlflow/<experiment-id>/…` and lakeFS rejects the unknown ref. |
 | ExternalSecrets stuck `SecretSyncError` | Wrong Azure tenant: the vault lives in the "Azure Sandbox" tenant, not the one `az login` selects by default. |
