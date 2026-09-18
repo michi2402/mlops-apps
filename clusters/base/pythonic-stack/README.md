@@ -1,54 +1,29 @@
-# Local Cluster Setup — Pythonic Stack
-## 1. Initialize External Secrets
+# Pythonic stack — base
+
+The same platform tier under a different orchestration layer: Prefect and Dask in place of KFP,
+Katib and the Kubeflow Trainer. It is deployed and evaluated in the companion implementation
+study, not by this thesis.
+
+## Single profile, by design
+
+This stack has **no environment layer**. `clusters/envs/` carries profiles for
+`k8s-native-stack` only, because that is the stack instantiated in two materially different
+environments; a stack that runs in one place does not need the split, and adding one it does
+not use would cost drift for nothing. Its root Application therefore lives here:
+
 ```bash
-tofu output -raw <output_name>
-
-CLIENT_ID="<from tofu output>"
-CLIENT_SECRET="<from tofu output>"
-
-kubectl create namespace external-secrets
-kubectl -n external-secrets create secret generic azure-sp-secret \
-  --from-literal=ClientID="$CLIENT_ID" \
-  --from-literal=ClientSecret="$CLIENT_SECRET"
+kubectl apply -f clusters/base/pythonic-stack/aoa-root.yaml
 ```
 
-## 2. Install ArgoCD
-```bash
-# This also automatically starts the first port forwarding from below
-./mlops-apps/scripts/install-argo.sh
-```
+If this stack ever has to run somewhere materially different, give it a profile the same way —
+see [`../../README.md`](../../README.md).
 
-## 3. Connect to services (port forwarding)
-```bash
-# ArgoCD -> https://localhost:8080
-kubectl -n argocd port-forward svc/argocd-server 8080:443
+## Relationship to the other stacks
 
-# MinIO -> https://localhost:9001
-kubectl -n platform-minio port-forward svc/minio-console 9001:9001
+The platform applications are identical to `k8s-native-stack`'s in sources, chart versions, sync
+waves, destination namespaces and values; what differs is the orchestrator, its supporting RBAC
+(`rbac-pipeline-runner` grants each orchestrator's own custom resources) and its namespaces.
 
-# MLFlow -> https://localhost:5000
-kubectl -n platform-mlflow port-forward svc/mlflow 5000:80
-# Grafana -> https://localhost:5555
-kubectl -n platform-monitoring port-forward svc/monitoring-grafana 5555:80
-
-# Prometheus -> https://localhost:9090
-kubectl -n platform-monitoring port-forward svc/prometheus-operated 9090:9090
-
-# Kafka UI -> https://localhost:7777
-kubectl -n platform-kafka port-forward svc/platform-kafka-kafka-ui 7777:80
-```
-
-## 4. Tunnel the Envoy Gateway
-```bash
-minikube tunnel
-```
-
-If the tunnel doesn't work, it could be the case that WSL/Linux has still another tunnel not
-properly resetted/cleaned up. In this case run the following:
-```bash
-# stop the running tunnel process
-sudo pkill -f "minikube tunnel" || true
-
-# clean up routes and the tun device created by the tunnel
-sudo -E minikube tunnel --cleanup
-```
+The prerequisites, port-forwards and inference request are in
+[`README.md`](../../../README.md); the pipeline code is in the companion `ml-pipelines`
+repository.

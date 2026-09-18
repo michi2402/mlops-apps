@@ -1,55 +1,28 @@
-# Local Cluster Skeleton Setup
-## 1. Initialize External Secrets
-```bash
-tofu output -raw <output_name>
+# `_skeleton` — the template
 
-CLIENT_ID="<from tofu output>"
-CLIENT_SECRET="<from tofu output>"
+The platform tier and nothing else: no pipeline orchestrator, no tenant workload beyond the
+demonstration model. It exists to be **copied** when a further stack is started.
 
-kubectl create namespace external-secrets
-kubectl -n external-secrets create secret generic azure-sp-secret \
-  --from-literal=ClientID="$CLIENT_ID" \
-  --from-literal=ClientSecret="$CLIENT_SECRET"
-```
+**It is never deployed.** No measurement in the thesis is drawn from it, and it carries no
+environment profile. It is kept faithful by regeneration from
+[`../k8s-native-stack/`](../k8s-native-stack) with only the directory name substituted, so the
+two platform trees are byte-identical; if you change one, regenerate the other rather than
+editing both.
 
-## 2. Install ArgoCD
-```bash
-# This also automatically starts the first port forwarding from below
-./mlops-apps/scripts/install-argo.sh
-```
+## Starting a new stack from it
 
-## 3. Connect to services (port forwarding)
-```bash
-kubectl -n argocd get secret argocd-initial-admin-secret \
-  -o jsonpath='{.data.password}' | base64 -d; echo
+1. Copy this directory to `clusters/base/<your-stack>/` and substitute the directory name
+   throughout (every `$values` path and every `path:` names it).
+2. Add whatever orchestration layer the stack needs under `platform/apps/` and
+   `platform/components/`.
+3. If the stack will run in more than one environment, give it an environment layer:
+   add profiles under `clusters/envs/<env>/<your-stack>/platform/components/` and generate the
+   Application layer with `scripts/gen-env-layer.py`. See [`../../README.md`](../../README.md).
+   A stack that only ever runs in one place does not need one — `pythonic-stack` does not have
+   one.
 
-# ArgoCD -> https://localhost:8080
-kubectl -n argocd port-forward svc/argocd-server 8080:443
+## Deploying it anyway
 
-# MinIO -> https://localhost:9001
-kubectl -n platform-minio port-forward svc/minio-console 9001:9001
-
-# MLFlow -> https://localhost:5000
-kubectl -n platform-mlflow port-forward svc/mlflow 5000:80
-
-kubectl -n platform-monitoring port-forward svc/monitoring-grafana 5555:80
-
-kubectl -n platform-monitoring port-forward svc/prometheus-operated 9090:9090
-
-kubectl -n platform-kafka port-forward svc/platform-kafka-kafka-ui 7777:80
-```
-
-## 4. Tunnel the Envoy Gateway
-```bash
-minikube tunnel
-```
-
-If the tunnel doesn't work, it could be the case that WSL/Linux has still another tunnel not properly resetted/cleaned up.
-In this case run the following:
-```bash
-# stop the running tunnel process
-sudo pkill -f "minikube tunnel" || true
-
-# clean up routes and the tun device created by the tunnel
-sudo -E minikube tunnel --cleanup
-```
+Don't. If you want a platform-only cluster to look at, copy it to a stack of its own first, so
+that the template stays a template. The stack-agnostic walkthrough is
+[`README.md`](../../../README.md) and the scripted path is [`RUNBOOK.md`](../../../RUNBOOK.md).

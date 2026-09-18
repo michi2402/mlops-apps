@@ -8,12 +8,14 @@ service and workload from the manifests in `clusters/`.
 
 > **Authorship / scope.** This is a shared repository underpinning two BSc theses (TU Wien):
 > - **Michael Mayrhofer** — *A Portable GitOps Reference Architecture for Sustainable
->   Cloud-Native MLOps*: the **reference architecture** itself — the `_skeleton` stack and the
->   cluster setup/bootstrap (Argo CD App-of-Applications, External Secrets ↔ Azure Key Vault,
->   the Envoy Gateway + KServe serving path, and the storage / observability base).
+>   Cloud-Native MLOps*: the **platform layer** shared by every stack — Argo CD
+>   App-of-Applications, External Secrets ↔ Azure Key Vault, the Envoy Gateway + KServe serving
+>   path, the storage / observability base, the tenancy model, and the environment split under
+>   `clusters/`.
 > - **Julian Zeilinger** — *Best Practices for Automated Training and Export of Machine
->   Learning Models*: the two **concrete stacks** that instantiate the architecture,
->   `k8s-native-stack` and `pythonic-stack`.
+>   Learning Models*: the **orchestration layers** on top of that platform — Kubeflow Pipelines,
+>   Katib, the Trainer and Spark in `k8s-native-stack`, Prefect in `pythonic-stack` — and the
+>   pipeline code in the companion `ml-pipelines` repository.
 
 > **GitOps source of truth.** Argo CD pulls from
 > `https://github.com/michi2402/mlops-apps` (branch `master`), **not** from your local
@@ -83,23 +85,35 @@ mlops-apps/
 │   ├── charts/model/            # Reusable Helm chart: KServe InferenceService for an MLflow model
 │   ├── dashboards/              # Grafana dashboard JSON (e.g. mlflow.json)
 │   └── external-secrets/        # ClusterSecretStore pointing at Azure Key Vault
-├── clusters/base/
-│   ├── k8s-native-stack/        # Concrete stack, Kubeflow-centric — J. Zeilinger
-│   ├── pythonic-stack/          # Concrete stack, Prefect-centric  — J. Zeilinger
-│   └── _skeleton/               # Reference architecture - M. Mayrhofer
-│       └── <stack>/
+├── clusters/
+│   ├── base/                    # Structure + environment-neutral values
+│   │   ├── k8s-native-stack/    #   Kubeflow-centric; described and evaluated
+│   │   ├── pythonic-stack/      #   Prefect-centric; companion study
+│   │   └── _skeleton/           #   Template, never deployed
+│   │       ├── apps/                    # Top-level AoA: platform + per-team workloads
+│   │       ├── platform/
+│   │       │   ├── apps/                # One Argo CD Application per platform service
+│   │       │   └── components/          # Helm value overrides + extra manifests per service
+│   │       └── workloads/team*/apps/    # ML workloads (e.g. the iris InferenceService)
+│   └── envs/                    # What depends on where the platform runs
+│       ├── minikube/k8s-native-stack/   # Single-node profile
+│       └── datalab/k8s-native-stack/    # Multi-node profile
 │           ├── aoa-root.yaml            # Apply this to bootstrap the stack
-│           ├── apps/                    # Top-level AoA: platform + per-team workloads
-│           ├── platform/
-│           │   ├── apps/                # One Argo CD Application per platform service
-│           │   └── components/          # Helm value overrides + extra manifests per service
-│           └── workloads/team*/apps/    # ML workloads (e.g. the iris InferenceService)
+│           ├── apps/ platform/apps/     # The same Applications, naming this environment
+│           └── platform/components/     # Only what this environment overrides
 └── scripts/
     ├── install-argo.sh          # Installs Argo CD, prints admin password, port-forwards :8080
     ├── bootstrap-k8s-native.sh  # One-shot: credential → Argo CD → stack → served model (see RUNBOOK.md)
-    ├── mlflow-dummy-model.py    # Trains + registers a demo iris model, prints its s3:// URI
+    ├── mlflow-dummy-model.py    # Trains + registers a demo iris model
+    ├── promote-model.py         # Copies a registered version to its serving location in LakeFS
+    ├── gen-env-layer.py         # Regenerates the per-environment Application layer
+    ├── preflight/               # Offline checks: environment parity, runtime compatibility
     └── test/iris-batch-request.sh   # Sample KServe v2 inference request
 ```
+
+`clusters/` is split so that a definition says one thing about the platform and a separate,
+much smaller thing about the machine it runs on. See
+[`clusters/README.md`](clusters/README.md).
 
 Each stack directory also has its own short `README.md` with the exact port-forward
 commands used for that stack.
@@ -108,59 +122,39 @@ commands used for that stack.
 
 ## The three stacks
 
-All three share the same storage / registry / serving / observability base — **MinIO,
-LakeFS, PostgreSQL (CloudNativePG), MLflow, KServe, Prometheus/Grafana, cert-manager, and
-ESO**. They differ in their **orchestration** layer and the extras each one adds. Pick
-**one** stack per cluster.
+All three share the same platform layer — **MinIO, LakeFS, PostgreSQL (CloudNativePG), MLflow,
+KServe behind Envoy Gateway, Kafka (Strimzi) + Redpanda Connect, Prometheus/Grafana,
+cert-manager and ESO** — with identical sources, chart versions, sync waves and destination
+namespaces. They differ in their **orchestration** layer and what it needs. Run **one stack per
+cluster**.
 
-| | `k8s-native-stack` *(Zeilinger)* | `pythonic-stack` *(Zeilinger)* | `_skeleton` *(Mayrhofer)* |
+| | `k8s-native-stack` | `pythonic-stack` | `_skeleton` |
 |---|---|---|---|
-| Pipelines / orchestration | Kubeflow Pipelines, Katib (HPO), Trainer, Spark Operator | Prefect (server + worker) | — (none) |
+| Role | described and evaluated | companion study | template, never deployed |
+| Pipelines / orchestration | Kubeflow Pipelines, Katib, Trainer, Spark Operator | Prefect (server + worker) | — by design |
 | Distributed compute | Dask | Dask | — |
-| Streaming / eventing | — | — | Kafka (Strimzi), Redpanda Connect |
-| Ingress for serving | — (in-cluster only) | — (in-cluster only) | Envoy Gateway (Gateway API) |
-| Sample workload | — | — | `team1/iris` (KServe) |
-| Model serving | KServe | KServe | KServe |
-| Storage | MinIO (S3), LakeFS | MinIO (S3), LakeFS | MinIO (S3), LakeFS |
-| Database | PostgreSQL (CloudNativePG) | PostgreSQL (CloudNativePG) | PostgreSQL (CloudNativePG) |
-| Experiment tracking | MLflow | MLflow | MLflow |
-| Monitoring | kube-prometheus-stack | kube-prometheus-stack | kube-prometheus-stack |
-| Secrets | ESO + Azure Key Vault | ESO + Azure Key Vault | ESO + Azure Key Vault |
-| TLS | cert-manager | cert-manager | cert-manager |
+| Pipeline RBAC | its own custom resources | its own custom resources | — |
+| Environment profiles | `minikube`, `datalab` | single | — |
+| Sample workloads | `team1/iris`, `team2/timeseries` | `team1/iris` | `team1/iris` |
 
-The first five rows are where the stacks genuinely differ; everything below is the shared base.
+Everything not in this table is the shared platform layer and is identical across all three.
+`scripts/preflight/env-parity.py` reports what actually differs between the two environment
+profiles of `k8s-native-stack`.
 
-> **Despite its name, `_skeleton` is the reference stack for model serving.** It is the only
-> stack that wires KServe to an external gateway (Envoy, via the Gateway API) plus the
-> Kafka/Redpanda-Connect inference-logging path, and it ships the runnable `team1/iris`
-> InferenceService. `k8s-native-stack` and `pythonic-stack` add a pipeline orchestrator
-> (Kubeflow / Prefect) and Dask, but expose KServe **in-cluster only**; their
-> `workloads-team1/2` sub-trees may be empty until you add models.
-
----
-
-## Prerequisites
-
-| Tool | Used for |
-|---|---|
-| **minikube** (with the Docker or a VM driver) | Local Kubernetes cluster |
-| **kubectl** | Cluster access, port-forwarding |
-| **bash** | The bootstrap scripts are POSIX shell (run under WSL/Linux/macOS) |
-| **OpenTofu** *(or Terraform)* + **Azure CLI** | Provisioning the Key Vault and the ESO service principal — see [`../mlops-eso-azure/`](../mlops-eso-azure/) |
-| **Python 3** + `mlflow`, `scikit-learn`, `pandas` | Optional: running the demo training script |
-| **jq**, **curl** | Optional: the sample inference request |
-
-A reasonably sized cluster is recommended (the Kubeflow stack is heavy). For minikube,
-something like `minikube start --cpus=6 --memory=16g` is a sensible starting point.
+> **`_skeleton` is a template, not a stack to run.** It carries the platform layer with no
+> orchestrator so that a new stack can be copied from it. Nothing is deployed from it and no
+> result in either thesis is drawn from it. If you want a platform-only cluster, copy it to a
+> stack of its own first.
 
 ---
 
 ## Bootstrap
 
-The sequence below instantiates the stack-agnostic `_skeleton` reference stack — the
-portable base this repository is built around. Substitute `k8s-native-stack` or
-`pythonic-stack` in the paths to deploy a concrete stack instead. Run all commands from the
-repository root (`poc/mlops-apps/`).
+The sequence below instantiates `k8s-native-stack` in a chosen environment. Set `CLUSTER_ENV`
+to `minikube` or `datalab`; there is no default, because the profiles differ in event-bus
+topology, replica counts and storage. To deploy `pythonic-stack` instead, apply
+`clusters/base/pythonic-stack/aoa-root.yaml` — it has no environment layer. Run all commands
+from the repository root (`poc/mlops-apps/`).
 
 ### 1. Provision Azure secrets backend (one time)
 
@@ -228,8 +222,12 @@ kubectl -n argocd get secret argocd-initial-admin-secret \
 Apply the stack's root Application. Argo CD takes over and reconciles everything else:
 
 ```bash
-kubectl apply -f clusters/base/_skeleton/aoa-root.yaml
+export CLUSTER_ENV=minikube        # or: datalab
+kubectl apply -f clusters/envs/${CLUSTER_ENV}/k8s-native-stack/aoa-root.yaml
 ```
+
+The root Application is named `root-<env>`, so `kubectl -n argocd get app` states which profile
+the cluster is carrying.
 
 ### 6. Watch the rollout
 
@@ -270,22 +268,26 @@ kubectl -n platform-monitoring port-forward svc/monitoring-grafana 5555:80
 kubectl -n platform-monitoring port-forward svc/prometheus-operated 9090:9090
 ```
 
-Other UIs — confirm the service name with `kubectl -n <ns> get svc` first (KFP, Prefect and
-Kafka UI are stack-specific; LakeFS ships in all three stacks):
+Other UIs — confirm the service name with `kubectl -n <ns> get svc` first (KFP is
+`k8s-native-stack` only and Prefect is `pythonic-stack` only; LakeFS and Kafka UI ship in every
+stack):
 
 ```bash
-# Kubeflow Pipelines UI (k8s-native-stack) — http://localhost:8081
-kubectl -n platform-kubeflow port-forward svc/ml-pipeline-ui 8081:80
+# Kubeflow Pipelines UI (k8s-native-stack) — http://localhost:8888
+kubectl -n kubeflow port-forward svc/ml-pipeline-ui 8888:80
 
-# LakeFS (all stacks) — http://localhost:8000
-kubectl -n platform-lakefs port-forward svc/lakefs 8000:80
+# LakeFS (all stacks) — http://localhost:18000
+kubectl -n platform-lakefs port-forward svc/lakefs 18000:80
 
 # Prefect UI (pythonic-stack) — http://localhost:4200
 kubectl -n platform-prefect port-forward svc/platform-prefect-server 4200:4200
 
-# Kafka UI (_skeleton) — http://localhost:7777
+# Kafka UI (all stacks) — http://localhost:7777
 kubectl -n platform-kafka port-forward svc/platform-kafka-kafka-ui 7777:80
 ```
+
+The LakeFS port is `18000` rather than `8000` because `promote-model.py` and the pipeline
+tooling both default to it.
 
 | Service | Namespace | Local URL | Credentials |
 |---|---|---|---|
@@ -303,8 +305,8 @@ kubectl -n platform-kafka port-forward svc/platform-kafka-kafka-ui 7777:80
 
 ## Ingress & model serving
 
-External access to model endpoints goes through the **Envoy Gateway**, which is deployed in
-the `_skeleton` stack. How the gateway gets an external address depends on the cluster:
+External access to model endpoints goes through the **Envoy Gateway**, which every stack
+deploys. How the gateway gets an external address depends on the cluster:
 
 - **minikube** — `LoadBalancer` services need a tunnel to be assigned `127.0.0.1`:
   ```bash
@@ -423,7 +425,7 @@ monitoring.
 
 ```bash
 # Remove a stack (deletes its Applications; finalizers prune the managed resources)
-kubectl delete -f clusters/base/_skeleton/aoa-root.yaml
+kubectl delete -f clusters/envs/${CLUSTER_ENV}/k8s-native-stack/aoa-root.yaml
 
 # Or nuke the whole local cluster
 minikube delete
