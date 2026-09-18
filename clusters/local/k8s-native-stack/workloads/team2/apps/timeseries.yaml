@@ -1,0 +1,41 @@
+# Second tenant, second model, same chart.
+#
+# What differs from ../../team1/apps/iris.yaml is the tenant (team2 instead of
+# team1, with the matching AppProject and destination namespace) and two values:
+# the registered model's name and version. Nothing about the serving path, the
+# credential path or the event logger is restated here. That is the onboarding
+# cost this repository claims for a new model and a new team.
+#
+# The artefact behind these two values is produced by the Kubernetes-native
+# orchestrator's KFP pipeline (see the companion ml-pipelines repository), not by a
+# training script: a Spark ingest, tsfresh feature extraction, Katib HPO and a
+# distributed Kubeflow Trainer job, registered as `timeseries-model`. The serving
+# plane does not know that, which is the point.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: workloads-team2-timeseries
+  namespace: team2
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: workloads-team2
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: team2-timeseries
+  source:
+    repoURL: https://github.com/michi2402/mlops-apps
+    path: base/charts/model
+    targetRevision: master
+    helm:
+      valuesObject:
+        fullnameOverride: "timeseries"
+        model:
+          name: "timeseries-model"
+          version: "1"
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

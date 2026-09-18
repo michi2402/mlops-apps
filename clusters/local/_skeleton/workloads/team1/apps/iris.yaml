@@ -17,8 +17,12 @@ spec:
     helm:
       valuesObject:
         fullnameOverride: "iris"
-        minio:
-          modelUri: "s3://mlflow/1/models/m-12701b8c11df4471a2d6855bcd100003/artifacts"
+        # Names, not an MLflow artifact id: scripts/promote-model.py materialises
+        # s3://mlflow/main/serving/tracking-quickstart/1 in lakeFS. Raising the
+        # version here is the promotion event.
+        model:
+          name: "tracking-quickstart"
+          version: "1"
   syncPolicy:
     automated:
       prune: true

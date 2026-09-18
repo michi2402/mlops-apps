@@ -1,5 +1,69 @@
 nameOverride: ""
 fullnameOverride: ""
 
-minio:
-  modelUri: ""
+# --- What is served -------------------------------------------------------------
+#
+# The serving location is composed from NAMES, never from an MLflow artifact
+# identifier. MLflow mints a random logged-model id (`m-<32 hex>`) and an
+# auto-increment experiment id at training time, so a manifest that carries the
+# resolved artifact path cannot be written before the model exists and has to be
+# rewritten by whoever ran the training. That makes the Git repository a function
+# of a cluster run, which is the opposite of what the GitOps control loop assumes.
+#
+# Instead, `scripts/promote-model.py` copies a registered model version out of
+# MLflow into a deterministic lakeFS location:
+#
+#   s3://<storage.repository>/<storage.ref>/<storage.prefix>/<model.name>/<model.version>/
+#
+# so the two values below are all this manifest needs, and both are known in
+# advance. Raising `model.version` here is the promotion event: it changes the
+# storageUri, which makes KServe roll a new predictor, and it is a reviewable Git
+# commit rather than an out-of-band mutation.
+model:
+  # Registered model name in the MLflow Model Registry.
+  name: ""
+  # Model Registry version (MLflow's monotonic integer, starting at 1).
+  version: ""
+
+# --- Where it is fetched from ---------------------------------------------------
+#
+# lakeFS, not the object store directly. MLflow's artifact root is a lakeFS
+# repository, so the bytes KServe fetches are the bytes lakeFS has under a named
+# ref, and the data-versioning tier sits on the serving path rather than beside it.
+# lakeFS exposes an S3-compatible gateway, which is what KServe's storage
+# initializer speaks; the only hard requirement is path-style addressing
+# (`s3-usevirtualbucket: "false"` below), because the gateway resolves the first
+# path segment as the ref.
+storage:
+  # lakeFS repository backing MLflow's artifact root.
+  repository: mlflow
+  # lakeFS ref: a branch, a tag, or a commit id. A branch resolves to whatever it
+  # currently points at; a commit id or tag pins the exact bytes and is what a
+  # reproducibility claim needs.
+  ref: main
+  # Path prefix, inside the ref, that the promotion step writes under.
+  prefix: serving
+  # lakeFS S3 gateway (host:port, no scheme — KServe's annotation format).
+  endpoint: lakefs.platform-lakefs.svc.cluster.local:80
+  region: us-east-1
+  # "0" — in-cluster traffic to the gateway is plain HTTP.
+  useHttps: "0"
+  secretStore:
+    name: azure-keyvault
+    kind: ClusterSecretStore
+  # Key Vault entries holding the lakeFS credentials. Values never appear here.
+  keys:
+    accessKeyId: platform-lakefs-access-key
+    secretAccessKey: platform-lakefs-secret-key
+
+# Escape hatch: a fully qualified storageUri that overrides everything above. Only
+# for an artefact that did not come through the promotion step — using it forfeits
+# the naming guarantee, so prefer `model.name`/`model.version`.
+storageUriOverride: ""
+
+# --- Day-2 substrate ------------------------------------------------------------
+# KServe emits one CloudEvent before the predictor is invoked and one after, both
+# carrying the same `ce-id`. They are posted here and land on `inference-events`.
+logger:
+  enabled: true
+  url: http://platform-rp-connect-redpanda-connect.platform-rp-connect.svc.cluster.local:8080/ingest/kserve

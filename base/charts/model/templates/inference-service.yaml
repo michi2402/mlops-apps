@@ -3,14 +3,21 @@ kind: InferenceService
 metadata:
   name: {{ include "model.fullname" . }}
   labels: {{- include "model.labels" . | nindent 4 }}
+  annotations:
+    # Recorded on the object so that `kubectl get inferenceservice -o yaml` states
+    # which registry entry it serves, without the reader having to decode the URI.
+    mlops.tuwien/model-name: {{ .Values.model.name | quote }}
+    mlops.tuwien/model-version: {{ .Values.model.version | quote }}
 spec:
   predictor:
-    serviceAccountName: kserve-minio-sa
+    serviceAccountName: {{ include "model.serviceAccountName" . }}
     model:
       modelFormat:
         name: mlflow
       protocolVersion: v2
-      storageUri: {{ .Values.minio.modelUri | quote }}
+      storageUri: {{ include "model.storageUri" . | quote }}
+    {{- if .Values.logger.enabled }}
     logger:
       mode: all
-      url: http://platform-rp-connect-redpanda-connect.platform-rp-connect.svc.cluster.local:8080/ingest/kserve
+      url: {{ .Values.logger.url | quote }}
+    {{- end }}
