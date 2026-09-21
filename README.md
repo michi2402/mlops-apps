@@ -239,8 +239,11 @@ watch kubectl -n argocd get applications
 ```
 
 Initial sync takes a while: CRDs (cert-manager, KServe, Kubeflow) install first, then the
-services that depend on them. Sync waves order the rollout; transient `OutOfSync`/`Degraded`
-states during the first few minutes are expected and self-heal.
+services that depend on them. Sync waves order the rollout, and each waits for the previous one
+to be Healthy (`install-argo.sh` restores Argo CD's health check for `Application` resources).
+The platform tier occupies waves −10 to 2 and the orchestration tier follows in 3–4, so a slow or
+failing orchestrator cannot hold a platform service back. Transient `OutOfSync`/`Degraded` states
+during the first minutes are expected; failed syncs are retried until they succeed.
 
 ---
 
