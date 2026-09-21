@@ -110,8 +110,10 @@ kubectl apply -f "${STACK_PATH}/aoa-root.yaml"
 # then vacuously true (the 2026-09-21 clean run passed this step at 61 s with one
 # Application present and failed at step 5).
 tier_names() {   # $1 = platform | orchestration
+  # `if`, not `grep && sed`: under pipefail a non-matching last file would otherwise fail
+  # the whole substitution and abort the script without a message.
   for f in "${STACK_PATH}"/platform/apps/*.yaml; do
-    grep -q "mlops.tuwien/tier: $1\$" "$f" && sed -n 's/^  name: //p' "$f" | head -1
+    if grep -q "mlops.tuwien/tier: $1\$" "$f"; then sed -n 's/^  name: //p' "$f" | head -1; fi
   done | tr -d '\r' | tr '\n' ' '
 }
 PLATFORM_APPS="$(tier_names platform)"
