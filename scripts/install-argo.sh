@@ -63,6 +63,34 @@ TENANT_NAMESPACES="${TENANT_NAMESPACES:-team1,team2}"
 log "Enabling Applications in namespaces: ${TENANT_NAMESPACES}"
 kubectl -n "${ARGOCD_NAMESPACE}" patch configmap argocd-cmd-params-cm --type merge \
   -p "{\"data\":{\"application.namespaces\":\"${TENANT_NAMESPACES}\"}}"
+
+# --- Restore health assessment for Application resources ---
+# Argo CD stopped assessing the health of argoproj.io/Application resources in v1.8.
+# Without it a parent treats every child Application as Healthy the moment it exists,
+# so the sync waves of an app-of-apps order creation and nothing else: in the
+# 2026-09-18 local run all eight platform waves were created within 17 seconds, and
+# kserve (wave -4) synced before cert-manager's (wave -10) CRDs existed
+# (evidence/local E21, INT-01/02). This is the check from the Argo CD health
+# documentation; with it, each wave waits until the previous one is Healthy.
+log "Restoring health assessment for Application resources (sync waves gate on it)"
+kubectl -n "${ARGOCD_NAMESPACE}" patch configmap argocd-cm --type merge -p "$(cat <<'EOF'
+data:
+  resource.customizations.health.argoproj.io_Application: |
+    hs = {}
+    hs.status = "Progressing"
+    hs.message = ""
+    if obj.status ~= nil then
+      if obj.status.health ~= nil then
+        hs.status = obj.status.health.status
+        if obj.status.health.message ~= nil then
+          hs.message = obj.status.health.message
+        end
+      end
+    end
+    return hs
+EOF
+)"
+
 kubectl -n "${ARGOCD_NAMESPACE}" rollout restart deploy/argocd-server
 kubectl -n "${ARGOCD_NAMESPACE}" rollout restart statefulset/argocd-application-controller
 

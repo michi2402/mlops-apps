@@ -16,5 +16,15 @@ spec:
     namespace: argocd
   syncPolicy:
     automated: { prune: true, selfHeal: true }
+    retry:
+      # Never give up on a failed sync: Argo CD does not re-attempt one against the
+      # same revision, so a dependency still starting on the first attempt would
+      # otherwise leave this OutOfSync for good. refresh: retries use the newest revision.
+      limit: -1
+      refresh: true
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m
     syncOptions:
       - CreateNamespace=true
