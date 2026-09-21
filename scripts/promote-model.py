@@ -108,22 +108,28 @@ def flavours_of(mlmodel_text):
     return out
 
 
-def write_request(root, out):
+def write_request(example_text, out):
     """Build an OIP v2 request from the logged input_example.
 
     The demonstration payloads under scripts/test/ are iris-shaped (3x4). A model
     produced by the orchestrated pipeline has a different feature width, so a
     hand-written payload is wrong by construction; derive it from the artefact.
+
+    MLflow writes the example in more than one shape: a bare list of rows for a
+    numpy example, `{"columns": ..., "data": ...}` for a DataFrame, `{"inputs": ...}`
+    for a tensor. All three are accepted.
     """
-    example = root / "input_example.json"
-    if not example.is_file():
+    if example_text is None:
         print("note         : no input_example.json logged -- cannot derive a request")
         return
-    doc = json.loads(example.read_text(encoding="utf-8"))
-    rows = doc.get("data") or doc.get("inputs")
+    doc = json.loads(example_text)
+    rows = doc if isinstance(doc, list) else (doc.get("data") or doc.get("inputs"))
     if isinstance(rows, dict):
         # Column-oriented example: transpose to rows.
         rows = [list(v) for v in zip(*rows.values())]
+    if rows and not isinstance(rows[0], list):
+        # A single row logged flat.
+        rows = [rows]
     if not rows:
         print("note         : input_example.json has no recognisable rows -- cannot derive a request")
         return
@@ -219,10 +225,12 @@ def main():
             n += 1
         print("copied       : %d files" % n)
 
-        if args.write_request:
-            write_request(root, args.write_request)
+        example = root / "input_example.json"
+        example_text = example.read_text(encoding="utf-8") if example.is_file() else None
 
     # --- 5. commit, so the promotion is an addressable point in lakeFS -------
+    # The commit comes before any convenience output: a failure in the request
+    # helper must never leave the copied artefacts staged but uncommitted.
     r = requests.post(
         "%s/api/v1/repositories/%s/branches/%s/commits" % (lakefs_endpoint, args.repository, args.ref),
         auth=(ak, sk), timeout=60,
@@ -244,6 +252,9 @@ def main():
     else:
         commit = r.json().get("id", "")
         print("lakeFS commit: %s" % commit)
+
+    if args.write_request:
+        write_request(example_text, args.write_request)
 
     emit(args.name, version, model_uri, commit, args)
 
