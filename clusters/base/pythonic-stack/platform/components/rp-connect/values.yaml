@@ -3,6 +3,14 @@ replicaCount: 2
 service:
   type: ClusterIP
   port: 8080
+  # The chart's own default (targetPort: http) resolves to the container port it names
+  # "http", which the chart wires to Redpanda Connect's own admin/stream-status server
+  # (4195) -- not to whatever port a custom `config.input.http_server` listens on. Our
+  # pipeline's HTTP input below binds 8080, so the Service must target it explicitly,
+  # numerically, or every request the KServe logger sends 404s against the admin server
+  # instead of reaching /ingest/kserve. Found via the validation campaign (E10/FINDING-04):
+  # the inference-events topic was empty because of exactly this.
+  targetPort: 8080
   annotations: {}
   labels: {}
 
