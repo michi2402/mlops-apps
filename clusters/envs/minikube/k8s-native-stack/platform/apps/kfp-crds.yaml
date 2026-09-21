@@ -19,23 +19,20 @@ spec:
       path: manifests/kustomize/cluster-scoped-resources
       kustomize:
         patches:
-          # KFP ships the kubeflow namespace too and would drop the Katib label from
-          # kubeflow-namespaces; without it Katib injects no metrics collector and
-          # trials hang in Running forever
-          # Name erst nach der Variablenersetzung 'kubeflow', daher nur nach Kind filtern
+          # Namespace `kubeflow` has exactly one owner: platform-kubeflow-namespaces.
+          # KFP ships its own copy; two Applications declaring one object take its
+          # ownership from each other on every sync, and this copy, lacking the Katib
+          # label, once stripped it (0043a90: trials hung until the step timed out).
+          # Removed from the render rather than patched to agree. The target is by kind
+          # only: the name is substituted to `kubeflow` later in KFP's own build.
           - target:
               kind: Namespace
             patch: |-
-              - op: add
-                path: /metadata/labels
-                value:
-                  katib.kubeflow.org/metrics-collector-injection: "enabled"
-              # Transition guard (phase 1b of 2): every copy of the namespace carries it,
-              # so it survives whichever Application applied last. Phase 2 removes this copy.
-              - op: add
-                path: /metadata/annotations
-                value:
-                  argocd.argoproj.io/sync-options: Prune=false,Delete=false
+              $patch: delete
+              apiVersion: v1
+              kind: Namespace
+              metadata:
+                name: kubeflow
   syncPolicy:
     automated: { prune: true, selfHeal: true }
     retry:
@@ -51,9 +48,3 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
-  ignoreDifferences:
-    - group: ""
-      kind: Namespace
-      name: kubeflow
-      jsonPointers:
-        - /metadata/labels

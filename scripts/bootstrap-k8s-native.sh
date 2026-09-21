@@ -99,9 +99,8 @@ kubectl apply -f "${STACK_PATH}/aoa-root.yaml"
 # Waited on: the Applications labelled `mlops.tuwien/tier: platform` -- the platform layer
 # this repository contributes. Reported but not waited on: `mlops.tuwien/tier:
 # orchestration`, the companion stacks' orchestrators. A served model needs the former
-# only; the latter carry resources two Applications both claim (Namespace `kubeflow`,
-# ServiceAccount `pipeline-runner`) and so never report Synced, and on a small cluster
-# they may not become Healthy at all (evidence/local INT-03).
+# only, and on a small cluster the latter may not become Healthy at all (evidence/local
+# INT-03).
 # Also not waited on: the `platform` parent, whose health aggregates the orchestration
 # tier, and the workloads-* tier, whose unmet model declarations are correct reporting.
 #

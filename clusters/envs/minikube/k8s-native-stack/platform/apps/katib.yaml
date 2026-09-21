@@ -19,15 +19,16 @@ spec:
     path: manifests/v1beta1/installs/katib-cert-manager
     kustomize:
       patches:
-        # Transition guard (phase 1b of 2): Katib's copy of Namespace `kubeflow` carries
-        # the same Prune=false,Delete=false as the owner's. Phase 2 removes this copy.
+        # Namespace `kubeflow` has exactly one owner: platform-kubeflow-namespaces
+        # (see kfp-crds.yaml). Katib's copy is removed from the render.
         - target:
             kind: Namespace
           patch: |-
-            - op: add
-              path: /metadata/annotations
-              value:
-                argocd.argoproj.io/sync-options: Prune=false,Delete=false
+            $patch: delete
+            apiVersion: v1
+            kind: Namespace
+            metadata:
+              name: kubeflow
   syncPolicy:
     automated: { prune: true, selfHeal: true }
     retry:
