@@ -61,8 +61,16 @@ kubectl apply --server-side=true --force-conflicts -n "${ARGOCD_NAMESPACE}" -f "
 # tenant namespace the cluster declares.
 TENANT_NAMESPACES="${TENANT_NAMESPACES:-team1,team2}"
 log "Enabling Applications in namespaces: ${TENANT_NAMESPACES}"
+#
+# controller.diff.server.side: the platform Applications sync with ServerSideApply, which
+# leaves no last-applied annotation to diff against, so Argo CD's default client-side
+# diff counts every field the API server defaults (e.g. four on each ExternalSecret
+# remoteRef) as drift. Those Applications then report OutOfSync forever and self-heal
+# re-applies them every few minutes, which also removes Sync status as a drift signal.
+# Server-side diff dry-runs the apply, so defaults appear on both sides
+# (evidence/local E23c: all twelve platform Applications Synced once enabled).
 kubectl -n "${ARGOCD_NAMESPACE}" patch configmap argocd-cmd-params-cm --type merge \
-  -p "{\"data\":{\"application.namespaces\":\"${TENANT_NAMESPACES}\"}}"
+  -p "{\"data\":{\"application.namespaces\":\"${TENANT_NAMESPACES}\",\"controller.diff.server.side\":\"true\"}}"
 
 # --- Restore health assessment for Application resources ---
 # Argo CD stopped assessing the health of argoproj.io/Application resources in v1.8.
