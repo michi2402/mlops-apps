@@ -1,3 +1,14 @@
+import sys
+
+import numpy as np
+
+# The serving runtime (seldonio/mlserver:1.5.0) predates NumPy 2's `numpy._core`
+# layout, so a model pickled here under NumPy >= 2 downloads fine and then crash-loops
+# in the predictor. Refuse to produce it. See scripts/requirements-producer.txt.
+if int(np.__version__.split(".")[0]) >= 2:
+    sys.exit("NumPy %s: the serving runtime cannot load a model pickled under NumPy >= 2.\n"
+             "Use the producer environment: scripts/requirements-producer.txt" % np.__version__)
+
 import mlflow
 from mlflow.models import infer_signature
 

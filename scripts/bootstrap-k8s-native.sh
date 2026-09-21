@@ -17,6 +17,8 @@
 #   STACK_DIR         — stack directory name (default: k8s-native-stack)
 #   SYNC_TIMEOUT      — seconds to wait for all ArgoCD Applications Healthy (default: 1200)
 #   INFERENCE_TIMEOUT — seconds to wait for the iris InferenceService Ready (default: 600)
+#   PYTHON            — interpreter for the model scripts (default: python3). Must carry
+#                       scripts/requirements-producer.txt; checked before anything is applied.
 #
 # This script never writes to Git. The workload manifests name a model by registry
 # name and version (see base/charts/model/values.yaml); scripts/promote-model.py
@@ -43,6 +45,16 @@ STACK_DIR="${STACK_DIR:-k8s-native-stack}"
 STACK_PATH="clusters/envs/${CLUSTER_ENV}/${STACK_DIR}"
 SYNC_TIMEOUT="${SYNC_TIMEOUT:-1200}"
 INFERENCE_TIMEOUT="${INFERENCE_TIMEOUT:-600}"
+
+PYTHON="${PYTHON:-python3}"
+
+# The producer environment is checked before anything is applied: a model registered
+# under NumPy >= 2 downloads fine and then crash-loops in the serving runtime, which is
+# an hour into the run and looks like a serving fault.
+"$PYTHON" -c 'import sys, numpy, sklearn, mlflow, boto3, requests
+sys.exit(int(numpy.__version__.split(".")[0]) >= 2)' 2>/dev/null \
+  || die "PYTHON=${PYTHON} is not a producer environment (needs NumPy < 2, scikit-learn, mlflow, boto3, requests).
+See scripts/requirements-producer.txt"
 
 : "${CLIENT_ID:?CLIENT_ID is required (tofu output -raw client_id in ../mlops-eso-azure)}"
 : "${CLIENT_SECRET:?CLIENT_SECRET is required (tofu output -raw client_secret in ../mlops-eso-azure)}"
@@ -84,10 +96,12 @@ log "3/7 Applying ${STACK_PATH}/aoa-root.yaml (profile: ${CLUSTER_ENV})"
 kubectl apply -f "${STACK_PATH}/aoa-root.yaml"
 
 # --- 4/7: wait for the platform tier to converge ---
-# Deliberately excludes the "workloads-*" Applications: workloads-team1-iris ships with a
-# names a model that does not exist yet on a fresh cluster, and workloads-team2-timeseries
-# names one only the orchestrated KFP pipeline produces. Their parents would otherwise sit
-# Degraded forever and this wait would time out on every fresh cluster.
+# Only `platform` and its `platform-*` children are waited on. workloads-team1-iris names
+# a model that does not exist yet on a fresh cluster, and workloads-team2-timeseries one
+# only the orchestrated KFP pipeline produces. Since install-argo.sh restores health
+# assessment for Application resources, that unmet declaration propagates upward --
+# to the workloads-* parents and to root-<env> -- which is correct reporting, but would
+# make this wait time out on every fresh cluster if they were included.
 log "4/7 Waiting up to ${SYNC_TIMEOUT}s for the platform tier to be Synced/Healthy"
 deadline=$(( $(date -u +%s) + SYNC_TIMEOUT ))
 while true; do
@@ -97,7 +111,7 @@ while true; do
 import json, sys
 items = json.load(sys.stdin)["items"]
 bad = [i["metadata"]["name"] for i in items
-       if not i["metadata"]["name"].startswith("workloads-")
+       if (i["metadata"]["name"] == "platform" or i["metadata"]["name"].startswith("platform-"))
        and (i.get("status", {}).get("sync", {}).get("status") != "Synced"
             or i.get("status", {}).get("health", {}).get("status") != "Healthy")]
 print(" ".join(bad))
@@ -109,8 +123,10 @@ print(" ".join(bad))
   if [ "$(date -u +%s)" -ge "$deadline" ]; then
     err "Timed out after ${SYNC_TIMEOUT}s waiting on: ${not_ready}"
     for app in $not_ready; do
-      echo "--- kubectl describe application -n argocd ${app} ---"
-      kubectl describe application -n argocd "$app" || true
+      # Fully qualified: KFP installs a second `Application` kind (applications.app.k8s.io),
+      # and the short name resolves to that one.
+      echo "--- kubectl describe applications.argoproj.io -n argocd ${app} ---"
+      kubectl describe applications.argoproj.io -n argocd "$app" || true
     done
     die "Convergence failed — see descriptions above. Not proceeding to model registration."
   fi
@@ -172,13 +188,13 @@ for i in $(seq 1 30); do
   sleep 2
 done
 
-python3 "${SCRIPT_DIR}/mlflow-dummy-model.py"
+"$PYTHON" "${SCRIPT_DIR}/mlflow-dummy-model.py"
 
 # The manifest already names `tracking-quickstart` version 1. Promotion copies that
 # version to the location the manifest names — no manifest is edited, nothing is
 # committed, and the Git state stays independent of this run.
 log "Promoting tracking-quickstart to its serving location in lakeFS"
-python3 "${SCRIPT_DIR}/promote-model.py" --name tracking-quickstart --version 1   --write-request /tmp/iris-request.json
+"$PYTHON" "${SCRIPT_DIR}/promote-model.py" --name tracking-quickstart --version 1   --write-request /tmp/iris-request.json
 
 # --- 7/7: wait for the model to serve ---
 log "7/7 Waiting up to ${INFERENCE_TIMEOUT}s for workloads-team1-iris to serve the model"

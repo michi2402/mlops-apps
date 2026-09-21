@@ -343,8 +343,8 @@ monitoring.
 1. **Train and register** a model in MLflow. Port-forward MLflow (`:5000`) first, then:
 
    ```bash
-   python -m venv .venv && source .venv/bin/activate
-   pip install mlflow scikit-learn pandas
+   python3.10 -m venv .venv-producer && source .venv-producer/bin/activate
+   pip install -r scripts/requirements-producer.txt   # the runtime cannot load NumPy >= 2 pickles
    python scripts/mlflow-dummy-model.py
    ```
 

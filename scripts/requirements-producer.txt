@@ -1,0 +1,22 @@
+# Environment for the workstation-side scripts: mlflow-dummy-model.py (the reference
+# producer) and promote-model.py.
+#
+# Use Python 3.10 -- the interpreter of the serving runtime, seldonio/mlserver:1.5.0
+# (KServe v0.15's kserve-mlserver). NumPy 1.26 has no wheels past Python 3.12.
+#
+#   python3.10 -m venv .venv-producer
+#   .venv-producer/bin/pip install -r scripts/requirements-producer.txt
+#   PYTHON=.venv-producer/bin/python ./scripts/bootstrap-k8s-native.sh
+#
+# Why pinned: a scikit-learn model pickled under NumPy >= 2 references the module
+# `numpy._core`, which the runtime's NumPy predates. The artefact downloads cleanly and
+# the predictor then crash-loops with `ModuleNotFoundError: No module named
+# 'numpy._core.numeric'` -- a producer fault that presents as a serving fault. Found
+# in the 2026-09-18 local validation run (evidence/local, FINDING-03). This set is the
+# one that run verified end to end; the runtime's versions are what it has to track.
+numpy==1.26.4
+scikit-learn==1.7.2
+pandas==2.3.3
+mlflow==3.16.1
+boto3==1.43.97
+requests==2.34.2
