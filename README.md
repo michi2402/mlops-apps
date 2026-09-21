@@ -321,6 +321,12 @@ deploys. How the gateway gets an external address depends on the cluster:
   kubectl -n platform-envoy-gateway get svc --field-selector spec.type=LoadBalancer
   ```
 
+The platform does not wait for that address. Sync waves gate on health, and Argo CD's built-in
+check reports a Gateway without an address as Progressing forever, which held the entire rollout
+in its first wave on a cluster without a LoadBalancer implementation. `install-argo.sh` replaces
+that check with a copy that reports this one case as Healthy and states the missing address in
+the message; everything else is assessed as upstream.
+
 Once the gateway has an address, KServe `InferenceService`s are reachable by Host header
 (send the request to the gateway address — `127.0.0.1` on minikube, the external IP on a
 cloud cluster). A worked example is in [`scripts/test/iris-batch-request.sh`](scripts/test/iris-batch-request.sh):

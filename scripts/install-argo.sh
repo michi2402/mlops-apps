@@ -80,9 +80,88 @@ kubectl -n "${ARGOCD_NAMESPACE}" patch configmap argocd-cmd-params-cm --type mer
 # kserve (wave -4) synced before cert-manager's (wave -10) CRDs existed
 # (evidence/local E21, INT-01/02). This is the check from the Argo CD health
 # documentation; with it, each wave waits until the previous one is Healthy.
+#
+# The same patch replaces Argo CD's built-in Gateway health check with a copy that differs
+# in one case. Upstream reports a Gateway Progressing until it is Programmed, and a Gateway
+# whose environment assigns it no external address is never Programmed
+# (reason AddressNotAssigned). Once waves gate on health, that held the entire platform
+# rollout in wave -10 -- on minikube until `minikube tunnel` ran (evidence/local-clean
+# CLEAN-02), and on any cluster without a LoadBalancer implementation for good -- although
+# nothing in the platform needs the gateway to be reachable, only to exist. Here that one
+# case is Healthy, with the missing address stated in the message; every other condition,
+# including degraded listeners, is assessed exactly as upstream.
 log "Restoring health assessment for Application resources (sync waves gate on it)"
 kubectl -n "${ARGOCD_NAMESPACE}" patch configmap argocd-cm --type merge -p "$(cat <<'EOF'
 data:
+  resource.customizations.health.gateway.networking.k8s.io_Gateway: |
+    local hs = {}
+    local addressMissing = false
+    function checkConditions(conditions, conditionType)
+      for _, condition in ipairs(conditions) do
+        if condition.type == conditionType and condition.status == "False" then
+          return false, condition.message or ("Failed condition: " .. conditionType)
+        end
+      end
+      return true
+    end
+    if obj.status ~= nil then
+      if obj.status.conditions ~= nil then
+        local resolvedRefsOk, resolvedRefsMsg = checkConditions(obj.status.conditions, "ResolvedRefs")
+        local acceptedOk, acceptedMsg = checkConditions(obj.status.conditions, "Accepted")
+        if not resolvedRefsOk then
+          hs.status = "Degraded"; hs.message = resolvedRefsMsg; return hs
+        end
+        if not acceptedOk then
+          hs.status = "Degraded"; hs.message = acceptedMsg; return hs
+        end
+        for _, condition in ipairs(obj.status.conditions) do
+          if condition.type == "Programmed" and condition.status ~= "True" then
+            if condition.reason == "AddressNotAssigned" then
+              -- the one deviation from upstream: an environment without a LoadBalancer
+              -- address is reported, not waited on
+              addressMissing = true
+            else
+              hs.status = "Progressing"
+              hs.message = condition.message or "Gateway is still being programmed"
+              return hs
+            end
+          end
+        end
+      end
+      if obj.status.listeners ~= nil then
+        for _, listener in ipairs(obj.status.listeners) do
+          if listener.conditions ~= nil then
+            local resolvedRefsOk, resolvedRefsMsg = checkConditions(listener.conditions, "ResolvedRefs")
+            local acceptedOk, acceptedMsg = checkConditions(listener.conditions, "Accepted")
+            if not resolvedRefsOk then
+              hs.status = "Degraded"; hs.message = "Listener: " .. resolvedRefsMsg; return hs
+            end
+            if not acceptedOk then
+              hs.status = "Degraded"; hs.message = "Listener: " .. acceptedMsg; return hs
+            end
+            for _, condition in ipairs(listener.conditions) do
+              if condition.type == "Programmed" and condition.status ~= "True" then
+                hs.status = "Progressing"
+                hs.message = "Listener: " .. (condition.message or "Listener is still being programmed")
+                return hs
+              end
+            end
+          end
+        end
+      end
+      if obj.status.conditions ~= nil or (obj.status.listeners ~= nil and #obj.status.listeners > 0) then
+        hs.status = "Healthy"
+        if addressMissing then
+          hs.message = "Accepted, but no address assigned: the environment provides no LoadBalancer address, so the gateway is not reachable from outside the cluster"
+        else
+          hs.message = "Gateway is healthy"
+        end
+        return hs
+      end
+    end
+    hs.status = "Progressing"
+    hs.message = "Waiting for Gateway status"
+    return hs
   resource.customizations.health.argoproj.io_Application: |
     hs = {}
     hs.status = "Progressing"

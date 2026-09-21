@@ -48,6 +48,10 @@ Everything else is automated by `scripts/bootstrap-k8s-native.sh`. What you prov
    ```
    Cloud-backed clusters (e.g. dataLAB/OpenStack) get a real external IP automatically — find
    it with `kubectl -n platform-envoy-gateway get svc --field-selector spec.type=LoadBalancer`.
+   The rollout does not wait for that address: `install-argo.sh` has Argo CD report a Gateway
+   that is accepted but has no address as Healthy, with the missing address in its message
+   (`kubectl -n argocd get application platform-envoy-gateway -o jsonpath='{.status.resources}'`).
+   Without an address the model is still reachable through a port-forward to the Envoy service.
 
 Total unattended runtime is mostly waiting on Argo CD convergence; the script prints how long
 that took.
