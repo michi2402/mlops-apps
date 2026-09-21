@@ -225,8 +225,8 @@ log "Promoting tracking-quickstart to its serving location in lakeFS"
 log "7/7 Waiting up to ${INFERENCE_TIMEOUT}s for workloads-team1-iris to serve the model"
 deadline=$(( $(date -u +%s) + INFERENCE_TIMEOUT ))
 while true; do
-  sync="$(kubectl -n team1 get application workloads-team1-iris -o jsonpath='{.status.sync.status}' 2>/dev/null || echo '')"
-  health="$(kubectl -n team1 get application workloads-team1-iris -o jsonpath='{.status.health.status}' 2>/dev/null || echo '')"
+  sync="$(kubectl -n team1 get applications.argoproj.io workloads-team1-iris -o jsonpath='{.status.sync.status}' 2>/dev/null || echo '')"
+  health="$(kubectl -n team1 get applications.argoproj.io workloads-team1-iris -o jsonpath='{.status.health.status}' 2>/dev/null || echo '')"
   ready="$(kubectl -n team1-iris get inferenceservice iris -o jsonpath='{.status.conditions[?(@.type=="Ready")].status}' 2>/dev/null || echo '')"
   if [ "$sync" = "Synced" ] && [ "$health" = "Healthy" ] && [ "$ready" = "True" ]; then
     log "InferenceService iris is Ready"
