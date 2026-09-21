@@ -52,3 +52,21 @@ code objects whose layout changed in 3.11, and 3.10 cannot read them. A library 
 **Remedy:** build the training image on `python:3.10-slim`, or move the model class into an
 importable module so it pickles by reference. Moving to a newer serving runtime does not help —
 every released MLServer through 1.7.1 is Python 3.10.
+
+# Sync-wave order check
+
+`wave-order.py` checks that every custom resource an Application manages has its CRD installed by
+an Application in a *strictly earlier* wave. Since `install-argo.sh` makes each wave wait for the
+previous one to be Healthy, a consumer in the same wave as its CRD's provider races it, and a
+consumer in an *earlier* wave deadlocks the rollout: its sync fails on discovery, it never becomes
+Healthy, and no later wave starts.
+
+```bash
+python scripts/preflight/wave-order.py --context minikube   # needs a cluster the stack ran on once
+```
+
+Kinds are read from the Applications' status on a live cluster; waves from the working tree, so a
+reordering can be checked before it is pushed. On 2026-09-21 it found `cert-manager` (wave −10)
+shipping a `ServiceMonitor` whose CRD `monitoring` (wave −8) installs — a deadlock on any fresh
+cluster — and `minio` racing `monitoring` in the same wave. `monitoring` moved to −9 and
+`cert-manager` to −8; the check now reports none (`evidence/local/E21c`).
