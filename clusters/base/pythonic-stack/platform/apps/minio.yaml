@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: platform-minio
   namespace: argocd
+  labels:
+    mlops.tuwien/tier: platform
   annotations:
     argocd.argoproj.io/sync-wave: "-8"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true

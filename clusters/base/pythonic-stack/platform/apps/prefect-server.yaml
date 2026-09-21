@@ -4,6 +4,8 @@ kind: Application
 metadata:
   name: platform-prefect-server
   namespace: argocd
+  labels:
+    mlops.tuwien/tier: orchestration
   annotations:
     argocd.argoproj.io/sync-wave: "3"
 spec:
