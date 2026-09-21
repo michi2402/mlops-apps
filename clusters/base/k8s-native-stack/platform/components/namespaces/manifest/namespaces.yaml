@@ -14,5 +14,10 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: kubeflow
+  annotations:
+    # This Application is the namespace's only owner (the KFP and Katib copies are
+    # removed from their renders). Deleting it would delete KFP and Katib with all
+    # their data, so Argo CD may neither prune it nor delete it with an Application.
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
   labels:
     katib.kubeflow.org/metrics-collector-injection: "enabled"
