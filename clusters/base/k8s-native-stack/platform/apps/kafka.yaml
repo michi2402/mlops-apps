@@ -9,6 +9,8 @@ kind: Application
 metadata:
   name: platform-kafka
   namespace: argocd
+  labels:
+    mlops.tuwien/tier: platform
   annotations:
     argocd.argoproj.io/sync-wave: "1"
 spec:

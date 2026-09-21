@@ -96,43 +96,51 @@ log "3/7 Applying ${STACK_PATH}/aoa-root.yaml (profile: ${CLUSTER_ENV})"
 kubectl apply -f "${STACK_PATH}/aoa-root.yaml"
 
 # --- 4/7: wait for the platform tier to converge ---
-# Only `platform` and its `platform-*` children are waited on. workloads-team1-iris names
-# a model that does not exist yet on a fresh cluster, and workloads-team2-timeseries one
-# only the orchestrated KFP pipeline produces. Since install-argo.sh restores health
-# assessment for Application resources, that unmet declaration propagates upward --
-# to the workloads-* parents and to root-<env> -- which is correct reporting, but would
-# make this wait time out on every fresh cluster if they were included.
+# Waited on: the Applications labelled `mlops.tuwien/tier: platform` -- the platform layer
+# this repository contributes. Reported but not waited on: `mlops.tuwien/tier:
+# orchestration`, the companion stacks' orchestrators. A served model needs the former
+# only; the latter carry resources two Applications both claim (Namespace `kubeflow`,
+# ServiceAccount `pipeline-runner`) and so never report Synced, and on a small cluster
+# they may not become Healthy at all (evidence/local INT-03).
+# Also not waited on: the `platform` parent, whose health aggregates the orchestration
+# tier, and the workloads-* tier, whose unmet model declarations are correct reporting.
 #
-# The expected set is counted from the repository, not from the cluster: right after the
-# root is applied no platform Application exists yet, and "every one that exists is
-# Healthy" is then vacuously true (the 2026-09-21 clean run passed this step at 61 s with
-# one Application present and failed at step 5).
-expected=$(( $(ls -1 "${STACK_PATH}"/platform/apps/*.yaml | wc -l) + 1 ))   # + the `platform` parent
-log "4/7 Waiting up to ${SYNC_TIMEOUT}s for the platform tier (${expected} Applications) to be Synced/Healthy"
+# Membership is read from the repository, not from the cluster: right after the root is
+# applied no platform Application exists yet, and "every one that exists is Healthy" is
+# then vacuously true (the 2026-09-21 clean run passed this step at 61 s with one
+# Application present and failed at step 5).
+tier_names() {   # $1 = platform | orchestration
+  for f in "${STACK_PATH}"/platform/apps/*.yaml; do
+    grep -q "mlops.tuwien/tier: $1\$" "$f" && sed -n 's/^  name: //p' "$f" | head -1
+  done | tr -d '\r' | tr '\n' ' '
+}
+PLATFORM_APPS="$(tier_names platform)"
+ORCHESTRATION_APPS="$(tier_names orchestration)"
+[ -n "$PLATFORM_APPS" ] || die "no Application in ${STACK_PATH}/platform/apps is labelled mlops.tuwien/tier: platform"
+log "4/7 Waiting up to ${SYNC_TIMEOUT}s for the platform tier ($(echo $PLATFORM_APPS | wc -w) Applications) to be Synced/Healthy"
 deadline=$(( $(date -u +%s) + SYNC_TIMEOUT ))
 while true; do
   json="$(kubectl get applications.argoproj.io -n argocd -o json)"
-  total="$(echo "$json" | python3 -c 'import json,sys; print(len(json.load(sys.stdin)["items"]))')"
-  not_ready="$(echo "$json" | EXPECTED="$expected" python3 -c '
+  not_ready="$(echo "$json" | APPS="$PLATFORM_APPS" python3 -c '
 import json, os, sys
-items = json.load(sys.stdin)["items"]
-tier = [i for i in items
-        if i["metadata"]["name"] == "platform" or i["metadata"]["name"].startswith("platform-")]
-bad = [i["metadata"]["name"] for i in tier
-       if i.get("status", {}).get("sync", {}).get("status") != "Synced"
-       or i.get("status", {}).get("health", {}).get("status") != "Healthy"]
-missing = int(os.environ["EXPECTED"]) - len(tier)
-if missing > 0:
-    bad.append("(%d not yet created)" % missing)
+state = {i["metadata"]["name"]: i.get("status") or {} for i in json.load(sys.stdin)["items"]}
+bad = []
+for name in os.environ["APPS"].split():
+    s = state.get(name)
+    if s is None:
+        bad.append(name + "(not-created)")
+    elif (s.get("sync") or {}).get("status") != "Synced" or (s.get("health") or {}).get("status") != "Healthy":
+        bad.append(name)
 print(" ".join(bad))
 ')"
   if [ -z "$not_ready" ]; then
-    log "Platform tier Synced/Healthy (${total} Application objects in -n argocd total)"
+    log "Platform tier Synced/Healthy"
     break
   fi
   if [ "$(date -u +%s)" -ge "$deadline" ]; then
     err "Timed out after ${SYNC_TIMEOUT}s waiting on: ${not_ready}"
     for app in $not_ready; do
+      app="${app%(not-created)}"
       # Fully qualified: KFP installs a second `Application` kind (applications.app.k8s.io),
       # and the short name resolves to that one.
       echo "--- kubectl describe applications.argoproj.io -n argocd ${app} ---"
@@ -143,6 +151,11 @@ print(" ".join(bad))
   sleep 10
 done
 T1=$(date -u +%s)
+if [ -n "$ORCHESTRATION_APPS" ]; then
+  log "Orchestration tier (reported, not waited on):"
+  kubectl get applications.argoproj.io -n argocd $ORCHESTRATION_APPS \
+    -o custom-columns=NAME:.metadata.name,SYNC:.status.sync.status,HEALTH:.status.health.status 2>/dev/null || true
+fi
 log "Convergence took $(( T1 - T0 ))s"
 
 # --- 5/7: initialise lakeFS ---

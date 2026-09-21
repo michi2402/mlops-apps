@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: platform-rp-connect
   namespace: argocd
+  labels:
+    mlops.tuwien/tier: platform
   annotations:
     argocd.argoproj.io/sync-wave: "2"
 spec:

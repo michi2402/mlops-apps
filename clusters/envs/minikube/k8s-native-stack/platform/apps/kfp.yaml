@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: platform-kfp
   namespace: argocd
+  labels:
+    mlops.tuwien/tier: orchestration
   annotations:
     argocd.argoproj.io/sync-wave: "3"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
