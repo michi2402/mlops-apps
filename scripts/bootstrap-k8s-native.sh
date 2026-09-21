@@ -102,18 +102,28 @@ kubectl apply -f "${STACK_PATH}/aoa-root.yaml"
 # assessment for Application resources, that unmet declaration propagates upward --
 # to the workloads-* parents and to root-<env> -- which is correct reporting, but would
 # make this wait time out on every fresh cluster if they were included.
-log "4/7 Waiting up to ${SYNC_TIMEOUT}s for the platform tier to be Synced/Healthy"
+#
+# The expected set is counted from the repository, not from the cluster: right after the
+# root is applied no platform Application exists yet, and "every one that exists is
+# Healthy" is then vacuously true (the 2026-09-21 clean run passed this step at 61 s with
+# one Application present and failed at step 5).
+expected=$(( $(ls -1 "${STACK_PATH}"/platform/apps/*.yaml | wc -l) + 1 ))   # + the `platform` parent
+log "4/7 Waiting up to ${SYNC_TIMEOUT}s for the platform tier (${expected} Applications) to be Synced/Healthy"
 deadline=$(( $(date -u +%s) + SYNC_TIMEOUT ))
 while true; do
   json="$(kubectl get applications.argoproj.io -n argocd -o json)"
   total="$(echo "$json" | python3 -c 'import json,sys; print(len(json.load(sys.stdin)["items"]))')"
-  not_ready="$(echo "$json" | python3 -c '
-import json, sys
+  not_ready="$(echo "$json" | EXPECTED="$expected" python3 -c '
+import json, os, sys
 items = json.load(sys.stdin)["items"]
-bad = [i["metadata"]["name"] for i in items
-       if (i["metadata"]["name"] == "platform" or i["metadata"]["name"].startswith("platform-"))
-       and (i.get("status", {}).get("sync", {}).get("status") != "Synced"
-            or i.get("status", {}).get("health", {}).get("status") != "Healthy")]
+tier = [i for i in items
+        if i["metadata"]["name"] == "platform" or i["metadata"]["name"].startswith("platform-")]
+bad = [i["metadata"]["name"] for i in tier
+       if i.get("status", {}).get("sync", {}).get("status") != "Synced"
+       or i.get("status", {}).get("health", {}).get("status") != "Healthy"]
+missing = int(os.environ["EXPECTED"]) - len(tier)
+if missing > 0:
+    bad.append("(%d not yet created)" % missing)
 print(" ".join(bad))
 ')"
   if [ -z "$not_ready" ]; then
