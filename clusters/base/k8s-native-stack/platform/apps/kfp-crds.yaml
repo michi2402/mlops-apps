@@ -30,6 +30,12 @@ spec:
                 path: /metadata/labels
                 value:
                   katib.kubeflow.org/metrics-collector-injection: "enabled"
+              # Transition guard (phase 1b of 2): every copy of the namespace carries it,
+              # so it survives whichever Application applied last. Phase 2 removes this copy.
+              - op: add
+                path: /metadata/annotations
+                value:
+                  argocd.argoproj.io/sync-options: Prune=false,Delete=false
   syncPolicy:
     automated: { prune: true, selfHeal: true }
     retry:

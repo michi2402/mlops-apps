@@ -17,6 +17,17 @@ spec:
     repoURL: https://github.com/kubeflow/katib.git
     targetRevision: v0.17.0    
     path: manifests/v1beta1/installs/katib-cert-manager
+    kustomize:
+      patches:
+        # Transition guard (phase 1b of 2): Katib's copy of Namespace `kubeflow` carries
+        # the same Prune=false,Delete=false as the owner's. Phase 2 removes this copy.
+        - target:
+            kind: Namespace
+          patch: |-
+            - op: add
+              path: /metadata/annotations
+              value:
+                argocd.argoproj.io/sync-options: Prune=false,Delete=false
   syncPolicy:
     automated: { prune: true, selfHeal: true }
     retry:
