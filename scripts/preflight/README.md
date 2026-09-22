@@ -66,7 +66,7 @@ python scripts/preflight/wave-order.py --context minikube   # needs a cluster th
 ```
 
 Kinds are read from the Applications' status on a live cluster; waves from the working tree, so a
-reordering can be checked before it is pushed. On 2026-09-21 it found `cert-manager` (wave −10)
-shipping a `ServiceMonitor` whose CRD `monitoring` (wave −8) installs — a deadlock on any fresh
-cluster — and `minio` racing `monitoring` in the same wave. `monitoring` moved to −9 and
-`cert-manager` to −8; the check now reports none (`evidence/local/E21c`).
+reordering can be checked before it is pushed. On 2026-09-21 it found `cert-manager` shipping a
+`ServiceMonitor` whose CRD `monitoring` installed two waves later — a deadlock on any fresh
+cluster — and `minio` racing `monitoring` in the same wave. `monitoring` moved into a wave of its
+own ahead of both; the check now reports none (`evidence/local/E21c`).

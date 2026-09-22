@@ -5,8 +5,8 @@ Why it matters: install-argo.sh makes each wave wait until the previous one is H
 A consumer placed in the same wave as the Application that installs its CRD races it; a
 consumer placed *earlier* can never sync (the discovery of its kind fails and nothing is
 applied), never becomes Healthy, and so holds its own wave -- and every later one --
-forever. On 2026-09-21 this found cert-manager (wave -10) shipping a ServiceMonitor whose
-CRD came from monitoring (wave -8): a deadlock on any fresh cluster.
+forever. On 2026-09-21 this found cert-manager shipping a ServiceMonitor whose CRD came
+from monitoring, two waves later: a deadlock on any fresh cluster.
 
 Needs a cluster on which the stack has been applied once: the kinds each Application
 manages are read from its status, not rendered from charts. Waves are read from the

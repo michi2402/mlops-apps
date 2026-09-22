@@ -77,7 +77,7 @@ kubectl -n "${ARGOCD_NAMESPACE}" patch configmap argocd-cmd-params-cm --type mer
 # Without it a parent treats every child Application as Healthy the moment it exists,
 # so the sync waves of an app-of-apps order creation and nothing else: in the
 # 2026-09-18 local run all eight platform waves were created within 17 seconds, and
-# kserve (wave -4) synced before cert-manager's (wave -10) CRDs existed
+# kserve synced before the CRDs of cert-manager, placed in an earlier wave, existed
 # (evidence/local E21, INT-01/02). This is the check from the Argo CD health
 # documentation; with it, each wave waits until the previous one is Healthy.
 #
@@ -85,7 +85,7 @@ kubectl -n "${ARGOCD_NAMESPACE}" patch configmap argocd-cmd-params-cm --type mer
 # in one case. Upstream reports a Gateway Progressing until it is Programmed, and a Gateway
 # whose environment assigns it no external address is never Programmed
 # (reason AddressNotAssigned). Once waves gate on health, that held the entire platform
-# rollout in wave -10 -- on minikube until `minikube tunnel` ran (evidence/local-clean
+# rollout in its first wave -- on minikube until `minikube tunnel` ran (evidence/local-clean
 # CLEAN-02), and on any cluster without a LoadBalancer implementation for good -- although
 # nothing in the platform needs the gateway to be reachable, only to exist. Here that one
 # case is Healthy, with the missing address stated in the message; every other condition,

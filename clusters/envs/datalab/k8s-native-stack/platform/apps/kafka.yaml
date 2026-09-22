@@ -12,7 +12,7 @@ metadata:
   labels:
     mlops.tuwien/tier: platform
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "-3"
 spec:
   project: platform
   sources:
@@ -49,7 +49,7 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
-      # The Kafka CRDs arrive with the operator in wave 0. Skipping the client-side
+      # The Kafka CRDs arrive with the operator in wave -4. Skipping the client-side
       # dry run keeps the first reconciliation from failing while they are still
       # being established.
       - SkipDryRunOnMissingResource=true

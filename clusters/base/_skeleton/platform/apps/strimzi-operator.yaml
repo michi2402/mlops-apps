@@ -1,7 +1,7 @@
 # Strimzi Kafka operator: installs the Kafka CRDs and the cluster operator.
 #
 # Occupies the first wave of the streaming tier so that the custom resources in
-# platform-kafka (wave 1) have their definitions in place before they are applied.
+# platform-kafka (wave -3) have their definitions in place before they are applied.
 #
 # watchAnyNamespace is deliberately false. Every Kafka resource in this platform
 # lives in the operator's own namespace, which Strimzi watches by default, so a
@@ -16,7 +16,7 @@ metadata:
   labels:
     mlops.tuwien/tier: platform
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "-4"
 spec:
   project: platform
   sources:
