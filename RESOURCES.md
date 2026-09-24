@@ -47,4 +47,7 @@ manifests, and Argo CD itself, installed from its upstream manifest by
 
 The single-node profile sets two values below the base, both for a laptop-sized node (see
 `RUNBOOK.md`): MLflow runs one server worker at 512Mi (observed 317Mi in the laptop run),
-and the Kafka broker requests 512Mi (observed 404Mi; 397Mi in the laptop run).
+and the Kafka broker requests 512Mi (observed 404Mi; 397Mi in the laptop run). The laptop
+run added three more, by the same rule from its own observations, once the larger monitoring
+requests left Prometheus unschedulable: Dask worker 256Mi (146Mi), Dask scheduler 128Mi (106Mi),
+Kafka controller 256Mi (214Mi). Limits are unchanged, so a computation keeps its room.

@@ -11,9 +11,10 @@ metadata:
   name: platform-kafka-controllers
 spec:
   replicas: 1
+  # Observed at 214Mi in the laptop run; sizing rule: RESOURCES.md.
   resources:
-    requests: { cpu: 50m,  memory: 512Mi }
-    limits:   { cpu: 250m, memory: 768Mi }
+    requests: { cpu: 50m,  memory: 256Mi }
+    limits:   { cpu: 250m, memory: 512Mi }
   jvmOptions:
     -Xms: 256m
     -Xmx: 256m

@@ -1,10 +1,17 @@
 # Distributed compute, single-node profile: one worker. Two workers on one node
 # contend for the same cores, so the second buys scheduling overhead rather than
 # parallelism.
+# Requests from the laptop run (worker 146Mi, scheduler 106Mi observed idle; RESOURCES.md):
+# the limits keep the room a computation needs, the requests only what an idle node must
+# reserve.
 worker:
   replicas: 1
   resources:
-    requests: { cpu: 200m, memory: 512Mi }
+    requests: { cpu: 200m, memory: 256Mi }
+    limits:   { cpu: "1",  memory: 1Gi }
+scheduler:
+  resources:
+    requests: { cpu: 100m, memory: 128Mi }
     limits:   { cpu: "1",  memory: 1Gi }
 # The bundled notebook server is a development convenience; pipelines submit to the
 # scheduler directly, so a single node does not carry it.
