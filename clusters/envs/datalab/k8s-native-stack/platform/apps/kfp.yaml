@@ -19,8 +19,9 @@ spec:
     path: manifests/kustomize/env/platform-agnostic
     kustomize:
       images:
-        # gcr.io/ml-pipeline/minio is no longer available; same MinIO as the platform stack
-        - gcr.io/ml-pipeline/minio=quay.io/minio/minio:RELEASE.2024-12-18T13-15-44Z
+        # gcr.io/ml-pipeline/minio is no longer available, and neither is quay.io/minio/minio
+        # (2026-09-24); same MinIO build as the platform stack's object store
+        - gcr.io/ml-pipeline/minio=docker.io/pgsty/minio:RELEASE.2026-08-04T00-00-00Z
       patches:
         # KFP also ships kubeflow/pipeline-runner; without this it overrides the SA from
         # rbac-pipeline-runner and Katib trials / TrainJobs cannot pull the private GHCR images
