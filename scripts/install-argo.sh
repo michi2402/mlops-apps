@@ -114,6 +114,16 @@ EOF
 kubectl -n "${ARGOCD_NAMESPACE}" patch configmap argocd-cm --type merge \
   -p '{"data":{"resource.customizations.health.gateway.networking.k8s.io_Gateway":null}}'
 
+# CPU requests for the two components that do the reconciling. Upstream declares none, so
+# both run BestEffort: while a fresh node unpacks the orchestrators' images, their health
+# checks and manifest generation miss their deadlines ("context deadline exceeded"), and
+# Applications flicker to Unknown or ComparisonError (evidence/local-laptop-clean). CPU only:
+# memory requests are what a small node runs short of, and CPU is compressible.
+kubectl -n "${ARGOCD_NAMESPACE}" set resources statefulset/argocd-application-controller \
+  -c argocd-application-controller --requests=cpu=500m
+kubectl -n "${ARGOCD_NAMESPACE}" set resources deploy/argocd-repo-server \
+  -c argocd-repo-server --requests=cpu=250m
+
 kubectl -n "${ARGOCD_NAMESPACE}" rollout restart deploy/argocd-server
 kubectl -n "${ARGOCD_NAMESPACE}" rollout restart deploy/argocd-repo-server
 kubectl -n "${ARGOCD_NAMESPACE}" rollout restart statefulset/argocd-application-controller

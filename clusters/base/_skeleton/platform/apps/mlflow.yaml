@@ -13,9 +13,13 @@ spec:
     server: https://kubernetes.default.svc
     namespace: platform-mlflow
   sources:
-    - repoURL: https://github.com/community-charts/helm-charts
-      targetRevision: mlflow-1.6.2
-      path: charts/mlflow
+    # The packaged chart, not the Git path: the packaged chart vendors its PostgreSQL and
+    # MySQL subcharts, whereas a Git path makes the repo-server rebuild them, which means
+    # fetching Bitnami's full chart index on every manifest generation -- on a loaded node
+    # that outlasted the repo-server's 90 s exec limit (evidence/local-laptop-clean).
+    - repoURL: https://community-charts.github.io/helm-charts
+      chart: mlflow
+      targetRevision: 1.6.2
       helm:
         releaseName: mlflow
         valueFiles:

@@ -182,7 +182,7 @@ cd ../mlops-apps
 ### 2. Start the cluster
 
 ```bash
-minikube start --driver=docker --cpus=6 --memory=11g --disk-size=40g --extra-config=kubelet.serialize-image-pulls=false   # 16 GB host: see RUNBOOK.md
+minikube start --driver=docker --cpus=6 --memory=11g --disk-size=40g --extra-config=kubelet.serialize-image-pulls=false --extra-config=kubelet.max-parallel-image-pulls=3   # 16 GB host: see RUNBOOK.md
 kubectl config use-context minikube
 ```
 

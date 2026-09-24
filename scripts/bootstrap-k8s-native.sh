@@ -18,8 +18,9 @@
 #   SYNC_TIMEOUT      — seconds to wait for all ArgoCD Applications Healthy (default: 3600).
 #                       A fresh node pulls every image first; on a laptop the first run
 #                       exceeded 2400 s (evidence/local-laptop LAP-03).
-#   INFERENCE_TIMEOUT — seconds to wait for the iris InferenceService Ready (default: 1800;
-#                       the serving runtime image alone is ~10 GB, and the laptop run took 908 s)
+#   INFERENCE_TIMEOUT — seconds to wait for the iris InferenceService Ready (default: 3600;
+#                       the serving runtime image alone is ~10 GB, and a cold laptop run pulled it in
+#                       6.7 to 31 min depending on contention)
 #   PYTHON            — interpreter for the model scripts (default: python3). Must carry
 #                       scripts/requirements-producer.txt; checked before anything is applied.
 #
@@ -47,7 +48,7 @@ STACK_DIR="${STACK_DIR:-k8s-native-stack}"
 : "${CLUSTER_ENV:?CLUSTER_ENV is required — one of: minikube, datalab}"
 STACK_PATH="clusters/envs/${CLUSTER_ENV}/${STACK_DIR}"
 SYNC_TIMEOUT="${SYNC_TIMEOUT:-3600}"
-INFERENCE_TIMEOUT="${INFERENCE_TIMEOUT:-1800}"
+INFERENCE_TIMEOUT="${INFERENCE_TIMEOUT:-3600}"
 
 PYTHON="${PYTHON:-python3}"
 

@@ -34,12 +34,34 @@ Then start the node below that cap, leaving room for the Docker VM itself:
 
 ```bash
 minikube start --driver=docker --cpus=6 --memory=11g --disk-size=40g \
-  --extra-config=kubelet.serialize-image-pulls=false
+  --kubernetes-version=v1.32.0 \
+  --extra-config=kubelet.serialize-image-pulls=false \
+  --extra-config=kubelet.max-parallel-image-pulls=3
 ```
 
-The last flag matters on a fresh node: by default the kubelet pulls one image at a time, and
-the orchestrators' ~20 images then queue ahead of MLflow's, so the serving path waits on images
-it does not need (evidence/local-laptop LAP-03).
+The last two flags matter on a fresh node, which pulls ~35 GB of images. One pull at a time
+(the kubelet default) queues the orchestrators' ~20 images ahead of MLflow's and the platform
+waited on images it does not need (evidence/local-laptop LAP-03); unbounded parallel pulls
+split the bandwidth twenty ways, so the 9.9 GB serving runtime took 31 min instead of 7 and
+stalled pulls were cancelled and retried (evidence/local-laptop-clean). Three at a time avoids
+both.
+
+#### Iterating faster: host-side image cache
+
+For repeated runs, cache the images on the host once a node has converged, then load them
+into each new node before the bootstrap:
+
+```bash
+./scripts/local-image-cache.sh save        # on a converged node; ~35 GB under ~/.cache/mlops-images
+minikube delete                            # not --purge's concern: the cache lives outside ~/.minikube
+minikube start ...                         # as above
+./scripts/local-image-cache.sh load        # then run the bootstrap as usual
+```
+
+**A cached run is not evidence.** It removes pull time from every convergence and
+time-to-serve figure, and it keeps serving images that upstream has withdrawn -- exactly what
+the MinIO images did (evidence/local-laptop LAP-01). The run the evaluation reports is always
+cold: purge, start, bootstrap, no `load`.
 
 What the profile trims for this size (values and rationale in [`RESOURCES.md`](RESOURCES.md)):
 one Kafka controller and broker with small heaps, one MLflow server worker, one Dask worker
