@@ -69,8 +69,14 @@ log "Enabling Applications in namespaces: ${TENANT_NAMESPACES}"
 # re-applies them every few minutes, which also removes Sync status as a drift signal.
 # Server-side diff dry-runs the apply, so defaults appear on both sides
 # (evidence/local E23c: all twelve platform Applications Synced once enabled).
+#
+# controller.repo.server.timeout.seconds / reposerver.git.request.timeout: several sources
+# are whole upstream Git repositories (External Secrets, Kubeflow Pipelines, the MLflow
+# chart). On a fresh node their first clone outlasts the 60 s RPC and 15 s Git defaults; the
+# Application then reports a ComparisonError, which reads as Healthy with nothing deployed,
+# and the next wave opens before it exists (evidence/local-laptop LAP-OBS-01).
 kubectl -n "${ARGOCD_NAMESPACE}" patch configmap argocd-cmd-params-cm --type merge \
-  -p "{\"data\":{\"application.namespaces\":\"${TENANT_NAMESPACES}\",\"controller.diff.server.side\":\"true\"}}"
+  -p "{\"data\":{\"application.namespaces\":\"${TENANT_NAMESPACES}\",\"controller.diff.server.side\":\"true\",\"controller.repo.server.timeout.seconds\":\"300\",\"reposerver.git.request.timeout\":\"120s\"}}"
 
 # --- Restore health assessment for Application resources ---
 # Argo CD stopped assessing the health of argoproj.io/Application resources in v1.8.
@@ -109,11 +115,13 @@ kubectl -n "${ARGOCD_NAMESPACE}" patch configmap argocd-cm --type merge \
   -p '{"data":{"resource.customizations.health.gateway.networking.k8s.io_Gateway":null}}'
 
 kubectl -n "${ARGOCD_NAMESPACE}" rollout restart deploy/argocd-server
+kubectl -n "${ARGOCD_NAMESPACE}" rollout restart deploy/argocd-repo-server
 kubectl -n "${ARGOCD_NAMESPACE}" rollout restart statefulset/argocd-application-controller
 
 # --- Wait for the API server pod(s) ---
 log "Waiting for argocd-server rollout (timeout 180s)"
 kubectl -n "${ARGOCD_NAMESPACE}" rollout status deploy/argocd-server --timeout=180s
+kubectl -n "${ARGOCD_NAMESPACE}" rollout status deploy/argocd-repo-server --timeout=180s
 kubectl -n "${ARGOCD_NAMESPACE}" rollout status statefulset/argocd-application-controller --timeout=180s
 
 # --- Fetch initial admin password ---

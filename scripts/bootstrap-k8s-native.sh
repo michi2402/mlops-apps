@@ -15,8 +15,11 @@
 # Optional env vars (defaults match the repo's k8s-native-stack):
 #   REPO_ROOT        — path to mlops-apps checkout (default: script's parent dir)
 #   STACK_DIR         — stack directory name (default: k8s-native-stack)
-#   SYNC_TIMEOUT      — seconds to wait for all ArgoCD Applications Healthy (default: 1200)
-#   INFERENCE_TIMEOUT — seconds to wait for the iris InferenceService Ready (default: 600)
+#   SYNC_TIMEOUT      — seconds to wait for all ArgoCD Applications Healthy (default: 3600).
+#                       A fresh node pulls every image first; on a laptop the first run
+#                       exceeded 2400 s (evidence/local-laptop LAP-03).
+#   INFERENCE_TIMEOUT — seconds to wait for the iris InferenceService Ready (default: 1800;
+#                       the serving runtime image alone is ~10 GB, and the laptop run took 908 s)
 #   PYTHON            — interpreter for the model scripts (default: python3). Must carry
 #                       scripts/requirements-producer.txt; checked before anything is applied.
 #
@@ -43,8 +46,8 @@ REPO_ROOT="${REPO_ROOT:-$(cd "${SCRIPT_DIR}/.." && pwd)}"
 STACK_DIR="${STACK_DIR:-k8s-native-stack}"
 : "${CLUSTER_ENV:?CLUSTER_ENV is required — one of: minikube, datalab}"
 STACK_PATH="clusters/envs/${CLUSTER_ENV}/${STACK_DIR}"
-SYNC_TIMEOUT="${SYNC_TIMEOUT:-1200}"
-INFERENCE_TIMEOUT="${INFERENCE_TIMEOUT:-600}"
+SYNC_TIMEOUT="${SYNC_TIMEOUT:-3600}"
+INFERENCE_TIMEOUT="${INFERENCE_TIMEOUT:-1800}"
 
 PYTHON="${PYTHON:-python3}"
 
