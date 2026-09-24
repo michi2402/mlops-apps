@@ -1,3 +1,14 @@
+# MinIO no longer publishes images: quay.io/minio/minio and minio/mc refuse pulls, and
+# docker.io/minio/minio no longer exists (found 2026-09-24, evidence/local-laptop). The
+# Pigsty project builds the same server and client from MinIO's source, with the same
+# entrypoint, so only the image coordinates change. Pinned by release, as upstream was.
+image:
+  repository: docker.io/pgsty/minio
+  tag: RELEASE.2026-08-04T00-00-00Z
+mcImage:
+  repository: docker.io/pgsty/mc
+  tag: RELEASE.2026-09-16T00-00-00Z
+
 existingSecret: platform-minio-secret
 mode: standalone
 replicas: 1
