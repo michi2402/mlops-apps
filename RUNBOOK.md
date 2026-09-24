@@ -33,18 +33,17 @@ swap=4GB
 Then start the node below that cap, leaving room for the Docker VM itself:
 
 ```bash
-minikube start --driver=docker --cpus=6 --memory=11g --disk-size=40g \
-  --kubernetes-version=v1.32.0 \
-  --extra-config=kubelet.serialize-image-pulls=false \
-  --extra-config=kubelet.max-parallel-image-pulls=3
+./scripts/minikube-up.sh     # minikube start (6 CPUs, 11g, Kubernetes v1.32.0) + kubelet pull settings
 ```
 
-The last two flags matter on a fresh node, which pulls ~35 GB of images. One pull at a time
+The pull settings matter on a fresh node, which pulls ~35 GB of images. One pull at a time
 (the kubelet default) queues the orchestrators' ~20 images ahead of MLflow's and the platform
 waited on images it does not need (evidence/local-laptop LAP-03); unbounded parallel pulls
 split the bandwidth twenty ways, so the 9.9 GB serving runtime took 31 min instead of 7 and
 stalled pulls were cancelled and retried (evidence/local-laptop-clean). Three at a time avoids
-both.
+both. The limit is a kubelet configuration field with no command-line flag (passing one makes
+the kubelet refuse to start), so the script sets it in the node's kubelet configuration after
+`minikube start`.
 
 #### Iterating faster: host-side image cache
 
@@ -54,7 +53,7 @@ into each new node before the bootstrap:
 ```bash
 ./scripts/local-image-cache.sh save        # on a converged node; ~35 GB under ~/.cache/mlops-images
 minikube delete                            # not --purge's concern: the cache lives outside ~/.minikube
-minikube start ...                         # as above
+./scripts/minikube-up.sh                   # as above
 ./scripts/local-image-cache.sh load        # then run the bootstrap as usual
 ```
 
