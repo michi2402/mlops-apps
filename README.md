@@ -308,28 +308,25 @@ tooling both default to it.
 
 ## Ingress & model serving
 
-External access to model endpoints goes through the **Envoy Gateway**, which every stack
-deploys. How the gateway gets an external address depends on the cluster:
+Model endpoints are served through the **Envoy Gateway**, which every stack deploys. Its Envoy
+Service is `ClusterIP` in every environment (`platform/components/envoy-gateway/envoy-proxy.yaml`)
+and is reached by port-forward, like every other platform endpoint:
 
-- **minikube** — `LoadBalancer` services need a tunnel to be assigned `127.0.0.1`:
-  ```bash
-  minikube tunnel
-  ```
-- **Cloud-backed clusters (e.g. TU Wien dataLAB / OpenStack)** — the cloud load balancer
-  (Octavia) assigns a real external IP automatically; no tunnel is needed. Find it with:
-  ```bash
-  kubectl -n platform-envoy-gateway get svc --field-selector spec.type=LoadBalancer
-  ```
+```bash
+kubectl -n platform-envoy-gateway port-forward \
+  "$(kubectl -n platform-envoy-gateway get svc -o name \
+      -l gateway.envoyproxy.io/owning-gateway-name=ingress-gateway)" 18080:80
+```
 
-The platform does not wait for that address. Sync waves gate on health, and Argo CD's built-in
-check reports a Gateway without an address as Progressing forever, which held the entire rollout
-in its first wave on a cluster without a LoadBalancer implementation. `install-argo.sh` replaces
-that check with a copy that reports this one case as Healthy and states the missing address in
-the message; everything else is assessed as upstream.
+Why not `LoadBalancer`: sync waves gate on health, and Argo CD's built-in check reports a Gateway
+Progressing until it is Programmed, which requires an address. A `LoadBalancer` Service without a
+load-balancer implementation (minikube without `minikube tunnel`, or a cloud project without one)
+never gets an address, and that held the entire rollout in its first wave. A ClusterIP is always
+assigned, so the upstream check applies unchanged. An environment that wants external exposure
+changes the `EnvoyProxy`, not the controller.
 
-Once the gateway has an address, KServe `InferenceService`s are reachable by Host header
-(send the request to the gateway address — `127.0.0.1` on minikube, the external IP on a
-cloud cluster). A worked example is in [`scripts/test/iris-batch-request.sh`](scripts/test/iris-batch-request.sh):
+KServe `InferenceService`s are then reachable by Host header through the forwarded port. A worked
+example is in [`scripts/test/iris-batch-request.sh`](scripts/test/iris-batch-request.sh):
 
 ```bash
 curl -s \
@@ -337,7 +334,7 @@ curl -s \
   -H "Content-Type: application/json" \
   -d '{"inputs":[{"name":"predict","shape":[3,4],"datatype":"FP64",
        "data":[[5.1,3.5,1.4,0.2],[6.2,3.4,5.4,2.3],[5.9,3.0,4.2,1.5]]}]}' \
-  http://127.0.0.1:80/v2/models/iris/infer | jq .
+  http://127.0.0.1:18080/v2/models/iris/infer | jq .
 ```
 
 The `Host` header follows the pattern `<inference-service>-<namespace>.mlops.local`. The
@@ -447,13 +444,11 @@ created. Give it time before deleting namespaces manually.
 
 ## Troubleshooting
 
-**`minikube tunnel` won't bind / no external IP.** A stale tunnel from a previous run may
-still hold the routes:
-
-```bash
-sudo pkill -f "minikube tunnel" || true
-sudo -E minikube tunnel --cleanup
-```
+**lakeFS has no admin / MLflow artifact upload fails with an auth error.** The admin user and
+the `mlflow` and `datasets` repositories are created by the PostSync hook `job/lakefs-init` of
+`platform-lakefs`. Check it with `kubectl -n platform-lakefs logs job/lakefs-init`; a hook that
+failed is retried with the Application's sync, and re-syncing `platform-lakefs` re-runs it
+(both steps are idempotent).
 
 **ExternalSecrets stay `SecretSyncError` / store `not ready`.** Check that `azure-sp-secret`
 exists in `external-secrets` (keys `ClientID`/`ClientSecret`) and that the `vaultUrl`/`tenantId`

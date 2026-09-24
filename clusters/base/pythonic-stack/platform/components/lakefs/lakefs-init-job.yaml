@@ -1,0 +1,70 @@
+# Initialises lakeFS: creates the administrator and the repositories the platform relies on
+# (`mlflow/main` backs MLflow's artifact root; `datasets/dev` is where the orchestrated
+# pipeline stages its data). A fresh lakeFS has neither, and artifact upload would fail
+# with no obvious cause.
+#
+# This is an API call, not configuration, because lakeFS has no declarative form for
+# either: its `installation.*` keys create the admin only on the local key-value store,
+# not on PostgreSQL (cmd/lakefs/cmd/run.go, v1.66.0), and repositories exist only through
+# the API. As a PostSync hook the call is still declared here and run by Argo CD -- after
+# every resource of this Application is Healthy, on every sync, and retried with it --
+# rather than by an operator script. Both steps are idempotent.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: lakefs-init
+  namespace: platform-lakefs
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+spec:
+  backoffLimit: 6
+  activeDeadlineSeconds: 600
+  template:
+    spec:
+      restartPolicy: OnFailure
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 100
+      containers:
+        - name: init
+          image: curlimages/curl:8.10.1
+          env:
+            - name: LAKEFS
+              value: http://lakefs.platform-lakefs.svc.cluster.local:80
+            - name: ACCESS_KEY
+              valueFrom:
+                secretKeyRef: {name: platform-lakefs-admin, key: accessKeyID}
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef: {name: platform-lakefs-admin, key: secretAccessKey}
+          command: ["/bin/sh", "-ec"]
+          args:
+            - |
+              until curl -sf "$LAKEFS/api/v1/healthcheck" >/dev/null; do sleep 5; done
+              # state is "initialized" or "not_initialized"; match the whole value
+              if curl -sf "$LAKEFS/api/v1/setup_lakefs" | grep -q '"state": *"initialized"'; then
+                echo "lakeFS already initialised"
+              else
+                curl -sf -X POST "$LAKEFS/api/v1/setup_lakefs" -H 'Content-Type: application/json' \
+                  -d "{\"username\":\"admin\",\"key\":{\"access_key_id\":\"$ACCESS_KEY\",\"secret_access_key\":\"$SECRET_KEY\"}}" >/dev/null
+                echo "created the lakeFS administrator"
+              fi
+              for spec in mlflow:main datasets:dev; do
+                repo="${spec%%:*}"; branch="${spec##*:}"
+                code="$(curl -s -o /dev/null -w '%{http_code}' -X POST "$LAKEFS/api/v1/repositories" \
+                  -u "$ACCESS_KEY:$SECRET_KEY" -H 'Content-Type: application/json' \
+                  -d "{\"name\":\"$repo\",\"storage_namespace\":\"s3://lakefs/$repo\",\"default_branch\":\"$branch\"}")"
+                case "$code" in
+                  201) echo "created repository $repo (branch $branch)" ;;
+                  409) echo "repository $repo already present" ;;
+                  *)   echo "creating repository $repo failed (HTTP $code)" >&2; exit 1 ;;
+                esac
+              done
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities: {drop: [ALL]}
+          resources:
+            requests: {cpu: 10m, memory: 16Mi}
+            limits: {cpu: 100m, memory: 64Mi}

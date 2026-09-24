@@ -1,0 +1,19 @@
+# The Envoy Service is ClusterIP, reached by port-forward like every other platform
+# endpoint. The chart default, LoadBalancer, makes the Gateway's readiness depend on the
+# environment: without a LoadBalancer implementation the Gateway is never assigned an
+# address, stays Programmed=False (AddressNotAssigned), and -- with sync waves gating on
+# health -- holds the whole platform in its first wave (evidence/local-clean CLEAN-02).
+# A ClusterIP is always assigned, so the Gateway becomes Programmed in every environment
+# under Argo CD's upstream health check. An environment that wants external exposure
+# changes this object, not the controller.
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: EnvoyProxy
+metadata:
+  name: ingress-proxy
+  namespace: platform-envoy-gateway
+spec:
+  provider:
+    type: Kubernetes
+    kubernetes:
+      envoyService:
+        type: ClusterIP

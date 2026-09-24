@@ -1,5 +1,7 @@
-# minikube tunnel needs to be running
-# ensure ingress gateway service has LoadBalancer IP 127.0.0.1 assigned
+# The Envoy Service is ClusterIP; forward it first:
+#   kubectl -n platform-envoy-gateway port-forward \
+#     "$(kubectl -n platform-envoy-gateway get svc -o name \
+#         -l gateway.envoyproxy.io/owning-gateway-name=ingress-gateway)" 18080:80
 
 curl -s -v \
   -H "Host: iris-team1-iris.mlops.local" \
@@ -16,4 +18,4 @@ curl -s -v \
       ]
     }]
   }' \
-  http://127.0.0.1:80/v2/models/iris/infer | jq .
+  http://127.0.0.1:18080/v2/models/iris/infer | jq .

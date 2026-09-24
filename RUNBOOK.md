@@ -34,24 +34,23 @@ Everything else is automated by `scripts/bootstrap-k8s-native.sh`. What you prov
    CLUSTER_ENV=datalab CLIENT_ID="..." CLIENT_SECRET="..." ./scripts/bootstrap-k8s-native.sh
    ```
    It seeds the credential, installs Argo CD, applies the stack, waits for the platform tier
-   to be `Synced`/`Healthy`, initialises lakeFS (admin user plus the `mlflow` and `datasets`
-   repositories), trains and registers a demo iris model in MLflow, promotes that model version
+   to be `Synced`/`Healthy`, waits for the PostSync hook `job/lakefs-init` that the
+   `platform-lakefs` Application declares to have created the lakeFS admin user and the `mlflow`
+   and `datasets` repositories, trains and registers a demo iris model in MLflow, promotes that model version
    to the lakeFS location the workload manifest already names, and waits for it to be `Ready`.
 
    **It never writes to Git.** The manifests name a model by registry name and version, not by
    an MLflow artifact path, so nothing has to be rewritten by a cluster run. It is idempotent —
    re-running it against a cluster it already bootstrapped is safe — and it exits non-zero with
    diagnostics on any failure rather than continuing past a broken step.
-3. **(local clusters only) Tunnel the gateway** so the printed URL is reachable:
+3. **Forward the gateway** so the printed URL is reachable. The Envoy Service is `ClusterIP` in
+   every environment (`platform/components/envoy-gateway/envoy-proxy.yaml`), so no tunnel or
+   cloud load balancer is involved:
    ```bash
-   minikube tunnel
+   kubectl -n platform-envoy-gateway port-forward \
+     "$(kubectl -n platform-envoy-gateway get svc -o name \
+         -l gateway.envoyproxy.io/owning-gateway-name=ingress-gateway)" 18080:80
    ```
-   Cloud-backed clusters (e.g. dataLAB/OpenStack) get a real external IP automatically — find
-   it with `kubectl -n platform-envoy-gateway get svc --field-selector spec.type=LoadBalancer`.
-   The rollout does not wait for that address: `install-argo.sh` has Argo CD report a Gateway
-   that is accepted but has no address as Healthy, with the missing address in its message
-   (`kubectl -n argocd get application platform-envoy-gateway -o jsonpath='{.status.resources}'`).
-   Without an address the model is still reachable through a port-forward to the Envoy service.
 
 Total unattended runtime is mostly waiting on Argo CD convergence; the script prints how long
 that took.
@@ -77,14 +76,14 @@ kubectl -n platform-lakefs port-forward svc/lakefs 18000:80            # http://
 
 ## The inference request
 
-Once the script finishes, the model is reachable through the Envoy Gateway by `Host` header
-(pattern `<inference-service>-<namespace>.mlops.local`):
+Once the script finishes, the model is reachable through the forwarded Envoy Gateway port by
+`Host` header (pattern `<inference-service>-<namespace>.mlops.local`):
 
 ```bash
 curl -s -H "Host: iris-team1-iris.mlops.local" -H "Content-Type: application/json" \
   -d '{"inputs":[{"name":"predict","shape":[3,4],"datatype":"FP64",
        "data":[[5.1,3.5,1.4,0.2],[6.2,3.4,5.4,2.3],[5.9,3.0,4.2,1.5]]}]}' \
-  http://127.0.0.1:80/v2/models/iris/infer | jq .
+  http://127.0.0.1:18080/v2/models/iris/infer | jq .
 ```
 
 For any other model, do not hand-write the payload — the feature width is a property of the

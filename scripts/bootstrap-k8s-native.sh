@@ -159,12 +159,24 @@ if [ -n "$ORCHESTRATION_APPS" ]; then
 fi
 log "Convergence took $(( T1 - T0 ))s"
 
-# --- 5/7: initialise lakeFS ---
-# MLflow's artifact root is the lakeFS repository `mlflow` on branch `main`. A fresh
-# lakeFS has neither an admin nor any repository, so artifact upload would fail with
-# no obvious cause. The admin keys are exactly the ones ESO already materialised from
-# the Key Vault, so lakeFS ends up agreeing with every client that reads that secret.
-log "5/7 Initialising lakeFS (admin + repositories)"
+# --- 5/7: wait for lakeFS to be initialised ---
+# The admin user and the `mlflow`/`datasets` repositories are created by the PostSync hook
+# job/lakefs-init that the platform-lakefs Application declares (components/lakefs/
+# lakefs-init-job.yaml); nothing here writes to lakeFS. Step 4 waits for Application
+# health, which does not include hooks, so the job may still be running at this point.
+log "5/7 Waiting up to 600s for the lakeFS init hook (admin + repositories)"
+deadline=$(( $(date -u +%s) + 600 ))
+until [ "$(kubectl -n platform-lakefs get job lakefs-init -o jsonpath='{.status.succeeded}' 2>/dev/null)" = "1" ]; do
+  if [ "$(date -u +%s)" -ge "$deadline" ]; then
+    kubectl -n platform-lakefs describe job lakefs-init || true
+    kubectl -n platform-lakefs logs job/lakefs-init --tail=50 2>/dev/null || true
+    die "lakeFS init hook did not complete — see output above."
+  fi
+  sleep 5
+done
+kubectl -n platform-lakefs logs job/lakefs-init 2>/dev/null | sed 's/^/  /' || true
+
+# The model scripts of step 6 talk to lakeFS as the administrator the hook created.
 kubectl -n platform-mlflow rollout status deploy/mlflow --timeout=300s >/dev/null 2>&1 || true
 LAKEFS_ACCESS_KEY="$(kubectl -n platform-mlflow get secret platform-lakefs-secret -o jsonpath='{.data.accessKeyID}' | base64 -d)"
 LAKEFS_SECRET_KEY="$(kubectl -n platform-mlflow get secret platform-lakefs-secret -o jsonpath='{.data.secretAccessKey}' | base64 -d)"
@@ -178,27 +190,6 @@ for i in $(seq 1 30); do
   curl -sf "${LAKEFS_ENDPOINT}/api/v1/healthcheck" >/dev/null 2>&1 && break
   [ "$i" -eq 30 ] && die "lakeFS port-forward never became reachable (see /tmp/lakefs-pf.log)"
   sleep 2
-done
-
-state="$(curl -sf "${LAKEFS_ENDPOINT}/api/v1/setup_lakefs" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("state",""))' 2>/dev/null || echo "")"
-if [ "$state" != "initialized" ]; then
-  log "  lakeFS not yet set up — creating the admin user"
-  curl -sf -X POST "${LAKEFS_ENDPOINT}/api/v1/setup_lakefs" -H 'Content-Type: application/json'     -d "{\"username\":\"admin\",\"key\":{\"access_key_id\":\"${LAKEFS_ACCESS_KEY}\",\"secret_access_key\":\"${LAKEFS_SECRET_KEY}\"}}"     >/dev/null || die "lakeFS setup failed"
-else
-  log "  lakeFS already initialised"
-fi
-
-# `mlflow/main` backs the artifact root; `datasets/dev` is where the orchestrated
-# pipeline stages raw, curated and feature data. Creating both here means the
-# pipeline needs no separate platform bootstrap.
-for spec in "mlflow:main" "datasets:dev"; do
-  repo="${spec%%:*}"; branch="${spec##*:}"
-  code="$(curl -s -o /tmp/lakefs-repo.json -w '%{http_code}' -X POST "${LAKEFS_ENDPOINT}/api/v1/repositories"     -u "${LAKEFS_ACCESS_KEY}:${LAKEFS_SECRET_KEY}" -H 'Content-Type: application/json'     -d "{\"name\":\"${repo}\",\"storage_namespace\":\"s3://lakefs/${repo}\",\"default_branch\":\"${branch}\"}")"
-  case "$code" in
-    201) log "  created lakeFS repository ${repo} (branch ${branch})" ;;
-    409) log "  lakeFS repository ${repo} already present" ;;
-    *)   cat /tmp/lakefs-repo.json; die "creating lakeFS repository ${repo} failed (HTTP ${code})" ;;
-  esac
 done
 
 # --- 6/7: register the demonstration model and promote it ---
@@ -246,14 +237,17 @@ log "Done in $(( T2 - T0 ))s total ($(( T1 - T0 ))s to converge, $(( T2 - T1 ))s
 
 cat <<EOF
 
-Model is serving. If the gateway has no external address (local cluster), first run:
-  minikube tunnel
+Model is serving. The gateway's Envoy Service is ClusterIP; forward it first:
+
+  kubectl -n platform-envoy-gateway port-forward \
+    "\$(kubectl -n platform-envoy-gateway get svc -o name \
+        -l gateway.envoyproxy.io/owning-gateway-name=ingress-gateway)" 18080:80
 
 Then query it (Host header pattern: <inference-service>-<namespace>.mlops.local):
 
   curl -s -H "Host: iris-team1-iris.mlops.local" -H "Content-Type: application/json" \
     -d @/tmp/iris-request.json \
-    http://127.0.0.1:80/v2/models/iris/infer | jq .
+    http://127.0.0.1:18080/v2/models/iris/infer | jq .
 
 The second tenant workload, workloads-team2-timeseries, names a model the
 orchestrated KFP pipeline produces (see the ml-pipelines repository). Run the
