@@ -9,3 +9,8 @@ yamlApplicationConfig:
     health:
       ldap:
         enabled: false
+
+# Sizing rule: RESOURCES.md (observed 402Mi, E61).
+resources:
+  requests: { cpu: 50m, memory: 512Mi }
+  limits:   { cpu: 500m, memory: 1Gi }

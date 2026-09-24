@@ -16,6 +16,9 @@ spec:
         name: mlflow
       protocolVersion: v2
       storageUri: {{ include "model.storageUri" . | quote }}
+      {{- with .Values.resources }}
+      resources: {{- toYaml . | nindent 8 }}
+      {{- end }}
     {{- if .Values.logger.enabled }}
     logger:
       mode: all

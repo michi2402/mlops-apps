@@ -1,0 +1,5 @@
+# Tracking service, multi-node profile: the chart's four server workers, stated
+# explicitly because the single-node profile changes the count. The base resources
+# are sized for four.
+extraArgs:
+  workers: "4"

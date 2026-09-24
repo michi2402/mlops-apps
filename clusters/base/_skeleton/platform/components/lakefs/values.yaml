@@ -16,3 +16,8 @@ lakefsConfig: |
       force_path_style: true
 
 extraEnvVarsSecret: platform-lakefs-s3-env
+
+# Sizing rule: RESOURCES.md (observed 67Mi, E61).
+resources:
+  requests: { cpu: 50m, memory: 128Mi }
+  limits:   { cpu: 500m, memory: 256Mi }

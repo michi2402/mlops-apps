@@ -6,6 +6,10 @@ cluster:
     enabled: true
   storage:
     size: 1Gi
+  # Per instance. Sizing rule: RESOURCES.md (observed 157Mi, E61).
+  resources:
+    requests: { cpu: 100m, memory: 256Mi }
+    limits:   { cpu: "1", memory: 512Mi }
   roles:
     - name: postgres-mlflow
       login: true

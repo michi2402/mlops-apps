@@ -58,3 +58,9 @@ resources:
   limits:
     cpu: 500m
     memory: 512Mi
+
+# The chart's ServiceMonitor scrapes the container port named `http` -- the admin
+# server (4195), where /metrics lives -- not the Service port, which targets the
+# pipeline input above.
+serviceMonitor:
+  enabled: true

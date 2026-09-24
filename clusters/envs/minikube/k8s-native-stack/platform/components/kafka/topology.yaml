@@ -28,8 +28,9 @@ spec:
     type: persistent-claim
     size: 2Gi
     deleteClaim: false
+  # Observed at 404Mi (E61); sizing rule: RESOURCES.md.
   resources:
-    requests: { cpu: 100m, memory: 768Mi }
+    requests: { cpu: 100m, memory: 512Mi }
     limits:   { cpu: 500m, memory: 1Gi }
   jvmOptions:
     -Xms: 512m

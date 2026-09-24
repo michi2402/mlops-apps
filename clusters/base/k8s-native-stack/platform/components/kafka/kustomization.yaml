@@ -7,3 +7,4 @@ kind: Kustomization
 resources:
   - kafka-cluster.yaml
   - inference-topic.yaml
+  - operator-podmonitor.yaml

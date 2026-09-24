@@ -16,6 +16,35 @@ fast, scripted path through the `k8s-native-stack`. For the general, stack-agnos
 | **Tools** | `kubectl`, `git`, `curl`, `python3`, and a **Python 3.10** environment built from [`scripts/requirements-producer.txt`](scripts/requirements-producer.txt), passed to the bootstrap as `PYTHON=`. The pin is not incidental: a model pickled under NumPy ≥ 2 cannot be loaded by the serving runtime. |
 | **Repo state** | You are on the commit you want deployed, and it is **pushed** — Argo CD pulls from `https://github.com/michi2402/mlops-apps` over HTTPS, not your local working copy. `git status --porcelain` should be clean and `git log --oneline origin/master..HEAD` empty. The bootstrap script does not push anything, so this is a precondition, not something it fixes. |
 
+### Local cluster on a 16 GB laptop
+
+The `minikube` profile is sized for one node of about 11 GiB, which a 16 GB machine can
+give while keeping ~4 GB for the host. On Windows with Docker Desktop (WSL 2 backend), WSL
+caps memory at half the host by default, so raise it first in `%UserProfile%\.wslconfig`
+and restart WSL (`wsl --shutdown`):
+
+```ini
+[wsl2]
+memory=12GB
+processors=6
+swap=4GB
+```
+
+Then start the node below that cap, leaving room for the Docker VM itself:
+
+```bash
+minikube start --driver=docker --cpus=6 --memory=11g --disk-size=40g
+```
+
+What the profile trims for this size (values and rationale in [`RESOURCES.md`](RESOURCES.md)):
+one Kafka controller and broker with small heaps, one MLflow server worker, one Dask worker
+and no notebook server, one PostgreSQL instance, standalone MinIO, and 12 h in-memory
+Prometheus retention. The bootstrap waits for the serving path only; the orchestrators take
+the last waves, so on a tight node they are the part that degrades first (evidence/local
+INT-03). Check headroom after convergence with
+`kubectl describe node minikube | grep -A8 'Allocated resources'`: requests near 100 % of
+allocatable mean the next pod stays `Pending`.
+
 ---
 
 ## The three operator actions

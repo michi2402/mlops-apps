@@ -19,7 +19,7 @@ ENVS = ["minikube", "datalab"]
 
 # Components whose values are overridden per environment. Everything else renders
 # identically in both, from the base alone.
-HELM_OVERLAYS = {"postgres", "minio", "monitoring", "dask", "rp-connect"}
+HELM_OVERLAYS = {"postgres", "minio", "monitoring", "dask", "rp-connect", "mlflow"}
 # Components delivered as raw manifests, so the overlay is a kustomize patch.
 KUSTOMIZE_OVERLAYS = {"kafka"}
 

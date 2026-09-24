@@ -16,6 +16,12 @@ spec:
     - repoURL: https://github.com/cloudnative-pg/charts
       targetRevision: cloudnative-pg-v0.26.0
       path: charts/cloudnative-pg
+      helm:
+        valuesObject:
+          # Sizing rule: RESOURCES.md (observed 73Mi, E61).
+          resources:
+            requests: { cpu: 50m, memory: 128Mi }
+            limits:   { cpu: 500m, memory: 256Mi }
 
     - repoURL: https://github.com/cloudnative-pg/charts
       targetRevision: cluster-v0.3.1

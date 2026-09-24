@@ -35,3 +35,9 @@ serviceMonitor:
   enabled: true
   useServicePort: true
   namespace: platform-mlflow
+
+# Sized for the chart's four server workers. Sizing rule: RESOURCES.md (observed
+# 779Mi, E61). The worker count is an environment property and set by the profiles.
+resources:
+  requests: { cpu: 50m, memory: 1Gi }
+  limits:   { cpu: "1", memory: 2Gi }

@@ -6,3 +6,7 @@ worker:
   resources:
     requests: { cpu: 200m, memory: 512Mi }
     limits:   { cpu: "1",  memory: 1Gi }
+# The bundled notebook server is a development convenience; pipelines submit to the
+# scheduler directly, so a single node does not carry it.
+jupyter:
+  enabled: false

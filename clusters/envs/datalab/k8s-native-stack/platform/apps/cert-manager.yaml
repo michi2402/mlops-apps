@@ -25,6 +25,19 @@ spec:
           enabled: true
           servicemonitor:
             enabled: true
+        # Sizing rule: RESOURCES.md (observed 107Mi cainjector; controller and
+        # webhook below the E61 listing).
+        resources:
+          requests: { cpu: 10m, memory: 64Mi }
+          limits:   { cpu: 200m, memory: 128Mi }
+        webhook:
+          resources:
+            requests: { cpu: 10m, memory: 64Mi }
+            limits:   { cpu: 200m, memory: 128Mi }
+        cainjector:
+          resources:
+            requests: { cpu: 10m, memory: 128Mi }
+            limits:   { cpu: 200m, memory: 256Mi }
 
   syncPolicy:
     automated:

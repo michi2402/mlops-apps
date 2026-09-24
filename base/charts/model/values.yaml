@@ -56,6 +56,15 @@ storage:
     accessKeyId: platform-lakefs-access-key
     secretAccessKey: platform-lakefs-secret-key
 
+# --- What it may use --------------------------------------------------------------
+# Stated here so that a tenant's footprint is visible in its manifest. Without it the
+# serving controller injects its own default -- one core and 2Gi, request equal to
+# limit. The reference predictor was observed at 271Mi (E61); sizing rule:
+# RESOURCES.md. A model that needs more overrides this value.
+resources:
+  requests: { cpu: 100m, memory: 512Mi }
+  limits:   { cpu: "1", memory: 1Gi }
+
 # Escape hatch: a fully qualified storageUri that overrides everything above. Only
 # for an artefact that did not come through the promotion step — using it forfeits
 # the naming guarantee, so prefer `model.name`/`model.version`.

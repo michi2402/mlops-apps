@@ -1,0 +1,14 @@
+# The Strimzi cluster operator serves Prometheus metrics on its `http` port.
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: strimzi-cluster-operator
+  namespace: platform-kafka
+spec:
+  selector:
+    matchLabels:
+      strimzi.io/kind: cluster-operator
+  podMetricsEndpoints:
+    - port: http
+      path: /metrics
+      interval: 30s

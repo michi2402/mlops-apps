@@ -1,6 +1,15 @@
 kserve:
   controller:
     deploymentMode: RawDeployment
+    # Upstream requests 300Mi for each of the two containers, request equal to limit;
+    # the pod was observed at 95Mi in total (E61). Sizing rule: RESOURCES.md.
+    resources:
+      requests: { cpu: 50m, memory: 128Mi }
+      limits:   { cpu: 500m, memory: 256Mi }
+    rbacProxy:
+      resources:
+        requests: { cpu: 10m, memory: 64Mi }
+        limits:   { cpu: 100m, memory: 128Mi }
     gateway:
       domain: mlops.local
       ingressGateway:

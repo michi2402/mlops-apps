@@ -68,11 +68,9 @@ spec:
       # side effect, so the declared topic is load-bearing rather than incidental.
       auto.create.topics.enable: false
   entityOperator:
+    # Only the topic operator: the platform declares no KafkaUser, so a user operator
+    # would reconcile nothing while holding its own container and requests.
     topicOperator:
-      resources:
-        requests: { cpu: 50m,  memory: 256Mi }
-        limits:   { cpu: 200m, memory: 512Mi }
-    userOperator:
       resources:
         requests: { cpu: 50m,  memory: 256Mi }
         limits:   { cpu: 200m, memory: 512Mi }

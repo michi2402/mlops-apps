@@ -16,6 +16,14 @@ spec:
     - repoURL: docker.io/envoyproxy
       chart: gateway-helm
       targetRevision: v1.5.1
+      helm:
+        valuesObject:
+          deployment:
+            envoyGateway:
+              # Sizing rule: RESOURCES.md (observed 94Mi, E61).
+              resources:
+                requests: { cpu: 50m, memory: 128Mi }
+                limits:   { cpu: 500m, memory: 256Mi }
     - repoURL: https://github.com/michi2402/mlops-apps
       targetRevision: master
       path: clusters/base/_skeleton/platform/components/envoy-gateway

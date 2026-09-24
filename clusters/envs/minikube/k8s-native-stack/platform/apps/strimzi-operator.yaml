@@ -26,6 +26,10 @@ spec:
       helm:
         valuesObject:
           watchAnyNamespace: false
+          # Sizing rule: RESOURCES.md (observed 277Mi, E61).
+          resources:
+            requests: { cpu: 50m, memory: 512Mi }
+            limits:   { cpu: "1", memory: 1Gi }
 
   destination:
     server: https://kubernetes.default.svc

@@ -1,0 +1,70 @@
+# Monitors that cannot live beside their target. External Secrets and Envoy Gateway
+# deploy in wave -9, before this Application installs the monitor CRDs in wave -8,
+# and the predictors belong to tenants, whose charts should not have to know how the
+# platform collects metrics.
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: external-secrets
+  namespace: platform-monitoring
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  namespaceSelector:
+    matchNames: [external-secrets]
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: external-secrets
+  podMetricsEndpoints:
+    - port: metrics
+      interval: 30s
+---
+# The Envoy data plane, one pod per Gateway replica.
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: envoy-proxy
+  namespace: platform-monitoring
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  namespaceSelector:
+    matchNames: [platform-envoy-gateway]
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: proxy
+      app.kubernetes.io/managed-by: envoy-gateway
+  podMetricsEndpoints:
+    - port: metrics
+      path: /stats/prometheus
+      interval: 30s
+---
+# Every model, in every tenant namespace: the model-level metrics of the serving
+# runtime. MLServer serves them on port 8082, which the runtime's container does not
+# declare, so the target address is set from the pod IP rather than from a named port.
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: model-predictors
+  namespace: platform-monitoring
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  namespaceSelector:
+    any: true
+  selector:
+    matchExpressions:
+      - key: serving.kserve.io/inferenceservice
+        operator: Exists
+  podMetricsEndpoints:
+    - path: /metrics
+      interval: 30s
+      relabelings:
+        - sourceLabels: [__meta_kubernetes_pod_container_name]
+          regex: kserve-container
+          action: keep
+        - sourceLabels: [__meta_kubernetes_pod_ip]
+          targetLabel: __address__
+          replacement: "$1:8082"
+        - sourceLabels: [__meta_kubernetes_pod_label_serving_kserve_io_inferenceservice]
+          targetLabel: inferenceservice

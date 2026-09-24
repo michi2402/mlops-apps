@@ -20,6 +20,7 @@ spec:
         releaseName: mlflow
         valueFiles:
           - $values/clusters/base/k8s-native-stack/platform/components/mlflow/values.yaml
+          - $values/clusters/envs/datalab/k8s-native-stack/platform/components/mlflow/values.yaml
 
     - repoURL: https://github.com/michi2402/mlops-apps
       targetRevision: master
