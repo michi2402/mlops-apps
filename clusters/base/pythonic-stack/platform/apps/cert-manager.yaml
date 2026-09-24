@@ -25,11 +25,11 @@ spec:
           enabled: true
           servicemonitor:
             enabled: true
-        # Sizing rule: RESOURCES.md (observed 107Mi cainjector; controller and
-        # webhook below the E61 listing).
+        # Sizing rule: RESOURCES.md (observed 107Mi cainjector, E61; controller 72Mi
+        # and webhook 52Mi in the laptop run).
         resources:
-          requests: { cpu: 10m, memory: 64Mi }
-          limits:   { cpu: 200m, memory: 128Mi }
+          requests: { cpu: 10m, memory: 128Mi }
+          limits:   { cpu: 200m, memory: 256Mi }
         webhook:
           resources:
             requests: { cpu: 10m, memory: 64Mi }

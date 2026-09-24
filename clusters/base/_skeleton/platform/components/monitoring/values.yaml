@@ -2,9 +2,10 @@ prometheus:
   prometheusSpec:
     replicas: 1
     retention: 12h
+    # Observed at 392Mi with every monitor scraped (evidence/local-laptop E61); RESOURCES.md.
     resources:
-      requests: { cpu: 100m, memory: 256Mi }
-      limits: { cpu: 500m, memory: 512Mi }
+      requests: { cpu: 100m, memory: 512Mi }
+      limits: { cpu: 500m, memory: 1Gi }
     # allow Probes from all namespaces (not only those with Helm-set labels)
     probeSelectorNilUsesHelmValues: false
     serviceMonitorSelectorNilUsesHelmValues: false
@@ -21,9 +22,16 @@ grafana:
     passwordKey: password
   service:
     type: ClusterIP
+  # The Grafana container was capped at its former 256Mi limit (255Mi observed, E61
+  # laptop run), so its demand is at least that; RESOURCES.md, next power of two above.
   resources:
-    requests: { cpu: 50m, memory: 128Mi }
-    limits: { cpu: 200m, memory: 256Mi }
+    requests: { cpu: 50m, memory: 512Mi }
+    limits: { cpu: 500m, memory: 1Gi }
+  # Dashboard and datasource sidecars: observed 95Mi and 84Mi.
+  sidecar:
+    resources:
+      requests: { cpu: 10m, memory: 128Mi }
+      limits: { cpu: 100m, memory: 256Mi }
   dashboardProviders:
     dashboardproviders.yaml:
       apiVersion: 1
@@ -62,12 +70,20 @@ coreDns: { enabled: false }
 kubeEtcd: { enabled: false }
 
 # Light exporter footprints
-nodeExporter:
+# The exporters are subcharts, configured under their chart names; the `nodeExporter` and
+# `kubeStateMetrics` keys only switch them on. Observed 21Mi and 68Mi (E61 laptop run).
+prometheus-node-exporter:
   resources:
     requests: { cpu: 50m, memory: 64Mi }
     limits: { cpu: 200m, memory: 128Mi }
 
-kubeStateMetrics:
+kube-state-metrics:
+  resources:
+    requests: { cpu: 50m, memory: 128Mi }
+    limits: { cpu: 200m, memory: 256Mi }
+
+# Observed 34Mi (E61 laptop run); RESOURCES.md.
+prometheusOperator:
   resources:
     requests: { cpu: 50m, memory: 64Mi }
     limits: { cpu: 200m, memory: 128Mi }

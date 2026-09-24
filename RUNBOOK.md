@@ -33,8 +33,13 @@ swap=4GB
 Then start the node below that cap, leaving room for the Docker VM itself:
 
 ```bash
-minikube start --driver=docker --cpus=6 --memory=11g --disk-size=40g
+minikube start --driver=docker --cpus=6 --memory=11g --disk-size=40g \
+  --extra-config=kubelet.serialize-image-pulls=false
 ```
+
+The last flag matters on a fresh node: by default the kubelet pulls one image at a time, and
+the orchestrators' ~20 images then queue ahead of MLflow's, so the serving path waits on images
+it does not need (evidence/local-laptop LAP-03).
 
 What the profile trims for this size (values and rationale in [`RESOURCES.md`](RESOURCES.md)):
 one Kafka controller and broker with small heaps, one MLflow server worker, one Dask worker

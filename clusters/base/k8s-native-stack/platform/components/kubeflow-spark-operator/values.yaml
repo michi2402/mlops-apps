@@ -10,10 +10,13 @@ metrics:
   enable: true
   # podMonitor.enable: true   # falls du Prometheus Operator nutzt
 
-resources:
-  limits:
-    cpu: "1"
-    memory: 512Mi
-  requests:
-    cpu: 100m
-    memory: 128Mi
+# The chart reads controller.resources; a top-level `resources` is ignored (the controller
+# ran without requests in the laptop run, 55Mi observed).
+controller:
+  resources:
+    limits:
+      cpu: "1"
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
