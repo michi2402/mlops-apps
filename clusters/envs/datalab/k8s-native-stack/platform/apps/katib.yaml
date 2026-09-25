@@ -29,6 +29,17 @@ spec:
             kind: Namespace
             metadata:
               name: kubeflow
+  # Katib's webhook manifests carry a placeholder caBundle (Cg==) that cert-manager's
+  # cainjector replaces with the real CA. Without this the Application reads OutOfSync for
+  # good, and self-heal writes the placeholder back, breaking the webhooks until the
+  # injector restores them. The field belongs to cert-manager, so Argo CD leaves it alone.
+  ignoreDifferences:
+    - group: admissionregistration.k8s.io
+      kind: MutatingWebhookConfiguration
+      jqPathExpressions: ['.webhooks[]?.clientConfig.caBundle']
+    - group: admissionregistration.k8s.io
+      kind: ValidatingWebhookConfiguration
+      jqPathExpressions: ['.webhooks[]?.clientConfig.caBundle']
   syncPolicy:
     automated: { prune: true, selfHeal: true }
     retry:
@@ -44,3 +55,4 @@ spec:
     syncOptions:
       - CreateNamespace=true
       - ServerSideApply=true
+      - RespectIgnoreDifferences=true
