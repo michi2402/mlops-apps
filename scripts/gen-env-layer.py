@@ -1,19 +1,22 @@
-"""Generate the per-environment Application layer for k8s-native-stack.
+"""Generate the per-environment Application layer for a stack (default k8s-native-stack).
 
 The base at clusters/base/k8s-native-stack holds the structure: every Application's
 sources, sync waves, destination namespaces and chart versions, plus the neutral
 values. An environment adds exactly one thing -- an overlay -- and nothing else.
 
 The generated apps/ trees differ only in the environment token, which
-scripts/preflight/check-env-parity.sh asserts.
+scripts/preflight/env-parity.py asserts.
+
+  python3 scripts/gen-env-layer.py [k8s-native-stack|pythonic-stack]
 """
 import io
 import os
 import re
 import shutil
+import sys
 
-REPO = r"C:\Users\micmay\university\bsc\thesis\poc\mlops-apps"
-STACK = "k8s-native-stack"
+REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+STACK = sys.argv[1] if len(sys.argv) > 1 else "k8s-native-stack"
 BASE = f"clusters/base/{STACK}"
 ENVS = ["minikube", "datalab"]
 
@@ -92,4 +95,4 @@ for env in ENVS:
     t = t.replace("  name: root\n", f"  name: root-{env}\n", 1)
     write(p(envroot, "aoa-root.yaml"), t)
 
-print("generated app layer for:", ", ".join(ENVS))
+print(f"generated {STACK} app layer for:", ", ".join(ENVS))

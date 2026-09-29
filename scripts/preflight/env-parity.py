@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Measure the environment surface of the k8s-native stack.
+"""Measure the environment surface of a stack (default: the k8s-native stack).
 
 This is the instrument behind the portability result. It answers two questions
 without needing a cluster:
@@ -16,7 +16,7 @@ M2 enumerates. Rendering both would restate that through a much larger artefact.
 
 Exits non-zero if M1 fails, so it can gate a commit.
 
-  python3 scripts/preflight/env-parity.py [--json]
+  python3 scripts/preflight/env-parity.py [--json] [--stack pythonic-stack]
 """
 from __future__ import annotations
 
@@ -185,9 +185,12 @@ def kafka_render_diff():
 
 
 def main():
+    global STACK
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--stack", default=STACK)
     args = ap.parse_args()
+    STACK = args.stack
 
     app_files, problems = check_app_layer()
     surface = overlay_surface()
