@@ -6,13 +6,26 @@ scheduler:
   resources:
     requests: { cpu: 100m, memory: 256Mi }
     limits:   { cpu: "1",  memory: 1Gi }
-  # optional: feste Image-Version pinnen
-  # image:
-  #   repository: ghcr.io/dask/dask
-  #   tag: 2024.8.0
+  # Scheduler and workers run the TSFresh step's own image, so that client, scheduler and
+  # workers share one distributed version and the workers can import tsfresh. With the
+  # chart's stock image (dask 2024.1.0, no tsfresh) the client handshake fails and the
+  # TSFresh step silently falls back to local multiprocessing.
+  image:
+    repository: ghcr.io/julianzeilinger/tsfresh
+    tag: main
+    pullPolicy: Always
+    pullSecrets:
+      - name: ghcr-creds
 
 # Worker
 worker:
+  image:
+    repository: ghcr.io/julianzeilinger/tsfresh   # same image as the scheduler, see above
+    tag: main
+    pullPolicy: Always
+    dask_worker: dask-worker
+    pullSecrets:
+      - name: ghcr-creds
   replicas: 2
   resources:
     requests: { cpu: 200m, memory: 512Mi }
