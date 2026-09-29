@@ -16,3 +16,10 @@ worker:
 serviceAccount:
   create: false
   name: prefect-worker
+
+# The worker's Role and RoleBinding come from rbac-pipeline-runner (explicit rules);
+# the chart's own copies had the same names and fought over ownership.
+role:
+  create: false
+rolebinding:
+  create: false

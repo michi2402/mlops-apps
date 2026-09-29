@@ -16,7 +16,7 @@ spec:
   sources:
     - repoURL: https://prefecthq.github.io/prefect-helm
       chart: prefect-server
-      targetRevision: "*"
+      targetRevision: "2026.9.26234203"   # Prefect 3.8.7; the chart index moves daily
       helm:
         releaseName: prefect
         valueFiles:

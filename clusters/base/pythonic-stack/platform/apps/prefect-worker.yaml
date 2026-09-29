@@ -15,7 +15,7 @@ spec:
   sources:
     - repoURL: https://prefecthq.github.io/prefect-helm
       chart: prefect-worker
-      targetRevision: "*"
+      targetRevision: "2026.9.26234203"   # Prefect 3.8.7; the chart index moves daily
       helm:
         releaseName: prefect
         valueFiles:
@@ -23,7 +23,9 @@ spec:
 
     - repoURL: https://github.com/michi2402/mlops-apps
       targetRevision: master
-      path: clusters/base/pythonic-stack/platform/components/prefect
+      # Values only: the component's manifests are rendered by platform-prefect-server.
+      # Rendering the directory from both Applications made each claim the other's
+      # objects, so neither ever reported Synced.
       ref: values
 
   syncPolicy:
