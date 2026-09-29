@@ -25,6 +25,11 @@ spec:
         GIT_REMOTE_URL: "https://github.com/julianzeilinger/mlops-pipelines.git"
         PREFECT_CLIENT_CUSTOM_HEADERS: "{\"Authorization\":\"Basic YWRtaW46Y2hhbmdlLW1l\"}"
         PREFECT_SERVER_API_AUTH_STRING: "{{ .PREFECT_SERVER_API_AUTH_STRING }}"
+        # With template.data set, ESO renders only the keys listed here; fetched values
+        # that are not referenced never reach the Secret.
+        AWS_ACCESS_KEY_ID: "{{ .AWS_ACCESS_KEY_ID }}"
+        AWS_SECRET_ACCESS_KEY: "{{ .AWS_SECRET_ACCESS_KEY }}"
+        GIT_AUTH_TOKEN: "{{ .GIT_AUTH_TOKEN }}"
         PREFECT_API_AUTH_STRING: "{{ .PREFECT_API_AUTH_STRING }}"
   data:
     - secretKey: AWS_ACCESS_KEY_ID
