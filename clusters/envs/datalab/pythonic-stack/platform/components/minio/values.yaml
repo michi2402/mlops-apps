@@ -1,0 +1,15 @@
+# Object store, multi-node profile: distributed across four drives, which is the
+# smallest configuration in which erasure coding tolerates a loss. On three workers
+# the four pods cannot each hold a node to themselves, so this tolerates drive loss
+# rather than node loss -- stated here because the difference matters to any claim
+# made about it.
+#
+# This is the one profile parameter that is not structurally neutral: the chart
+# renders a StatefulSet here and a Deployment under the single-node profile.
+mode: distributed
+replicas: 4
+persistence:
+  size: 20Gi
+resources:
+  requests: { cpu: 250m, memory: 512Mi }
+  limits:   { cpu: "1",  memory: 1Gi }

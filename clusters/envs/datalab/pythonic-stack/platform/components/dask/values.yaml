@@ -1,0 +1,7 @@
+# Distributed compute, multi-node profile: two workers, which on distinct nodes is
+# parallelism rather than contention.
+worker:
+  replicas: 2
+  resources:
+    requests: { cpu: 500m, memory: 1Gi }
+    limits:   { cpu: "2",  memory: 2Gi }

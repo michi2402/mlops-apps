@@ -1,0 +1,50 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform-mlflow
+  namespace: argocd
+  labels:
+    mlops.tuwien/tier: platform
+  annotations:
+    argocd.argoproj.io/sync-wave: "-5"
+spec:
+  project: platform
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: platform-mlflow
+  sources:
+    # The packaged chart, not the Git path: the packaged chart vendors its PostgreSQL and
+    # MySQL subcharts, whereas a Git path makes the repo-server rebuild them, which means
+    # fetching Bitnami's full chart index on every manifest generation -- on a loaded node
+    # that outlasted the repo-server's 90 s exec limit (evidence/local-laptop-clean).
+    - repoURL: https://community-charts.github.io/helm-charts
+      chart: mlflow
+      targetRevision: 1.6.2
+      helm:
+        releaseName: mlflow
+        valueFiles:
+          - $values/clusters/base/pythonic-stack/platform/components/mlflow/values.yaml
+          - $values/clusters/envs/datalab/pythonic-stack/platform/components/mlflow/values.yaml
+
+    - repoURL: https://github.com/michi2402/mlops-apps
+      targetRevision: master
+      path: clusters/base/pythonic-stack/platform/components/mlflow
+      ref: values
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      # Never give up on a failed sync: Argo CD does not re-attempt one against the
+      # same revision, so a dependency still starting on the first attempt would
+      # otherwise leave this OutOfSync for good. refresh: retries use the newest revision.
+      limit: -1
+      refresh: true
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true

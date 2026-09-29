@@ -1,0 +1,3 @@
+# Inference-event connector, single-node profile: one replica. The second replica
+# exists for availability across nodes, which a single node cannot provide.
+replicaCount: 1

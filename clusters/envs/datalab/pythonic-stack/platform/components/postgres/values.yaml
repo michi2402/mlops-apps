@@ -1,0 +1,4 @@
+# Relational tier, multi-node profile: a primary and a standby, which on distinct
+# nodes is an availability property rather than a demonstration of one.
+cluster:
+  instances: 2

@@ -1,0 +1,3 @@
+# Inference-event connector, multi-node profile: two replicas, so that losing a node
+# does not lose the ingest path the Day-2 substrate depends on.
+replicaCount: 2

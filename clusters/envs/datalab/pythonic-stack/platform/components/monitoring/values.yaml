@@ -1,0 +1,16 @@
+# Observability, multi-node profile. Retention long enough to cover a full campaign
+# and to survive a restart, which needs a volume; the single-node profile keeps
+# metrics in memory instead.
+prometheus:
+  prometheusSpec:
+    retention: 7d
+    resources:
+      requests: { cpu: 250m, memory: 1Gi }
+      limits:   { cpu: "1",  memory: 2Gi }
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 20Gi

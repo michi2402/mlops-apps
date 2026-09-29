@@ -1,0 +1,5 @@
+# Relational tier, single-node profile: one instance. A primary/standby pair on one
+# node demonstrates the topology without providing its property, and costs a second
+# volume and a second set of requests to do so.
+cluster:
+  instances: 1

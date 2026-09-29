@@ -1,0 +1,8 @@
+# Tracking service, single-node profile: one server worker. One user drives a local
+# run, so three further workers buy concurrency nobody uses at ~180Mi each. The
+# request is sized for one worker and has not yet been observed (re-run: E61).
+extraArgs:
+  workers: "1"
+resources:
+  requests: { cpu: 50m, memory: 512Mi }
+  limits:   { cpu: "1", memory: 1Gi }

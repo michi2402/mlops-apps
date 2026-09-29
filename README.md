@@ -96,8 +96,8 @@ mlops-apps/
 │   │       │   └── components/          # Helm value overrides + extra manifests per service
 │   │       └── workloads/team*/apps/    # ML workloads (e.g. the iris InferenceService)
 │   └── envs/                    # What depends on where the platform runs
-│       ├── minikube/k8s-native-stack/   # Single-node profile
-│       └── datalab/k8s-native-stack/    # Multi-node profile
+│       ├── minikube/{k8s-native,pythonic}-stack/   # Single-node profile
+│       └── datalab/{k8s-native,pythonic}-stack/    # Multi-node profile
 │           ├── aoa-root.yaml            # Apply this to bootstrap the stack
 │           ├── apps/ platform/apps/     # The same Applications, naming this environment
 │           └── platform/components/     # Only what this environment overrides
@@ -153,7 +153,7 @@ profiles of `k8s-native-stack`.
 The sequence below instantiates `k8s-native-stack` in a chosen environment. Set `CLUSTER_ENV`
 to `minikube` or `datalab`; there is no default, because the profiles differ in event-bus
 topology, replica counts and storage. To deploy `pythonic-stack` instead, apply
-`clusters/base/pythonic-stack/aoa-root.yaml` — it has no environment layer. Run all commands
+`clusters/envs/<env>/pythonic-stack/aoa-root.yaml`; it carries the same profiles. Run all commands
 from the repository root (`poc/mlops-apps/`).
 
 ### 1. Provision Azure secrets backend (one time)

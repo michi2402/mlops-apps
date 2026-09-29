@@ -4,19 +4,27 @@ The same platform tier under a different orchestration layer: Prefect and Dask i
 Katib and the Kubeflow Trainer. It is deployed and evaluated in the companion implementation
 study, not by this thesis.
 
-## Single profile, by design
+## Profiles
 
-This stack has **no environment layer**. `clusters/envs/` carries profiles for
-`k8s-native-stack` only, because that is the stack instantiated in two materially different
-environments; a stack that runs in one place does not need the split, and adding one it does
-not use would cost drift for nothing. Its root Application therefore lives here:
+This stack now runs in the same two environments as `k8s-native-stack` (the companion study
+evaluates both stacks on Minikube and on the dataLAB cluster), so it carries the same
+environment layer. `clusters/envs/<env>/pythonic-stack/` holds the generated Application layer
+and the platform overlays, which are copies of the `k8s-native-stack` overlays: every key they
+set is structurally neutral (replicas, resources, volumes), so both stacks get the same platform
+profile. Regenerate and check the layer with
 
 ```bash
-kubectl apply -f clusters/base/pythonic-stack/aoa-root.yaml
+python3 scripts/gen-env-layer.py pythonic-stack
+python3 scripts/preflight/env-parity.py --stack pythonic-stack
 ```
 
-If this stack ever has to run somewhere materially different, give it a profile the same way —
-see [`../../README.md`](../../README.md).
+and deploy it with
+
+```bash
+kubectl apply -f clusters/envs/<env>/pythonic-stack/aoa-root.yaml
+```
+
+This directory, like `base/k8s-native-stack/`, is a template and not an entry point.
 
 ## Relationship to the other stacks
 

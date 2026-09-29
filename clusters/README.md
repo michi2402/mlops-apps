@@ -4,11 +4,11 @@
 clusters/
   base/
     k8s-native-stack/      structure + neutral values; NOT an entry point
-    pythonic-stack/        companion stack, single profile
+    pythonic-stack/        companion stack, same split; NOT an entry point
     _skeleton/             copy-paste template, never deployed
   envs/
-    minikube/k8s-native-stack/    single-node profile
-    datalab/k8s-native-stack/     multi-node profile
+    minikube/{k8s-native,pythonic}-stack/    single-node profile
+    datalab/{k8s-native,pythonic}-stack/     multi-node profile
 ```
 
 ## The split

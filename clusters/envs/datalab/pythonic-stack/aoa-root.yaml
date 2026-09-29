@@ -1,0 +1,101 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root-datalab
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/michi2402/mlops-apps
+    targetRevision: master
+    path: clusters/envs/datalab/pythonic-stack/apps
+    directory:
+      recurse: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      # Never give up on a failed sync: Argo CD does not re-attempt one against the
+      # same revision, so a dependency still starting on the first attempt would
+      # otherwise leave this OutOfSync for good. refresh: retries use the newest revision.
+      limit: -1
+      refresh: true
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m
+    syncOptions:
+      - CreateNamespace=true
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: platform
+  namespace: argocd
+spec:
+  description: Local skeleton project grouping platform apps
+  sourceRepos:
+    - '*'
+  destinations:
+    - namespace: '*'
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: workloads-team1
+  namespace: argocd
+spec:
+  description: Local skeleton project grouping team apps
+  # Applications claiming this project may additionally live in the tenant's own
+  # namespace. A project without sourceNamespaces accepts Applications only from the
+  # ArgoCD namespace, so a tenant manifest naming `default` or `platform` is refused.
+  sourceNamespaces:
+    - team1
+  sourceRepos:
+    - '*'
+  destinations:
+    - namespace: team1
+      server: https://kubernetes.default.svc
+    - namespace: 'team1-*'
+      server: https://kubernetes.default.svc
+  # Namespace only: the tenant chart renders namespaced resources exclusively, so a
+  # wildcard here would permit ClusterRoleBinding and similar escalation vectors.
+  clusterResourceWhitelist:
+    - group: ''
+      kind: Namespace
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: workloads-team2
+  namespace: argocd
+spec:
+  description: Local skeleton project grouping team apps
+  # Applications claiming this project may additionally live in the tenant's own
+  # namespace. A project without sourceNamespaces accepts Applications only from the
+  # ArgoCD namespace, so a tenant manifest naming `default` or `platform` is refused.
+  sourceNamespaces:
+    - team2
+  sourceRepos:
+    - '*'
+  destinations:
+    - namespace: team2
+      server: https://kubernetes.default.svc
+    - namespace: 'team2-*'
+      server: https://kubernetes.default.svc
+  # Namespace only: the tenant chart renders namespaced resources exclusively, so a
+  # wildcard here would permit ClusterRoleBinding and similar escalation vectors.
+  clusterResourceWhitelist:
+    - group: ''
+      kind: Namespace

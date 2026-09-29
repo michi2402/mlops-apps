@@ -1,0 +1,56 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform-postgres
+  namespace: argocd
+  labels:
+    mlops.tuwien/tier: platform
+  annotations:
+    argocd.argoproj.io/sync-wave: "-6"
+spec:
+  project: platform
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: platform-postgres
+  sources:
+    - repoURL: https://github.com/cloudnative-pg/charts
+      targetRevision: cloudnative-pg-v0.26.0
+      path: charts/cloudnative-pg
+      helm:
+        valuesObject:
+          # Sizing rule: RESOURCES.md (observed 73Mi, E61).
+          resources:
+            requests: { cpu: 50m, memory: 128Mi }
+            limits:   { cpu: 500m, memory: 256Mi }
+
+    - repoURL: https://github.com/cloudnative-pg/charts
+      targetRevision: cluster-v0.3.1
+      path: charts/cluster
+      helm:
+        releaseName: postgres
+        valueFiles:
+          - $values/clusters/base/pythonic-stack/platform/components/postgres/values.yaml
+          - $values/clusters/envs/minikube/pythonic-stack/platform/components/postgres/values.yaml
+
+    - repoURL: https://github.com/michi2402/mlops-apps
+      targetRevision: master
+      path: clusters/base/pythonic-stack/platform/components/postgres
+      ref: values
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      # Never give up on a failed sync: Argo CD does not re-attempt one against the
+      # same revision, so a dependency still starting on the first attempt would
+      # otherwise leave this OutOfSync for good. refresh: retries use the newest revision.
+      limit: -1
+      refresh: true
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true

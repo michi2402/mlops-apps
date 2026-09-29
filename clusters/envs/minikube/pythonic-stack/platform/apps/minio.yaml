@@ -1,0 +1,47 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform-minio
+  namespace: argocd
+  labels:
+    mlops.tuwien/tier: platform
+  annotations:
+    argocd.argoproj.io/sync-wave: "-7"
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+spec:
+  project: platform
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: platform-minio
+  sources:
+    - repoURL: https://github.com/minio/minio
+      targetRevision: RELEASE.2025-09-07T16-13-09Z
+      path: helm/minio
+      helm:
+        releaseName: minio
+        valueFiles:
+          - $values/clusters/base/pythonic-stack/platform/components/minio/values.yaml
+          - $values/clusters/envs/minikube/pythonic-stack/platform/components/minio/values.yaml
+
+    - repoURL: https://github.com/michi2402/mlops-apps
+      targetRevision: master
+      path: clusters/base/pythonic-stack/platform/components/minio
+      ref: values
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      # Never give up on a failed sync: Argo CD does not re-attempt one against the
+      # same revision, so a dependency still starting on the first attempt would
+      # otherwise leave this OutOfSync for good. refresh: retries use the newest revision.
+      limit: -1
+      refresh: true
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
