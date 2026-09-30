@@ -371,8 +371,7 @@ monitoring.
    ```
 
    The copy is staged on a lakeFS branch and committed, so every promotion is an addressable,
-   revertible lakeFS commit. The script prints a `MODEL_URI_PINNED` that names that commit
-   instead of the branch, for when exact bytes matter more than convenience.
+   revertible lakeFS commit.
 
 3. **Deploy it with KServe** using the reusable `model` chart. The workload
    ([`k8s-native-stack/workloads/team1/apps/iris.yaml`](clusters/base/k8s-native-stack/workloads/team1/apps/iris.yaml))

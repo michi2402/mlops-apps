@@ -37,9 +37,7 @@ model:
 storage:
   # lakeFS repository backing MLflow's artifact root.
   repository: mlflow
-  # lakeFS ref: a branch, a tag, or a commit id. A branch resolves to whatever it
-  # currently points at; a commit id or tag pins the exact bytes and is what a
-  # reproducibility claim needs.
+  # lakeFS branch the promotion step writes to.
   ref: main
   # Path prefix, inside the ref, that the promotion step writes under.
   prefix: serving

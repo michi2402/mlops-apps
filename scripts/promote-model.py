@@ -23,8 +23,7 @@ reads.
 
 The destination is lakeFS, not the object store beneath it. The copy is staged on
 a branch and committed, so every promotion is a lakeFS commit that can be named,
-diffed and rolled back, and a manifest may pin that commit id in place of the
-branch when byte-level immutability is wanted.
+diffed and rolled back.
 
 Idempotent: re-promoting the same version is a no-op unless ``--force`` is given.
 
@@ -189,7 +188,7 @@ def main():
 
     if args.dry_run:
         print("dry-run: nothing copied")
-        emit(args.name, version, model_uri, "")
+        emit(args.name, version, model_uri)
         return
 
     s3 = s3_client(lakefs_endpoint, ak, sk, region)
@@ -198,7 +197,7 @@ def main():
     existing = s3.list_objects_v2(Bucket=args.repository, Prefix=dest_prefix + "/", MaxKeys=1)
     if existing.get("KeyCount", 0) and not args.force:
         print("destination already populated -- left as-is (pass --force to overwrite)")
-        emit(args.name, version, model_uri, "")
+        emit(args.name, version, model_uri)
         return
 
     # --- 3. fetch the artefacts ----------------------------------------------
@@ -256,18 +255,14 @@ def main():
     if args.write_request:
         write_request(example_text, args.write_request)
 
-    emit(args.name, version, model_uri, commit, args)
+    emit(args.name, version, model_uri)
 
 
-def emit(name, version, model_uri, commit, args=None):
+def emit(name, version, model_uri):
     print()
     print("MODEL_NAME=%s" % name)
     print("MODEL_VERSION=%s" % version)
     print("MODEL_URI=%s" % model_uri)
-    if commit and args is not None:
-        # A manifest may pin this in place of the branch to fix the exact bytes.
-        print("MODEL_URI_PINNED=s3://%s/%s/%s/%s/%s"
-              % (args.repository, commit, args.prefix, name, version))
 
 
 if __name__ == "__main__":
