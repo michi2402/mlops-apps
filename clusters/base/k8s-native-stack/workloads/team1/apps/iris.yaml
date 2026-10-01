@@ -22,7 +22,7 @@ spec:
         # version here is the promotion event.
         model:
           name: "tracking-quickstart"
-          version: "1"
+          version: "2"
   syncPolicy:
     automated:
       prune: true
