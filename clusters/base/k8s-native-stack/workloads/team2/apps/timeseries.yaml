@@ -32,7 +32,7 @@ spec:
         fullnameOverride: "timeseries"
         model:
           name: "timeseries-model"
-          version: "2"
+          version: "1"
   syncPolicy:
     automated:
       prune: true
