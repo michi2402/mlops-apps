@@ -122,6 +122,7 @@ def write_request(example_text, out):
         print("note         : no input_example.json logged -- cannot derive a request")
         return
     doc = json.loads(example_text)
+    columns = doc.get("columns") if isinstance(doc, dict) else None
     rows = doc if isinstance(doc, list) else (doc.get("data") or doc.get("inputs"))
     if isinstance(rows, dict):
         # Column-oriented example: transpose to rows.
@@ -132,14 +133,29 @@ def write_request(example_text, out):
     if not rows:
         print("note         : input_example.json has no recognisable rows -- cannot derive a request")
         return
-    payload = {
-        "inputs": [{
-            "name": "predict",
-            "shape": [len(rows), len(rows[0])],
-            "datatype": "FP64",
-            "data": [[float(c) for c in r] for r in rows],
-        }]
-    }
+    if columns:
+        # A DataFrame example means a column-based signature: the runtime enforces one
+        # named column per feature. Send one input per column and ask MLServer to decode
+        # the request as a DataFrame; a single tensor would arrive as one column of tuples
+        # and fail schema enforcement.
+        payload = {
+            "parameters": {"content_type": "pd"},
+            "inputs": [{
+                "name": str(col),
+                "shape": [len(rows)],
+                "datatype": "FP64",
+                "data": [float(r[i]) for r in rows],
+            } for i, col in enumerate(columns)],
+        }
+    else:
+        payload = {
+            "inputs": [{
+                "name": "predict",
+                "shape": [len(rows), len(rows[0])],
+                "datatype": "FP64",
+                "data": [[float(c) for c in r] for r in rows],
+            }]
+        }
     pathlib.Path(out).write_text(json.dumps(payload, indent=2), encoding="utf-8")
     print("request      : wrote %s (%dx%d)" % (out, len(rows), len(rows[0])))
 
@@ -197,6 +213,13 @@ def main():
     existing = s3.list_objects_v2(Bucket=args.repository, Prefix=dest_prefix + "/", MaxKeys=1)
     if existing.get("KeyCount", 0) and not args.force:
         print("destination already populated -- left as-is (pass --force to overwrite)")
+        if args.write_request:
+            try:
+                obj = s3.get_object(Bucket=args.repository, Key=dest_prefix + "/input_example.json")
+                example_text = obj["Body"].read().decode("utf-8")
+            except s3.exceptions.NoSuchKey:
+                example_text = None
+            write_request(example_text, args.write_request)
         emit(args.name, version, model_uri)
         return
 
@@ -244,7 +267,8 @@ def main():
         },
     )
     commit = ""
-    if r.status_code == 400 and "nothing to commit" in r.text.lower():
+    # lakeFS words this "commit: no changes"; older releases said "nothing to commit".
+    if r.status_code == 400 and ("no changes" in r.text.lower() or "nothing to commit" in r.text.lower()):
         print("lakeFS       : nothing to commit (identical bytes already on the branch)")
     elif not r.ok:
         die("lakeFS commit failed (%s): %s" % (r.status_code, r.text[:500]))
