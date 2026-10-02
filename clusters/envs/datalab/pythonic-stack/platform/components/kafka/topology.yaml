@@ -7,6 +7,13 @@
 # configuration claimed otherwise. `DoNotSchedule` is deliberate -- a broker that
 # cannot be placed in its own domain should stay Pending and be visible, rather than
 # be placed anywhere and leave the durability claim quietly false.
+#
+# `nodeTaintsPolicy: Honor` limits that to nodes that can take pods. With the default
+# (`Ignore`) a cordoned node still counts as a domain holding no broker, so the broker
+# evicted from it can be placed nowhere: draining one node left it Pending for the whole
+# drain, and Strimzi's disruption budget then refused to evict the controller on the same
+# node. Honoring the taint keeps one broker per node whenever three nodes are schedulable,
+# and lets the evicted one share a node until the drained node returns.
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaNodePool
 metadata:
@@ -19,6 +26,7 @@ spec:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
           whenUnsatisfiable: DoNotSchedule
+          nodeTaintsPolicy: Honor
           labelSelector:
             matchLabels:
               strimzi.io/pool-name: platform-kafka-controllers
@@ -39,6 +47,7 @@ spec:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
           whenUnsatisfiable: DoNotSchedule
+          nodeTaintsPolicy: Honor
           labelSelector:
             matchLabels:
               strimzi.io/pool-name: platform-kafka-brokers
