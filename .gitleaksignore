@@ -1,0 +1,12 @@
+# Kafka message keys (CloudEvent IDs of inference events) in the E10 transcripts,
+# flagged by the generic-api-key rule. They are request identifiers, not credentials.
+f36217f6f2b3d736b94283fe6fe7dff0c55be60a:evidence/local-clean/E10-inference-events-take2.txt:generic-api-key:4
+f36217f6f2b3d736b94283fe6fe7dff0c55be60a:evidence/local-clean/E10-inference-events-take2.txt:generic-api-key:7
+f36217f6f2b3d736b94283fe6fe7dff0c55be60a:evidence/local-clean/E10-inference-events-take3.txt:generic-api-key:6
+f36217f6f2b3d736b94283fe6fe7dff0c55be60a:evidence/local-clean/E10-inference-events-take3.txt:generic-api-key:9
+f36217f6f2b3d736b94283fe6fe7dff0c55be60a:evidence/local/E10-inference-events.txt:generic-api-key:4
+f36217f6f2b3d736b94283fe6fe7dff0c55be60a:evidence/local/E10-inference-events.txt:generic-api-key:7
+f36217f6f2b3d736b94283fe6fe7dff0c55be60a:evidence/local/E10-inference-events.txt:generic-api-key:10
+f36217f6f2b3d736b94283fe6fe7dff0c55be60a:evidence/local/E10-inference-events.txt:generic-api-key:13
+f36217f6f2b3d736b94283fe6fe7dff0c55be60a:evidence/local/E10-inference-events.txt:generic-api-key:18
+f36217f6f2b3d736b94283fe6fe7dff0c55be60a:evidence/local/E10-inference-events.txt:generic-api-key:21
