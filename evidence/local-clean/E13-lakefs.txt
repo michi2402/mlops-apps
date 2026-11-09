@@ -1,0 +1,13 @@
+2026-09-21T09:12:41Z
+$ curl -u $LAKEFS_ACCESS_KEY:*** .../repositories/mlflow/refs/main/commits
+15dfb1dc8bce 2026-09-21T08:58:51Z 'promote tracking-quickstart v1 for serving' {"mlflow_run_id": "8e10ed0b77c5471e8d10cbfc1b0fe763", "mlflow_source": "models:/m-fd6bc57ffd6c49dabaa9457f5db7cd91", "model_name": "tracking-quickstart", "model_version": "1"}
+cfdda4ec90a9 2026-09-21T08:58:05Z 'Repository created' {}
+$ .../refs/main/objects/ls?prefix=serving/
+  serving/tracking-quickstart/1/MLmodel 1107 879873975d7f
+  serving/tracking-quickstart/1/conda.yaml 246 c6fe9059c537
+  serving/tracking-quickstart/1/input_example.json 2640 51bc4a283387
+  serving/tracking-quickstart/1/model.pkl 791 67ef20941141
+  serving/tracking-quickstart/1/python_env.yaml 121 bbc54a664da4
+  serving/tracking-quickstart/1/registered_model_meta 37 5f7bfbf4cd4b
+  serving/tracking-quickstart/1/requirements.txt 111 99800d9261f6
+  serving/tracking-quickstart/1/serving_input_example.json 7463 f94b7e45d69d

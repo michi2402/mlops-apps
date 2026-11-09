@@ -1,0 +1,182 @@
+
+[1;36m[BOOTSTRAP][0m Start: 2026-10-01T12:17:31Z
+
+[1;36m[BOOTSTRAP][0m 1/7 Seeding external-secrets credential
+namespace/external-secrets created
+secret/azure-sp-secret created
+
+[1;36m[BOOTSTRAP][0m 2/7 Installing Argo CD
+
+[1;36m[INFO][0m Checking cluster access...
+
+[1;36m[INFO][0m Creating namespace: argocd (if not present)
+namespace/argocd created
+
+[1;36m[INFO][0m Applying Argo CD install manifest (server-side apply)
+customresourcedefinition.apiextensions.k8s.io/applications.argoproj.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/applicationsets.argoproj.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/appprojects.argoproj.io serverside-applied
+serviceaccount/argocd-application-controller serverside-applied
+serviceaccount/argocd-applicationset-controller serverside-applied
+serviceaccount/argocd-dex-server serverside-applied
+serviceaccount/argocd-notifications-controller serverside-applied
+serviceaccount/argocd-redis serverside-applied
+serviceaccount/argocd-repo-server serverside-applied
+serviceaccount/argocd-server serverside-applied
+role.rbac.authorization.k8s.io/argocd-application-controller serverside-applied
+role.rbac.authorization.k8s.io/argocd-applicationset-controller serverside-applied
+role.rbac.authorization.k8s.io/argocd-dex-server serverside-applied
+role.rbac.authorization.k8s.io/argocd-notifications-controller serverside-applied
+role.rbac.authorization.k8s.io/argocd-redis serverside-applied
+role.rbac.authorization.k8s.io/argocd-server serverside-applied
+clusterrole.rbac.authorization.k8s.io/argocd-application-controller serverside-applied
+clusterrole.rbac.authorization.k8s.io/argocd-applicationset-controller serverside-applied
+clusterrole.rbac.authorization.k8s.io/argocd-server serverside-applied
+rolebinding.rbac.authorization.k8s.io/argocd-application-controller serverside-applied
+rolebinding.rbac.authorization.k8s.io/argocd-applicationset-controller serverside-applied
+rolebinding.rbac.authorization.k8s.io/argocd-dex-server serverside-applied
+rolebinding.rbac.authorization.k8s.io/argocd-notifications-controller serverside-applied
+rolebinding.rbac.authorization.k8s.io/argocd-redis serverside-applied
+rolebinding.rbac.authorization.k8s.io/argocd-server serverside-applied
+clusterrolebinding.rbac.authorization.k8s.io/argocd-application-controller serverside-applied
+clusterrolebinding.rbac.authorization.k8s.io/argocd-applicationset-controller serverside-applied
+clusterrolebinding.rbac.authorization.k8s.io/argocd-server serverside-applied
+configmap/argocd-cm serverside-applied
+configmap/argocd-cmd-params-cm serverside-applied
+configmap/argocd-gpg-keys-cm serverside-applied
+configmap/argocd-notifications-cm serverside-applied
+configmap/argocd-rbac-cm serverside-applied
+configmap/argocd-ssh-known-hosts-cm serverside-applied
+configmap/argocd-tls-certs-cm serverside-applied
+secret/argocd-notifications-secret serverside-applied
+secret/argocd-secret serverside-applied
+service/argocd-applicationset-controller serverside-applied
+service/argocd-dex-server serverside-applied
+service/argocd-metrics serverside-applied
+service/argocd-notifications-controller-metrics serverside-applied
+service/argocd-redis serverside-applied
+service/argocd-repo-server serverside-applied
+service/argocd-server serverside-applied
+service/argocd-server-metrics serverside-applied
+deployment.apps/argocd-applicationset-controller serverside-applied
+deployment.apps/argocd-dex-server serverside-applied
+deployment.apps/argocd-notifications-controller serverside-applied
+deployment.apps/argocd-redis serverside-applied
+deployment.apps/argocd-repo-server serverside-applied
+deployment.apps/argocd-server serverside-applied
+statefulset.apps/argocd-application-controller serverside-applied
+networkpolicy.networking.k8s.io/argocd-application-controller-network-policy serverside-applied
+networkpolicy.networking.k8s.io/argocd-applicationset-controller-network-policy serverside-applied
+networkpolicy.networking.k8s.io/argocd-dex-server-network-policy serverside-applied
+networkpolicy.networking.k8s.io/argocd-notifications-controller-network-policy serverside-applied
+networkpolicy.networking.k8s.io/argocd-redis-network-policy serverside-applied
+networkpolicy.networking.k8s.io/argocd-repo-server-network-policy serverside-applied
+networkpolicy.networking.k8s.io/argocd-server-network-policy serverside-applied
+
+[1;36m[INFO][0m Enabling Applications in namespaces: team1,team2
+configmap/argocd-cmd-params-cm patched
+
+[1;36m[INFO][0m Restoring health assessment for Application resources (sync waves gate on it)
+configmap/argocd-cm patched
+configmap/argocd-cm patched (no change)
+statefulset.apps/argocd-application-controller resource requirements updated
+deployment.apps/argocd-repo-server resource requirements updated
+deployment.apps/argocd-server restarted
+deployment.apps/argocd-repo-server restarted
+statefulset.apps/argocd-application-controller restarted
+
+[1;36m[INFO][0m Waiting for argocd-server rollout (timeout 180s)
+Waiting for deployment "argocd-server" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "argocd-server" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "argocd-server" rollout to finish: 1 old replicas are pending termination...
+deployment "argocd-server" successfully rolled out
+deployment "argocd-repo-server" successfully rolled out
+partitioned roll out complete: 1 new pods have been updated...
+
+[1;36m[INFO][0m Fetching initial admin password
+
+[1;36m[INFO][0m Initial admin password (user: admin):
+<redacted>
+
+
+[1;36m[INFO][0m SKIP_PORT_FORWARD set — not starting a port-forward. Reach the UI later with:
+
+[1;36m[INFO][0m   kubectl -n argocd port-forward svc/argocd-server 8080:443
+
+[1;36m[BOOTSTRAP][0m 3/7 Applying clusters/envs/datalab/k8s-native-stack/aoa-root.yaml (profile: datalab)
+application.argoproj.io/root-datalab created
+appproject.argoproj.io/platform created
+appproject.argoproj.io/workloads-team1 created
+appproject.argoproj.io/workloads-team2 created
+
+[1;36m[BOOTSTRAP][0m 4/7 Waiting up to 3600s for the platform tier (12 Applications) to be Synced/Healthy
+
+[1;36m[BOOTSTRAP][0m Platform tier Synced/Healthy
+
+[1;36m[BOOTSTRAP][0m Orchestration tier (reported, not waited on):
+NAME                                SYNC        HEALTH
+platform-dask                       Synced      Progressing
+platform-katib                      OutOfSync   Missing
+platform-kfp-crds                   Synced      Healthy
+platform-kfp                        OutOfSync   Missing
+platform-kubeflow-namespaces        Synced      Healthy
+platform-kubeflow-spark-operator    OutOfSync   Degraded
+platform-kubeflow-trainer-manager   OutOfSync   Missing
+platform-rbac-pipeline-runner       Synced      Healthy
+
+[1;36m[BOOTSTRAP][0m Convergence took 751s
+
+[1;36m[BOOTSTRAP][0m 5/7 Waiting up to 600s for the lakeFS init hook (admin + repositories)
+  created the lakeFS administrator
+  created repository mlflow (branch main)
+  created repository datasets (branch dev)
+
+[1;36m[BOOTSTRAP][0m 6/7 Registering demo model in MLflow
+2026/10/01 14:30:08 INFO mlflow.agent.hint: Load the `instrumenting-with-mlflow-tracing` skill at C:\Users\micmay\university\bsc\thesis\poc\mlops-apps\.venv-py310\lib\site-packages\mlflow\assistant\skills\instrumenting-with-mlflow-tracing\SKILL.md before writing any tracing code; it ships with this MLflow install. Set MLFLOW_DISABLE_AGENT_HINT=1 to silence this.
+2026/10/01 14:30:09 INFO mlflow.tracking.fluent: Experiment with name 'demo-iris' does not exist. Creating a new experiment.
+2026/10/01 14:30:11 WARNING mlflow.models.model: `artifact_path` is deprecated. Please use `name` instead.
+2026/10/01 14:30:13 WARNING mlflow.sklearn: Saving scikit-learn models in the pickle or cloudpickle format requires exercising caution because these formats rely on Python's object serialization mechanism, which can execute arbitrary code during deserialization. The recommended safe alternative is the 'skops' format. For more information, see: https://scikit-learn.org/stable/model_persistence.html
+Successfully registered model 'tracking-quickstart'.
+2026/10/01 14:30:22 INFO mlflow.store.model_registry.abstract_store: Waiting up to 300 seconds for model version to finish creation. Model name: tracking-quickstart, version 1
+Created version '1' of model 'tracking-quickstart'.
+🏃 View run upbeat-pig-955 at: http://127.0.0.1:5000/#/experiments/1/runs/7c3625d3d1bc4be8b74696af5ebc0739
+🧪 View experiment at: http://127.0.0.1:5000/#/experiments/1
+MODEL_NAME=tracking-quickstart
+MODEL_VERSION=1
+
+[1;36m[BOOTSTRAP][0m Promoting tracking-quickstart to its serving location in lakeFS
+2026/10/01 14:30:25 INFO mlflow.agent.hint: Load the `instrumenting-with-mlflow-tracing` skill at C:\Users\micmay\university\bsc\thesis\poc\mlops-apps\.venv-py310\lib\site-packages\mlflow\assistant\skills\instrumenting-with-mlflow-tracing\SKILL.md before writing any tracing code; it ships with this MLflow install. Set MLFLOW_DISABLE_AGENT_HINT=1 to silence this.
+registry     : tracking-quickstart version 1 (run 7c3625d3d1bc4be8b74696af5ebc0739)
+source       : models:/m-fe538033150245298051932346449394
+destination  : s3://mlflow/main/serving/tracking-quickstart/1
+flavours     : python_function, sklearn
+copied       : 8 files
+lakeFS commit: f99346649ebb2540f5892eca4e80f733228b22750eeedac92fdd270ebe201c98
+request      : wrote C:/Users/micmay/AppData/Local/Temp/iris-request.json (120x4)
+
+MODEL_NAME=tracking-quickstart
+MODEL_VERSION=1
+MODEL_URI=s3://mlflow/main/serving/tracking-quickstart/1
+
+[1;36m[BOOTSTRAP][0m 7/7 Waiting up to 3600s for workloads-team1-iris to serve the model
+
+[1;36m[BOOTSTRAP][0m InferenceService iris is Ready
+
+[1;36m[BOOTSTRAP][0m Done in 1086s total (751s to converge, 335s to serve)
+
+Model is serving. The gateway's Envoy Service is ClusterIP; forward it first:
+
+  kubectl -n platform-envoy-gateway port-forward     "$(kubectl -n platform-envoy-gateway get svc -o name         -l gateway.envoyproxy.io/owning-gateway-name=ingress-gateway)" 18080:80
+
+Then query it (Host header pattern: <inference-service>-<namespace>.mlops.local):
+
+  curl -s -H "Host: iris-team1-iris.mlops.local" -H "Content-Type: application/json"     -d @/tmp/iris-request.json     http://127.0.0.1:18080/v2/models/iris/infer | jq .
+
+The second tenant workload, workloads-team2-timeseries, names a model the
+orchestrated KFP pipeline produces (see the ml-pipelines repository). Run the
+pipeline, then:
+
+  python3 scripts/promote-model.py --name timeseries-model --version 1
+
+and it becomes servable with no further change to this repository.
+

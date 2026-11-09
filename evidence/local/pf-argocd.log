@@ -1,0 +1,151 @@
+Forwarding from 127.0.0.1:8080 -> 8080
+Forwarding from [::1]:8080 -> 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+E0918 17:06:55.095203   18184 portforward.go:489] "Unhandled Error" err="error copying from remote stream to local connection: readfrom tcp4 127.0.0.1:8080->127.0.0.1:53178: write tcp4 127.0.0.1:8080->127.0.0.1:53178: wsasend: An established connection was aborted by the software in your host machine."
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+E0918 17:06:59.429335   18184 portforward.go:502] "Unhandled Error" err="error copying from local connection to remote stream: writeto tcp4 127.0.0.1:8080->127.0.0.1:53179: read tcp4 127.0.0.1:8080->127.0.0.1:53179: wsarecv: An existing connection was forcibly closed by the remote host."
+E0918 17:06:59.429335   18184 portforward.go:502] "Unhandled Error" err="error copying from local connection to remote stream: writeto tcp4 127.0.0.1:8080->127.0.0.1:53180: read tcp4 127.0.0.1:8080->127.0.0.1:53180: wsarecv: An existing connection was forcibly closed by the remote host."
+Handling connection for 8080
+E0918 17:08:05.999185   18184 portforward.go:502] "Unhandled Error" err="error copying from local connection to remote stream: writeto tcp4 127.0.0.1:8080->127.0.0.1:53204: read tcp4 127.0.0.1:8080->127.0.0.1:53204: wsarecv: An established connection was aborted by the software in your host machine."
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+E0918 17:08:37.194221   18184 portforward.go:502] "Unhandled Error" err="error copying from local connection to remote stream: writeto tcp4 127.0.0.1:8080->127.0.0.1:53209: read tcp4 127.0.0.1:8080->127.0.0.1:53209: wsarecv: An existing connection was forcibly closed by the remote host."
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+E0918 17:09:33.570037   18184 portforward.go:489] "Unhandled Error" err="error copying from remote stream to local connection: readfrom tcp4 127.0.0.1:8080->127.0.0.1:53311: write tcp4 127.0.0.1:8080->127.0.0.1:53311: wsasend: An established connection was aborted by the software in your host machine."
+E0918 17:09:33.578841   18184 portforward.go:502] "Unhandled Error" err="error copying from local connection to remote stream: writeto tcp4 127.0.0.1:8080->127.0.0.1:53223: read tcp4 127.0.0.1:8080->127.0.0.1:53223: wsarecv: An existing connection was forcibly closed by the remote host."
+Handling connection for 8080
+Handling connection for 8080
+E0918 17:09:34.450485   18184 portforward.go:489] "Unhandled Error" err="error copying from remote stream to local connection: readfrom tcp4 127.0.0.1:8080->127.0.0.1:53312: write tcp4 127.0.0.1:8080->127.0.0.1:53312: wsasend: An established connection was aborted by the software in your host machine."
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+E0918 17:09:37.100662   18184 portforward.go:489] "Unhandled Error" err="error copying from remote stream to local connection: readfrom tcp4 127.0.0.1:8080->127.0.0.1:53321: write tcp4 127.0.0.1:8080->127.0.0.1:53321: wsasend: An established connection was aborted by the software in your host machine."
+E0918 17:09:37.101737   18184 portforward.go:502] "Unhandled Error" err="error copying from local connection to remote stream: writeto tcp4 127.0.0.1:8080->127.0.0.1:53317: read tcp4 127.0.0.1:8080->127.0.0.1:53317: wsarecv: An existing connection was forcibly closed by the remote host."
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+E0918 17:09:44.188530   18184 portforward.go:502] "Unhandled Error" err="error copying from local connection to remote stream: writeto tcp4 127.0.0.1:8080->127.0.0.1:53329: read tcp4 127.0.0.1:8080->127.0.0.1:53329: wsarecv: An existing connection was forcibly closed by the remote host."
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+E0918 17:12:00.169914   18184 portforward.go:502] "Unhandled Error" err="error copying from local connection to remote stream: writeto tcp4 127.0.0.1:8080->127.0.0.1:53334: read tcp4 127.0.0.1:8080->127.0.0.1:53334: wsarecv: An existing connection was forcibly closed by the remote host."
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+E0918 17:15:09.031778   18184 portforward.go:502] "Unhandled Error" err="error copying from local connection to remote stream: writeto tcp4 127.0.0.1:8080->127.0.0.1:49823: read tcp4 127.0.0.1:8080->127.0.0.1:49823: wsarecv: An existing connection was forcibly closed by the remote host."
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+E0918 17:15:32.926922   18184 portforward.go:489] "Unhandled Error" err="error copying from remote stream to local connection: readfrom tcp4 127.0.0.1:8080->127.0.0.1:51543: write tcp4 127.0.0.1:8080->127.0.0.1:51543: wsasend: An established connection was aborted by the software in your host machine."
+Handling connection for 8080
+Handling connection for 8080
+E0918 17:17:35.316594   18184 portforward.go:502] "Unhandled Error" err="error copying from local connection to remote stream: writeto tcp4 127.0.0.1:8080->127.0.0.1:54079: read tcp4 127.0.0.1:8080->127.0.0.1:54079: wsarecv: An existing connection was forcibly closed by the remote host."
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+E0918 17:17:47.292833   18184 portforward.go:489] "Unhandled Error" err="error copying from remote stream to local connection: readfrom tcp4 127.0.0.1:8080->127.0.0.1:59845: write tcp4 127.0.0.1:8080->127.0.0.1:59845: wsasend: An established connection was aborted by the software in your host machine."
+Handling connection for 8080
+Handling connection for 8080
+E0918 17:19:49.256151   18184 portforward.go:502] "Unhandled Error" err="error copying from local connection to remote stream: writeto tcp4 127.0.0.1:8080->127.0.0.1:59842: read tcp4 127.0.0.1:8080->127.0.0.1:59842: wsarecv: An existing connection was forcibly closed by the remote host."
+Handling connection for 8080
+Handling connection for 8080
+E0918 17:20:00.141210   18184 portforward.go:489] "Unhandled Error" err="error copying from remote stream to local connection: readfrom tcp4 127.0.0.1:8080->127.0.0.1:59898: write tcp4 127.0.0.1:8080->127.0.0.1:59898: wsasend: An established connection was aborted by the software in your host machine."
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+E0918 17:22:14.062270   18184 portforward.go:502] "Unhandled Error" err="error copying from local connection to remote stream: writeto tcp4 127.0.0.1:8080->127.0.0.1:59903: read tcp4 127.0.0.1:8080->127.0.0.1:59903: wsarecv: An existing connection was forcibly closed by the remote host."
+E0918 17:22:14.150424   18184 portforward.go:489] "Unhandled Error" err="error copying from remote stream to local connection: readfrom tcp4 127.0.0.1:8080->127.0.0.1:54369: write tcp4 127.0.0.1:8080->127.0.0.1:54369: wsasend: An established connection was aborted by the software in your host machine."
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+E0918 17:25:47.788160   18184 portforward.go:502] "Unhandled Error" err="error copying from local connection to remote stream: writeto tcp4 127.0.0.1:8080->127.0.0.1:54371: read tcp4 127.0.0.1:8080->127.0.0.1:54371: wsarecv: An existing connection was forcibly closed by the remote host."
+Handling connection for 8080
+Handling connection for 8080
+E0918 17:26:07.839758   18184 portforward.go:502] "Unhandled Error" err="error copying from local connection to remote stream: writeto tcp4 127.0.0.1:8080->127.0.0.1:57612: read tcp4 127.0.0.1:8080->127.0.0.1:57612: wsarecv: An existing connection was forcibly closed by the remote host."
+Handling connection for 8080
+Handling connection for 8080
+E0918 17:26:15.230276   18184 portforward.go:502] "Unhandled Error" err="error copying from local connection to remote stream: writeto tcp4 127.0.0.1:8080->127.0.0.1:57617: read tcp4 127.0.0.1:8080->127.0.0.1:57617: wsarecv: An existing connection was forcibly closed by the remote host."
+Handling connection for 8080
+Handling connection for 8080
+E0918 17:26:24.406321   18184 portforward.go:502] "Unhandled Error" err="error copying from local connection to remote stream: writeto tcp4 127.0.0.1:8080->127.0.0.1:57627: read tcp4 127.0.0.1:8080->127.0.0.1:57627: wsarecv: An existing connection was forcibly closed by the remote host."
+Handling connection for 8080
+Handling connection for 8080
+E0918 17:27:04.619723   18184 portforward.go:502] "Unhandled Error" err="error copying from local connection to remote stream: writeto tcp4 127.0.0.1:8080->127.0.0.1:57636: read tcp4 127.0.0.1:8080->127.0.0.1:57636: wsarecv: An existing connection was forcibly closed by the remote host."
+Handling connection for 8080
+Handling connection for 8080
+E0918 17:57:28.307391   18184 portforward.go:489] "Unhandled Error" err="error copying from remote stream to local connection: readfrom tcp4 127.0.0.1:8080->127.0.0.1:58862: write tcp4 127.0.0.1:8080->127.0.0.1:58862: wsasend: An established connection was aborted by the software in your host machine."
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+E0918 18:01:00.368010   18184 portforward.go:502] "Unhandled Error" err="error copying from local connection to remote stream: writeto tcp4 127.0.0.1:8080->127.0.0.1:58864: read tcp4 127.0.0.1:8080->127.0.0.1:58864: wsarecv: An existing connection was forcibly closed by the remote host."
+Handling connection for 8080
+Handling connection for 8080
+E0918 18:01:40.186423   18184 portforward.go:489] "Unhandled Error" err="error copying from remote stream to local connection: readfrom tcp4 127.0.0.1:8080->127.0.0.1:61946: write tcp4 127.0.0.1:8080->127.0.0.1:61946: wsasend: An established connection was aborted by the software in your host machine."
+E0918 18:01:54.539910   18184 portforward.go:502] "Unhandled Error" err="error copying from local connection to remote stream: writeto tcp4 127.0.0.1:8080->127.0.0.1:61950: read tcp4 127.0.0.1:8080->127.0.0.1:61950: wsarecv: An existing connection was forcibly closed by the remote host."
+Handling connection for 8080
+Handling connection for 8080
+E0918 18:02:19.080939   18184 portforward.go:502] "Unhandled Error" err="error copying from local connection to remote stream: writeto tcp4 127.0.0.1:8080->127.0.0.1:61970: read tcp4 127.0.0.1:8080->127.0.0.1:61970: wsarecv: An existing connection was forcibly closed by the remote host."
+Handling connection for 8080
+Handling connection for 8080
+E0918 18:03:04.212124   18184 portforward.go:489] "Unhandled Error" err="error copying from remote stream to local connection: readfrom tcp4 127.0.0.1:8080->127.0.0.1:49400: write tcp4 127.0.0.1:8080->127.0.0.1:49400: wsasend: An established connection was aborted by the software in your host machine."
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+E0918 18:04:20.247654   18184 portforward.go:489] "Unhandled Error" err="error copying from remote stream to local connection: readfrom tcp4 127.0.0.1:8080->127.0.0.1:57999: write tcp4 127.0.0.1:8080->127.0.0.1:57999: wsasend: An established connection was aborted by the software in your host machine."
+E0918 18:04:20.259937   18184 portforward.go:502] "Unhandled Error" err="error copying from local connection to remote stream: writeto tcp4 127.0.0.1:8080->127.0.0.1:57964: read tcp4 127.0.0.1:8080->127.0.0.1:57964: wsarecv: An existing connection was forcibly closed by the remote host."
+E0918 18:04:20.262042   18184 portforward.go:502] "Unhandled Error" err="error copying from local connection to remote stream: writeto tcp4 127.0.0.1:8080->127.0.0.1:57960: read tcp4 127.0.0.1:8080->127.0.0.1:57960: wsarecv: An existing connection was forcibly closed by the remote host."
+Handling connection for 8080
+Handling connection for 8080
+E0918 18:12:10.827607   18184 portforward.go:502] "Unhandled Error" err="error copying from local connection to remote stream: writeto tcp4 127.0.0.1:8080->127.0.0.1:52509: read tcp4 127.0.0.1:8080->127.0.0.1:52509: wsarecv: An existing connection was forcibly closed by the remote host."
+Handling connection for 8080
+Handling connection for 8080
+E0918 18:12:20.352664   18184 portforward.go:502] "Unhandled Error" err="error copying from local connection to remote stream: writeto tcp4 127.0.0.1:8080->127.0.0.1:52515: read tcp4 127.0.0.1:8080->127.0.0.1:52515: wsarecv: An existing connection was forcibly closed by the remote host."
+Handling connection for 8080
+Handling connection for 8080
+E0918 21:39:53.830424   18184 portforward.go:502] "Unhandled Error" err="error copying from local connection to remote stream: writeto tcp4 127.0.0.1:8080->127.0.0.1:51995: read tcp4 127.0.0.1:8080->127.0.0.1:51995: wsarecv: An existing connection was forcibly closed by the remote host."
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+Handling connection for 8080
+E0918 22:12:01.034577   18184 portforward.go:455] "Unhandled Error" err="error creating error stream for port 8080 -> 8080: Timeout occurred"
+E0918 22:12:02.895322   18184 portforward.go:455] "Unhandled Error" err="error creating error stream for port 8080 -> 8080: Timeout occurred"

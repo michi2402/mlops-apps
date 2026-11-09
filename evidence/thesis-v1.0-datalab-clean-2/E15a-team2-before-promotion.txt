@@ -1,0 +1,40 @@
+2026-10-01T14:35:20Z
+$ kubectl get applications.argoproj.io -A -o wide
+NAMESPACE   NAME                                 SYNC STATUS   HEALTH STATUS   REVISION                                   PROJECT
+argocd      platform                             Synced        Healthy         90bf2ca8caa81da993d7adb19220bf951f955f8d   platform
+argocd      platform-cert-manager                Synced        Healthy                                                    platform
+argocd      platform-dask                        Synced        Healthy                                                    platform
+argocd      platform-envoy-gateway               Synced        Healthy                                                    platform
+argocd      platform-external-secrets            Synced        Healthy                                                    platform
+argocd      platform-kafka                       Synced        Healthy                                                    platform
+argocd      platform-kafka-operator              Synced        Healthy                                                    platform
+argocd      platform-katib                       Synced        Healthy         5723604d419c5ba5bf01240b7be5ebf55aaee0bc   platform
+argocd      platform-kfp                         Synced        Healthy         38c49cc125db4000e4986e65144532b78addabe0   platform
+argocd      platform-kfp-crds                    Synced        Healthy                                                    platform
+argocd      platform-kserve                      Synced        Healthy                                                    platform
+argocd      platform-kubeflow-namespaces         Synced        Healthy         90bf2ca8caa81da993d7adb19220bf951f955f8d   platform
+argocd      platform-kubeflow-spark-operator     Synced        Healthy                                                    platform
+argocd      platform-kubeflow-trainer-manager    Synced        Healthy         117ad23a73d1df59ecb4998a761dab9e62e527db   platform
+argocd      platform-kubeflow-trainer-runtimes   Synced        Healthy         117ad23a73d1df59ecb4998a761dab9e62e527db   platform
+argocd      platform-lakefs                      Synced        Healthy                                                    platform
+argocd      platform-minio                       Synced        Healthy                                                    platform
+argocd      platform-mlflow                      Synced        Healthy                                                    platform
+argocd      platform-monitoring                  Synced        Healthy                                                    platform
+argocd      platform-postgres                    Synced        Healthy                                                    platform
+argocd      platform-rbac-pipeline-runner        Synced        Healthy         90bf2ca8caa81da993d7adb19220bf951f955f8d   platform
+argocd      platform-rp-connect                  Synced        Healthy                                                    platform
+argocd      root-datalab                         Synced        Progressing     90bf2ca8caa81da993d7adb19220bf951f955f8d   default
+argocd      workloads-team1                      Synced        Healthy         90bf2ca8caa81da993d7adb19220bf951f955f8d   workloads-team1
+argocd      workloads-team2                      Synced        Progressing     90bf2ca8caa81da993d7adb19220bf951f955f8d   workloads-team2
+team1       workloads-team1-iris                 Synced        Healthy         90bf2ca8caa81da993d7adb19220bf951f955f8d   workloads-team1
+team2       workloads-team2-timeseries           Synced        Progressing     90bf2ca8caa81da993d7adb19220bf951f955f8d   workloads-team2
+$ kubectl -n team2-timeseries get inferenceservice,pod
+NAME                                            URL   READY   PREV   LATEST   PREVROLLEDOUTREVISION   LATESTREADYREVISION   AGE
+inferenceservice.serving.kserve.io/timeseries                                                                               9m31s
+
+NAME                                      READY   STATUS                  RESTARTS        AGE
+pod/timeseries-predictor-9d748b54-p66lc   0/2     Init:CrashLoopBackOff   6 (2m55s ago)   9m30s
+$ kubectl -n team2-timeseries logs -l serving.kserve.io/inferenceservice=timeseries -c storage-initializer --tail=3
+  File "/kserve/kserve/storage/storage.py", line 281, in _download_s3
+    raise RuntimeError(
+RuntimeError: Failed to fetch model. No model found in main/serving/timeseries-model/1.

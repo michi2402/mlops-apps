@@ -1,0 +1,14 @@
+2026-09-21T07:25:07Z
+$ kubectl get clusterrolebinding -o custom-columns=NAME:.metadata.name,ROLE:.roleRef.name,SA:.subjects[*].name,SA_NS:.subjects[*].namespace | grep -i strimzi
+strimzi-cluster-operator                                             strimzi-cluster-operator-global                                        strimzi-cluster-operator                          platform-kafka
+strimzi-cluster-operator-kafka-broker-delegation                     strimzi-kafka-broker                                                   strimzi-cluster-operator                          platform-kafka
+strimzi-cluster-operator-kafka-client-delegation                     strimzi-kafka-client                                                   strimzi-cluster-operator                          platform-kafka
+$ kubectl -n platform-kafka get rolebinding -o name | grep -i strimzi
+rolebinding.rbac.authorization.k8s.io/strimzi-cluster-operator
+rolebinding.rbac.authorization.k8s.io/strimzi-cluster-operator-entity-operator-delegation
+rolebinding.rbac.authorization.k8s.io/strimzi-cluster-operator-leader-election
+rolebinding.rbac.authorization.k8s.io/strimzi-cluster-operator-watched
+$ kubectl -n platform-kafka get deploy strimzi-cluster-operator -o jsonpath={..env}
+  STRIMZI_NAMESPACE = {'fieldRef': {'apiVersion': 'v1', 'fieldPath': 'metadata.namespace'}}
+  STRIMZI_OPERATOR_NAMESPACE = {'fieldRef': {'apiVersion': 'v1', 'fieldPath': 'metadata.namespace'}}
+  STRIMZI_LEADER_ELECTION_LEASE_NAMESPACE = {'fieldRef': {'apiVersion': 'v1', 'fieldPath': 'metadata.namespace'}}

@@ -1,0 +1,11 @@
+2026-10-01T14:56:10Z
+HEAD 90bf2ca8caa81da993d7adb19220bf951f955f8d
+tag  none
+Server Version: v1.36.2
+NODE                                             CPU   MEM          ALLOC_CPU   ALLOC_MEM    KUBELET   RUNTIME
+mlops-k8s-native-test-control-plane-7wxs8        4     16368296Ki   4           16265896Ki   v1.36.2   containerd://2.3.2
+mlops-k8s-native-test-control-plane-85cmw        4     16368296Ki   4           16265896Ki   v1.36.2   containerd://2.3.2
+mlops-k8s-native-test-control-plane-tnf7n        4     16368296Ki   4           16265896Ki   v1.36.2   containerd://2.3.2
+mlops-k8s-native-test-mlops-worker-bvtc6-8469t   8     32857756Ki   8           32755356Ki   v1.36.2   containerd://2.3.2
+mlops-k8s-native-test-mlops-worker-bvtc6-l799r   8     32857748Ki   8           32755348Ki   v1.36.2   containerd://2.3.2
+mlops-k8s-native-test-mlops-worker-bvtc6-xb8w9   8     32857744Ki   8           32755344Ki   v1.36.2   containerd://2.3.2

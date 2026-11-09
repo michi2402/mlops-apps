@@ -1,0 +1,11 @@
+root applied 09:22:03Z; platform (tier: platform) Synced/Healthy by 09:33:51Z (bootstrap poll, 10 s): 708 s after the root
+wave  -9: created +    6 s  envoy-gateway, external-secrets, kubeflow-namespaces, rbac-pipeline-runner
+wave  -8: created +  171 s  monitoring
+wave  -7: created +  193 s  cert-manager, minio
+wave  -6: created +  239 s  postgres
+wave  -5: created +  274 s  kfp-crds, kserve, lakefs, mlflow
+wave  -4: created +  432 s  kafka-operator
+wave  -3: created +  494 s  kafka
+wave  -2: created +  628 s  rp-connect
+wave  -1: created +  630 s  katib, dask, kfp, kubeflow-spark-operator, kubeflow-trainer-manager
+wave   0: created + 1279 s  kubeflow-trainer-runtimes

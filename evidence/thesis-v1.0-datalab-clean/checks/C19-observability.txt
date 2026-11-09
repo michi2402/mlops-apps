@@ -1,0 +1,31 @@
+2026-10-01T12:59:53Z
+namespaces of unready models: none
+  1/1  podMonitor/platform-kafka/strimzi-cluster-operator/0 
+  1/1  podMonitor/platform-monitoring/envoy-proxy/0 
+  1/1  podMonitor/platform-monitoring/external-secrets/0 
+  2/2  podMonitor/platform-monitoring/model-predictors/0 
+  2/2  podMonitor/platform-postgres/postgres-cluster/0 
+  1/1  podMonitor/team1-iris/probe-tenant-monitor/0 
+  1/1  probe/platform-minio/minio-cluster 
+  3/3  serviceMonitor/cert-manager/platform-cert-manager/0 
+  1/1  serviceMonitor/platform-lakefs/lakefs/0 
+  4/4  serviceMonitor/platform-minio/minio/0 
+  1/1  serviceMonitor/platform-mlflow/mlflow/0 
+  1/1  serviceMonitor/platform-monitoring/monitoring-grafana/0 
+  1/1  serviceMonitor/platform-monitoring/monitoring-kube-prometheus-alertmanager/0 
+  1/1  serviceMonitor/platform-monitoring/monitoring-kube-prometheus-alertmanager/1 
+  3/3  serviceMonitor/platform-monitoring/monitoring-kube-prometheus-apiserver/0 
+  6/6  serviceMonitor/platform-monitoring/monitoring-kube-prometheus-kube-proxy/0 
+  6/6  serviceMonitor/platform-monitoring/monitoring-kube-prometheus-kubelet/0 
+  6/6  serviceMonitor/platform-monitoring/monitoring-kube-prometheus-kubelet/1 
+  6/6  serviceMonitor/platform-monitoring/monitoring-kube-prometheus-kubelet/2 
+  1/1  serviceMonitor/platform-monitoring/monitoring-kube-prometheus-operator/0 
+  1/1  serviceMonitor/platform-monitoring/monitoring-kube-prometheus-prometheus/0 
+  1/1  serviceMonitor/platform-monitoring/monitoring-kube-prometheus-prometheus/1 
+  1/1  serviceMonitor/platform-monitoring/monitoring-kube-state-metrics/0 
+  6/6  serviceMonitor/platform-monitoring/monitoring-prometheus-node-exporter/0 
+  1/1  serviceMonitor/platform-rp-connect/platform-rp-connect-redpanda-connect/0 
+TARGETS 59/59 up; 0 down unexpectedly
+$ Grafana dashboards
+  28 | Alertmanager / Overview, cert-manager, CloudNativePG, Grafana Overview, Kubernetes / API server, Kubernetes / Compute Resources /  Multi-Cluster, Kubernetes / Compute Resources / Cluster, Kubernetes / Compute Resources / Namespace (Pods), Kubernetes / Compute Resources / Namespace (Workloads), Kubernetes / Compute Resources / Node (Pods), Kubernetes / Compute Resources / Pod, Kubernetes / Compute Resources / Workload, Kubernetes / Kubelet, Kubernetes / Networking / Cluster, Kubernetes / Networking / Namespace (Pods), Kubernetes / Networking / Namespace (Workload), Kubernetes / Networking / Pod, Kubernetes / Networking / Workload, Kubernetes / Persistent Volumes, Kubernetes / Proxy, MinIO Dashboard, Mlflow Dashboard, Node Exporter / AIX, Node Exporter / MacOS, Node Exporter / Nodes, Node Exporter / USE Method / Cluster, Node Exporter / USE Method / Node, Prometheus / Overview
+VERDICT PASS 59/59 up; 0 down unexpectedly; four platform dashboards provisioned

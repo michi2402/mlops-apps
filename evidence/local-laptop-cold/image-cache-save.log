@@ -1,0 +1,67 @@
+[1;36m[IMAGE-CACHE][0m 57 images to cache in /c/Users/micmay/.cache/mlops-images
+[1;36m[IMAGE-CACHE][0m cached   burakince/mlflow:3.3.2
+[1;36m[IMAGE-CACHE][0m saving   curlimages/curl:8.10.1
+[1;36m[IMAGE-CACHE][0m saving   curlimages/curl:8.9.1
+[1;36m[IMAGE-CACHE][0m saving   docker.redpanda.com/redpandadata/connect:4.42.0
+[1;36m[IMAGE-CACHE][0m saving   envoyproxy/envoy:distroless-v1.35.3
+[1;36m[IMAGE-CACHE][0m saving   envoyproxy/gateway:v1.5.1
+[1;36m[IMAGE-CACHE][0m saving   gcr.io/tfx-oss-public/ml_metadata_store_server:1.14.0
+[1;36m[IMAGE-CACHE][0m saving   ghcr.io/cloudnative-pg/cloudnative-pg:1.27.0
+[1;36m[IMAGE-CACHE][0m saving   ghcr.io/cloudnative-pg/postgresql:16
+[1;36m[IMAGE-CACHE][0m saving   ghcr.io/dask/dask:2024.1.0
+[1;36m[IMAGE-CACHE][0m saving   ghcr.io/dexidp/dex:v2.45.1
+[1;36m[IMAGE-CACHE][0m saving   ghcr.io/kafbat/kafka-ui:v1.0.0
+[1;36m[IMAGE-CACHE][0m saving   ghcr.io/kubeflow/kfp-api-server:2.14.0
+[1;36m[IMAGE-CACHE][0m saving   ghcr.io/kubeflow/kfp-cache-deployer:2.14.0
+[1;36m[IMAGE-CACHE][0m saving   ghcr.io/kubeflow/kfp-cache-server:2.14.0
+[1;36m[IMAGE-CACHE][0m saving   ghcr.io/kubeflow/kfp-frontend:2.14.0
+[1;36m[IMAGE-CACHE][0m saving   ghcr.io/kubeflow/kfp-metadata-envoy:2.14.0
+! Executing "docker container inspect minikube --format={{.State.Status}}" took an unusually long time: 3.5013865s
+* Restarting the docker service may improve performance.
+[1;36m[IMAGE-CACHE][0m saving   ghcr.io/kubeflow/kfp-metadata-writer:2.14.0
+[1;36m[IMAGE-CACHE][0m saving   ghcr.io/kubeflow/kfp-persistence-agent:2.14.0
+[1;36m[IMAGE-CACHE][0m saving   ghcr.io/kubeflow/kfp-scheduled-workflow-controller:2.14.0
+[1;36m[IMAGE-CACHE][0m saving   ghcr.io/kubeflow/kfp-viewer-crd-controller:2.14.0
+[1;36m[IMAGE-CACHE][0m saving   ghcr.io/kubeflow/kfp-visualization-server:2.14.0
+[1;36m[IMAGE-CACHE][0m saving   ghcr.io/kubeflow/spark-operator/controller:2.3.0
+[1;36m[IMAGE-CACHE][0m saving   ghcr.io/kubeflow/trainer/trainer-controller-manager:v2.0.0
+[1;36m[IMAGE-CACHE][0m saving   grafana/grafana:12.1.1
+[1;36m[IMAGE-CACHE][0m saving   kserve/agent:v0.15.0
+[1;36m[IMAGE-CACHE][0m saving   kserve/kserve-controller:v0.15.0
+[1;36m[IMAGE-CACHE][0m saving   kserve/storage-initializer:v0.15.0
+[1;36m[IMAGE-CACHE][0m saving   kubeflowkatib/katib-controller:v0.17.0
+[1;36m[IMAGE-CACHE][0m saving   kubeflowkatib/katib-db-manager:v0.17.0
+[1;36m[IMAGE-CACHE][0m saving   kubeflowkatib/katib-ui:v0.17.0
+[1;36m[IMAGE-CACHE][0m saving   mysql:8.0.29
+[1;36m[IMAGE-CACHE][0m saving   mysql:8.4
+[1;36m[IMAGE-CACHE][0m saving   oci.external-secrets.io/external-secrets/external-secrets:v0.19.1
+[1;36m[IMAGE-CACHE][0m saving   pgsty/mc:RELEASE.2026-09-16T00-00-00Z
+[1;36m[IMAGE-CACHE][0m saving   pgsty/minio:RELEASE.2026-08-04T00-00-00Z
+[1;36m[IMAGE-CACHE][0m saving   public.ecr.aws/docker/library/redis:8.2.3-alpine
+[1;36m[IMAGE-CACHE][0m saving   quay.io/argoproj/argocd:v3.5.3
+[1;36m[IMAGE-CACHE][0m saving   quay.io/argoproj/workflow-controller:v3.6.7
+[1;36m[IMAGE-CACHE][0m saving   quay.io/brancz/kube-rbac-proxy:v0.18.0
+[1;36m[IMAGE-CACHE][0m saving   quay.io/jetstack/cert-manager-cainjector:v1.18.2
+[1;36m[IMAGE-CACHE][0m saving   quay.io/jetstack/cert-manager-controller:v1.18.2
+[1;36m[IMAGE-CACHE][0m saving   quay.io/jetstack/cert-manager-startupapicheck:v1.18.2
+[1;36m[IMAGE-CACHE][0m saving   quay.io/jetstack/cert-manager-webhook:v1.18.2
+[1;36m[IMAGE-CACHE][0m saving   quay.io/kiwigrid/k8s-sidecar:1.30.10
+[1;36m[IMAGE-CACHE][0m saving   quay.io/prometheus-operator/prometheus-config-reloader:v0.85.0
+[1;36m[IMAGE-CACHE][0m saving   quay.io/prometheus-operator/prometheus-operator:v0.85.0
+[1;36m[IMAGE-CACHE][0m saving   quay.io/prometheus/alertmanager:v0.28.1
+[1;36m[IMAGE-CACHE][0m saving   quay.io/prometheus/node-exporter:v1.9.1
+[1;36m[IMAGE-CACHE][0m saving   quay.io/prometheus/prometheus:v3.5.0
+[1;36m[IMAGE-CACHE][0m saving   quay.io/strimzi/kafka:0.48.0-kafka-4.1.0
+[1;36m[IMAGE-CACHE][0m saving   quay.io/strimzi/operator:0.48.0
+[1;36m[IMAGE-CACHE][0m saving   registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.6.2
+[1;36m[IMAGE-CACHE][0m saving   registry.k8s.io/jobset/jobset:v0.8.2
+[1;36m[IMAGE-CACHE][0m saving   registry.k8s.io/kube-state-metrics/kube-state-metrics:v2.17.0
+[1;36m[IMAGE-CACHE][0m saving   seldonio/mlserver:1.5.0
+[1;36m[IMAGE-CACHE][0m saving   treeverse/lakefs:1.67.0
+[1;36m[IMAGE-CACHE][0m done: 30G on disk
+save exit=0
+* Deleting "minikube" in docker ...
+* Deleting container "minikube" ...
+* Removing C:\Users\micmay\.minikube\machines\minikube ...
+* Removed all traces of the "minikube" cluster.
+delete exit=0

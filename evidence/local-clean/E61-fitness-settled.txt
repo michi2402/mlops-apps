@@ -1,0 +1,29 @@
+2026-09-21T09:12:33Z
+$ kubectl top nodes; kubectl top pods -A --sort-by=memory | head -30; restarts/terminations; evictions
+error: Metrics API not available
+error: Metrics API not available
+containers with restarts or a terminated lastState: 8
+  kubeflow ml-pipeline-scheduledworkflow-6595dd9b7-hhchp 6 Error
+  kubeflow ml-pipeline-persistenceagent-5fd47669f5-qnvzk 5 Error
+  platform-lakefs lakefs-767f46d7f6-2k4f6 4 Error
+  kubeflow metadata-grpc-deployment-5cc5658c5-lm2pj 2 Error
+  platform-compute dask-worker-99fbb85c4-qwp9w 2 Error
+  kube-system storage-provisioner 1 Error
+  platform-kserve kserve-controller-manager-59d84566d-szkj9 1 Error
+  platform-monitoring monitoring-grafana-7ff5b4d8f8-g9tqh 1 Error
+$ kubectl get events -A --field-selector reason=Evicted
+No resources found
+$ kubectl get events -A --field-selector reason=OOMKilling
+No resources found
+$ docker stats minikube --no-stream
+265.79% 10.05GiB / 10.25GiB
+
+--- Capture note ---
+`kubectl top` is unavailable: the recreated minikube has no metrics-server addon (the 2026-09-18 node had
+it enabled). Not enabled now -- it would add load to a node already at the limit. docker stats above:
+10.05 / 10.25 GiB (98 %) memory, ~266 % CPU, with the orchestration tier (waves 3-4) running.
+With the platform tier converged first (by design since a7782a5), the model path completed before the
+orchestration tier started competing for memory; after it did, platform-monitoring fell back to
+Progressing and platform-kfp to Degraded. No OOMKilled, no Evicted -- the same failure mode as INT-03:
+contention, restarts, probe timeouts. M6 for the local profile on this host: the platform tier fits;
+platform + orchestration does not fit in 10.25 GiB.

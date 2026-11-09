@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{},"name":"probe-escalate","namespace":"team1"},"spec":{"destination":{"namespace":"platform-mlflow","server":"https://kubernetes.default.svc"},"project":"default","source":{"path":"base/charts/model","repoURL":"https://github.com/michi2402/mlops-apps","targetRevision":"master"}}}
+  creationTimestamp: "2026-09-18T18:17:24Z"
+  generation: 3
+  name: probe-escalate
+  namespace: team1
+  resourceVersion: "73518"
+  uid: 4720fc95-c8a8-446d-9990-55cbd105604a
+spec:
+  destination:
+    namespace: platform-mlflow
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: base/charts/model
+    repoURL: https://github.com/michi2402/mlops-apps
+    targetRevision: master
+status:
+  conditions:
+  - lastTransitionTime: "2026-09-18T18:17:24Z"
+    message: application 'probe-escalate' in namespace 'team1' is not permitted to
+      use project 'default'
+    type: UnknownError
+  health:
+    lastTransitionTime: "2026-09-18T18:17:24Z"
+    status: Unknown
+  sync:
+    status: Unknown

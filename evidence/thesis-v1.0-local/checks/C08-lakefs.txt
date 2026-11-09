@@ -1,0 +1,11 @@
+2026-09-25T09:53:12Z
+$ lakeFS: commits on mlflow/main
+  c991a0be06aa promote tracking-quickstart v1 for serving {"mlflow_run_id": "308a651bc7104bd18d35684b2b0a42d4", "mlflow_source": "models:/m-e479a26fffef45978b3058a74c269d29", "model_name": "tracking-quickstart", "model_version": "1"}
+  e1ca00acaca9 Repository created {}
+$ storage initializer of the iris predictor
+2026-09-25 09:38:07.288 1 kserve INFO [storage.py:_download_s3():274] Downloaded object main/serving/tracking-quickstart/1/requirements.txt to /mnt/models/requirements.txt
+2026-09-25 09:38:07.331 1 kserve INFO [storage.py:_download_s3():274] Downloaded object main/serving/tracking-quickstart/1/serving_input_example.json to /mnt/models/serving_input_example.json
+2026-09-25 09:38:07.333 1 kserve INFO [storage.py:download():110] Successfully copied s3://mlflow/main/serving/tracking-quickstart/1 to /mnt/models
+2026-09-25 09:38:07.333 1 kserve INFO [storage.py:download():111] Model downloaded in 2.9743761159988935 seconds.
+$ InferenceService
+s3://mlflow/main/serving/tracking-quickstart/1  ready=True

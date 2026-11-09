@@ -1,0 +1,3 @@
+2026-10-01T12:56:54Z
+$ kubectl -n platform-minio delete servicemonitor minio
+VERDICT PASS recreated after 0 s

@@ -1,0 +1,16 @@
+NAMESPACE             NAME                                                                           AGE
+cert-manager          servicemonitor.monitoring.coreos.com/platform-cert-manager                     3h12m
+platform-minio        servicemonitor.monitoring.coreos.com/minio                                     4h
+platform-mlflow       servicemonitor.monitoring.coreos.com/mlflow                                    3h58m
+platform-monitoring   servicemonitor.monitoring.coreos.com/monitoring-grafana                        4h8m
+platform-monitoring   servicemonitor.monitoring.coreos.com/monitoring-kube-prometheus-alertmanager   4h8m
+platform-monitoring   servicemonitor.monitoring.coreos.com/monitoring-kube-prometheus-apiserver      4h8m
+platform-monitoring   servicemonitor.monitoring.coreos.com/monitoring-kube-prometheus-kube-proxy     4h8m
+platform-monitoring   servicemonitor.monitoring.coreos.com/monitoring-kube-prometheus-kubelet        4h8m
+platform-monitoring   servicemonitor.monitoring.coreos.com/monitoring-kube-prometheus-operator       4h8m
+platform-monitoring   servicemonitor.monitoring.coreos.com/monitoring-kube-prometheus-prometheus     4h8m
+platform-monitoring   servicemonitor.monitoring.coreos.com/monitoring-kube-state-metrics             4h8m
+platform-monitoring   servicemonitor.monitoring.coreos.com/monitoring-prometheus-node-exporter       4h8m
+
+NAMESPACE           NAME                                                AGE
+platform-postgres   podmonitor.monitoring.coreos.com/postgres-cluster   3h53m

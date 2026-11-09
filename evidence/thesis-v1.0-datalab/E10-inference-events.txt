@@ -1,0 +1,9 @@
+2026-10-01T11:06:21Z
+$ kcat -b platform-kafka-kafka-bootstrap:9092 -t inference-events -C -o beginning -e -q -f "P=%p O=%o K=%k BYTES=%S\n"
+P=1 O=0 K=5299e5d6-7f83-46cb-988a-a1e73de068bd BYTES=70450
+P=0 O=0 K=ed858c4c-ce4b-4126-95aa-116cd822c754 BYTES=147794
+P=0 O=1 K=ed858c4c-ce4b-4126-95aa-116cd822c754 BYTES=1052
+P=3 O=0 K=0e1d55e5-176d-4490-9ae6-9d421d7bb55e BYTES=2853
+P=3 O=1 K=0e1d55e5-176d-4490-9ae6-9d421d7bb55e BYTES=1072
+
+Note: ed858c4c = timeseries 200 (E09b), 0e1d55e5 = iris 200 (E09), 5299e5d6 = timeseries 500 from the tensor payload (E09b-FAIL): request event only, no response.

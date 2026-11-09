@@ -1,0 +1,6 @@
+2026-09-21T09:10:41Z
+$ git status --porcelain -- clusters base scripts   (evidence/ and venvs are untracked by design)
+(empty above = clean)
+2026-09-21T09:10:41Z
+$ git rev-parse HEAD
+2967e409fbc8fe0af8dcdbce1cdf1b2de837ad34

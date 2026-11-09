@@ -1,0 +1,44 @@
+$ kubectl -n argocd get cm argocd-cmd-params-cm -o yaml
+apiVersion: v1
+data:
+  application.namespaces: team1,team2
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2026-09-18T13:45:49Z"
+  labels:
+    app.kubernetes.io/name: argocd-cmd-params-cm
+    app.kubernetes.io/part-of: argocd
+  name: argocd-cmd-params-cm
+  namespace: argocd
+  resourceVersion: "621"
+  uid: 915206aa-41db-403e-8254-55b42847d41a
+
+$ kubectl get applications.argoproj.io -A -o custom-columns=NS:.metadata.namespace,NAME:.metadata.name,PROJ:.spec.project
+NS       NAME                                 PROJ
+argocd   platform                             platform
+argocd   platform-cert-manager                platform
+argocd   platform-dask                        platform
+argocd   platform-envoy-gateway               platform
+argocd   platform-external-secrets            platform
+argocd   platform-kafka                       platform
+argocd   platform-kafka-operator              platform
+argocd   platform-katib                       platform
+argocd   platform-kfp                         platform
+argocd   platform-kfp-crds                    platform
+argocd   platform-kserve                      platform
+argocd   platform-kubeflow-namespaces         platform
+argocd   platform-kubeflow-spark-operator     platform
+argocd   platform-kubeflow-trainer-manager    platform
+argocd   platform-kubeflow-trainer-runtimes   platform
+argocd   platform-lakefs                      platform
+argocd   platform-minio                       platform
+argocd   platform-mlflow                      platform
+argocd   platform-monitoring                  platform
+argocd   platform-postgres                    platform
+argocd   platform-rbac-pipeline-runner        platform
+argocd   platform-rp-connect                  platform
+argocd   root-minikube                        default
+argocd   workloads-team1                      workloads-team1
+argocd   workloads-team2                      workloads-team2
+team1    workloads-team1-iris                 workloads-team1
+team2    workloads-team2-timeseries           workloads-team2

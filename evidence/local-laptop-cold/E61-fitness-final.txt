@@ -1,0 +1,68 @@
+2026-09-24T22:02:52Z
+NAME       CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)   
+minikube   1495m        18%      10365Mi         86%         
+Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  Resource           Requests       Limits
+  --------           --------       ------
+  cpu                4820m (60%)    18350m (229%)
+  memory             11452Mi (95%)  23210Mi (193%)
+  ephemeral-storage  0 (0%)         0 (0%)
+# pods not Running/Completed
+team2-timeseries                   timeseries-predictor-657fd89fc5-m2l5v                             0/2   Init:CrashLoopBackOff   11 (2m15s ago)   41m
+# last terminations
+  kube-system metrics-server-7fbb699795-x26pn metrics-server restarts 2 Completed
+  kube-system storage-provisioner storage-provisioner restarts 5 Error
+  kubeflow-system jobset-controller-manager-78bcbf6455-44kfk manager restarts 1 Error
+  kubeflow-system kubeflow-trainer-controller-manager-84db68bdf manager restarts 1 Completed
+  kubeflow katib-controller-69cb7d8444-6tx2l katib-controller restarts 6 Completed
+  kubeflow katib-db-manager-695bd86c4f-mwwhl katib-db-manager restarts 7 Error
+  kubeflow katib-mysql-5dfcbbc87f-jxmnx katib-mysql restarts 2 Error
+  kubeflow metadata-grpc-deployment-5cc5658c5-jw7wl container restarts 5 Error
+  kubeflow metadata-writer-6b85ff6549-lsvkj main restarts 1 Error
+  kubeflow ml-pipeline-55f48f5669-g46pf ml-pipeline-api-server restarts 2 Error
+  kubeflow ml-pipeline-persistenceagent-5fd47669f5-c6jqj ml-pipeline-persistenceagent restarts 1 Error
+  kubeflow ml-pipeline-scheduledworkflow-6595dd9b7-gjthj ml-pipeline-scheduledworkflow restarts 5 Error
+  kubeflow ml-pipeline-ui-65bf5c6f9b-l5j7z ml-pipeline-ui restarts 6 Error
+  platform-envoy-gateway envoy-gateway-869f4458d4-hm5jm envoy-gateway restarts 3 Completed
+  platform-kafka platform-kafka-entity-operator-744c784f46-mgz topic-operator restarts 2 Completed
+  platform-kafka platform-kafka-platform-kafka-brokers-0 kafka restarts 3 Error
+  platform-kafka platform-kafka-platform-kafka-controllers-1 kafka restarts 2 Completed
+  platform-kafka strimzi-cluster-operator-b6d74cc8d-wzbsn strimzi-cluster-operator restarts 6 Completed
+  platform-kserve kserve-controller-manager-5d6596d7df-kgrj6 manager restarts 1 Error
+  platform-kubeflow-spark-operator spark-operator-controller-5b47d59f6c-8w4h6 spark-operator-controller restarts 3 Completed
+  platform-lakefs lakefs-54844775cb-5pxl2 lakefs restarts 8 Error
+  platform-monitoring monitoring-kube-prometheus-operator-595db8854 kube-prometheus-stack restarts 1 Completed
+  platform-monitoring prometheus-monitoring-kube-prometheus-prometh prometheus restarts 2 Completed
+  platform-postgres platform-postgres-cloudnative-pg-9698f96dc-s6 manager restarts 3 Error
+  platform-rp-connect platform-rp-connect-redpanda-connect-55f89fc8 connect restarts 6 Error
+# OOM events
+  none
+# Applications
+platform                             Synced      Healthy
+platform-cert-manager                Synced      Healthy
+platform-dask                        Synced      Healthy
+platform-envoy-gateway               Synced      Healthy
+platform-external-secrets            Synced      Healthy
+platform-kafka                       Synced      Healthy
+platform-kafka-operator              Synced      Healthy
+platform-katib                       OutOfSync   Healthy
+platform-kfp                         Synced      Healthy
+platform-kfp-crds                    Synced      Healthy
+platform-kserve                      Synced      Healthy
+platform-kubeflow-namespaces         Synced      Healthy
+platform-kubeflow-spark-operator     Synced      Healthy
+platform-kubeflow-trainer-manager    Synced      Healthy
+platform-kubeflow-trainer-runtimes   Synced      Healthy
+platform-lakefs                      Synced      Healthy
+platform-minio                       Synced      Healthy
+platform-mlflow                      Synced      Healthy
+platform-monitoring                  Synced      Healthy
+platform-postgres                    Synced      Healthy
+platform-rbac-pipeline-runner        Synced      Healthy
+platform-rp-connect                  Synced      Healthy
+root-minikube                        Synced      Progressing
+workloads-team1                      Synced      Healthy
+workloads-team2                      Synced      Progressing
+workloads-team1-iris                 Synced      Healthy
+workloads-team2-timeseries           Synced      Progressing

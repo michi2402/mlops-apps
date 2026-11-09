@@ -1,0 +1,7 @@
+2026-10-01T11:07:48Z
+nodes: 6
+brokers:
+  platform-kafka-platform-kafka-brokers-0   mlops-k8s-native-test-mlops-worker-chct2-rmxgj
+  platform-kafka-platform-kafka-brokers-1   mlops-k8s-native-test-mlops-worker-chct2-czg6g
+  platform-kafka-platform-kafka-brokers-2   mlops-k8s-native-test-mlops-worker-chct2-mxvmh
+VERDICT PASS converged on 6 nodes; 3 brokers on 3 distinct nodes

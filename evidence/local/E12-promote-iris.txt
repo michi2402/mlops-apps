@@ -1,0 +1,29 @@
+2026/09/18 17:54:56 INFO mlflow.agent.hint: Load the `instrumenting-with-mlflow-tracing` skill at C:\Users\micmay\AppData\Roaming\Python\Python314\site-packages\mlflow\assistant\skills\instrumenting-with-mlflow-tracing\SKILL.md before writing any tracing code; it ships with this MLflow install. Set MLFLOW_DISABLE_AGENT_HINT=1 to silence this.
+registry     : tracking-quickstart version 1 (run 290a625c3386409c8cf11cf8972df39f)
+source       : models:/m-54192098b7464687aadc2fb3899bbbc1
+destination  : s3://mlflow/main/serving/tracking-quickstart/1
+flavours     : python_function, sklearn
+copied       : 8 files
+Traceback (most recent call last):
+  File "C:\Users\micmay\university\bsc\thesis\poc\mlops-apps\scripts\promote-model.py", line 263, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\micmay\university\bsc\thesis\poc\mlops-apps\scripts\promote-model.py", line 223, in main
+    write_request(root, args.write_request)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\micmay\university\bsc\thesis\poc\mlops-apps\scripts\promote-model.py", line 123, in write_request
+    rows = doc.get("data") or doc.get("inputs")
+           ^^^^^^^
+AttributeError: 'list' object has no attribute 'get'
+2026/09/18 17:56:17 INFO mlflow.agent.hint: Load the `instrumenting-with-mlflow-tracing` skill at C:\Users\micmay\AppData\Roaming\Python\Python314\site-packages\mlflow\assistant\skills\instrumenting-with-mlflow-tracing\SKILL.md before writing any tracing code; it ships with this MLflow install. Set MLFLOW_DISABLE_AGENT_HINT=1 to silence this.
+registry     : tracking-quickstart version 1 (run 290a625c3386409c8cf11cf8972df39f)
+source       : models:/m-54192098b7464687aadc2fb3899bbbc1
+destination  : s3://mlflow/main/serving/tracking-quickstart/1
+flavours     : python_function, sklearn
+copied       : 8 files
+lakeFS commit: 19c9a728c0a18c86cb0f22ca56332c73a01f4b5e413b7867ece2645b821dad49
+
+MODEL_NAME=tracking-quickstart
+MODEL_VERSION=1
+MODEL_URI=s3://mlflow/main/serving/tracking-quickstart/1
+MODEL_URI_PINNED=s3://mlflow/19c9a728c0a18c86cb0f22ca56332c73a01f4b5e413b7867ece2645b821dad49/serving/tracking-quickstart/1

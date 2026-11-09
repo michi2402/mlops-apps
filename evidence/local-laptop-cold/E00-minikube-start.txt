@@ -1,0 +1,3 @@
+2026-09-24T21:10:29Z
+$ minikube delete --all --purge; ./scripts/minikube-up.sh
+(first attempt with --extra-config=kubelet.max-parallel-image-pulls=3 failed: kubelet "unknown flag"; replaced by minikube-up.sh)

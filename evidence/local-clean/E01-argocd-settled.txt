@@ -1,0 +1,30 @@
+2026-09-21T09:12:31Z
+$ kubectl get applications.argoproj.io -A -o wide
+NAMESPACE   NAME                                 SYNC STATUS   HEALTH STATUS   REVISION                                   PROJECT
+argocd      platform                             Synced        Degraded        c8b33deee78eb7d35ae623f060f0262f28889644   platform
+argocd      platform-cert-manager                Synced        Healthy                                                    platform
+argocd      platform-dask                        Synced        Healthy                                                    platform
+argocd      platform-envoy-gateway               Synced        Healthy                                                    platform
+argocd      platform-external-secrets            Synced        Healthy                                                    platform
+argocd      platform-kafka                       Synced        Healthy                                                    platform
+argocd      platform-kafka-operator              Synced        Healthy                                                    platform
+argocd      platform-katib                       OutOfSync     Healthy         5723604d419c5ba5bf01240b7be5ebf55aaee0bc   platform
+argocd      platform-kfp                         Synced        Degraded        38c49cc125db4000e4986e65144532b78addabe0   platform
+argocd      platform-kfp-crds                    Synced        Healthy                                                    platform
+argocd      platform-kserve                      Synced        Healthy                                                    platform
+argocd      platform-kubeflow-namespaces         OutOfSync     Healthy         c8b33deee78eb7d35ae623f060f0262f28889644   platform
+argocd      platform-kubeflow-spark-operator     Synced        Healthy                                                    platform
+argocd      platform-kubeflow-trainer-manager    Synced        Healthy         117ad23a73d1df59ecb4998a761dab9e62e527db   platform
+argocd      platform-kubeflow-trainer-runtimes   Synced        Healthy         117ad23a73d1df59ecb4998a761dab9e62e527db   platform
+argocd      platform-lakefs                      Synced        Healthy                                                    platform
+argocd      platform-minio                       Synced        Healthy                                                    platform
+argocd      platform-mlflow                      Synced        Healthy                                                    platform
+argocd      platform-monitoring                  Synced        Progressing                                                platform
+argocd      platform-postgres                    Synced        Healthy                                                    platform
+argocd      platform-rbac-pipeline-runner        OutOfSync     Healthy         c8b33deee78eb7d35ae623f060f0262f28889644   platform
+argocd      platform-rp-connect                  Synced        Healthy                                                    platform
+argocd      root-minikube                        Synced        Degraded        c8b33deee78eb7d35ae623f060f0262f28889644   default
+argocd      workloads-team1                      Synced        Healthy         c8b33deee78eb7d35ae623f060f0262f28889644   workloads-team1
+argocd      workloads-team2                      Synced        Progressing     c8b33deee78eb7d35ae623f060f0262f28889644   workloads-team2
+team1       workloads-team1-iris                 Synced        Healthy         c8b33deee78eb7d35ae623f060f0262f28889644   workloads-team1
+team2       workloads-team2-timeseries           Synced        Progressing     c8b33deee78eb7d35ae623f060f0262f28889644   workloads-team2

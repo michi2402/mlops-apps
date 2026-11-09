@@ -1,0 +1,13 @@
+2026-09-21T08:49:23Z
+$ kubectl top nodes; kubectl top pods -A --sort-by=memory | head -30; restarts/terminations; evictions
+error: Metrics API not available
+error: Metrics API not available
+containers with restarts or a terminated lastState: 2
+  platform-lakefs lakefs-767f46d7f6-2k4f6 4 Error
+  kube-system storage-provisioner 1 Error
+$ kubectl get events -A --field-selector reason=Evicted
+No resources found
+$ kubectl get events -A --field-selector reason=OOMKilling
+No resources found
+$ docker stats minikube --no-stream
+606.81% 9.18GiB / 10.25GiB

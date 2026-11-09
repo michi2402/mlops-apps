@@ -1,0 +1,11 @@
+2026-10-01T11:12:14Z
+registered tracking-quickstart version 2 (serving 1)
+registry     : tracking-quickstart version 2 (run 9926cd2f9d2943289a6524f811212943)
+destination  : s3://mlflow/main/serving/tracking-quickstart/2
+lakeFS commit: 6079e35f9c576b692546a03cce0f279aedcc8a46fab59296e463174a834a91c4
+commit 65b61ee pushed at 2026-10-01T11:12:38Z
+version 2 served after: 65 s
+revert 4995ac6 pushed at 2026-10-01T11:13:45Z
+version 1 served again after: 397 s
+during both transitions: 377 requests, 0 not answered with 200
+VERDICT PASS promoted in 65 s, rolled back in 397 s; 377 requests, 0 not answered with 200

@@ -1,0 +1,11 @@
+2026-09-18T15:29:57Z
+$ docker stats minikube --no-stream
+CONTAINER ID   NAME       CPU %     MEM USAGE / LIMIT   MEM %     NET I/O          BLOCK I/O        PIDS
+f70c0aa4a654   minikube   732.47%   9.8GiB / 10.25GiB   95.58%    11.7GB / 593MB   390GB / 38.1GB   2846
+$ kubectl get pods -A | grep -v Running | grep -v Completed
+NAMESPACE                          NAME                                                              READY   STATUS             RESTARTS        AGE
+kubeflow                           katib-db-manager-695bd86c4f-5mvd4                                 0/1     CrashLoopBackOff   6 (3m12s ago)   20m
+kubeflow                           ml-pipeline-ui-65bf5c6f9b-pdcdv                                   0/1     CrashLoopBackOff   7 (97s ago)     98m
+platform-lakefs                    lakefs-767f46d7f6-gftl2                                           0/1     CrashLoopBackOff   7 (97s ago)     59m
+platform-monitoring                monitoring-kube-prometheus-operator-597f86787-qbscs               0/1     CrashLoopBackOff   6 (3m6s ago)    78m
+platform-rp-connect                platform-rp-connect-redpanda-connect-55f89fc8bb-xb68g             0/1     CrashLoopBackOff   10 (70s ago)    102m

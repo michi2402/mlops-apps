@@ -1,0 +1,12 @@
+2026/09/18 19:14:20 INFO mlflow.agent.hint: Load the `instrumenting-with-mlflow-tracing` skill at C:\Users\micmay\university\bsc\thesis\poc\mlops-apps\.venv-py310\lib\site-packages\mlflow\assistant\skills\instrumenting-with-mlflow-tracing\SKILL.md before writing any tracing code; it ships with this MLflow install. Set MLFLOW_DISABLE_AGENT_HINT=1 to silence this.
+registry     : tracking-quickstart version 2 (run ec0d3664e0b44ce5a07ae44b534288a3)
+source       : models:/m-312efebb06b24fb0ae3e280a6894e760
+destination  : s3://mlflow/main/serving/tracking-quickstart/2
+flavours     : python_function, sklearn
+copied       : 8 files
+lakeFS commit: fae07f0a0eb907039248f920c4f05cab139664d27fbd1c5c0005b5ea0778ff17
+
+MODEL_NAME=tracking-quickstart
+MODEL_VERSION=2
+MODEL_URI=s3://mlflow/main/serving/tracking-quickstart/2
+MODEL_URI_PINNED=s3://mlflow/fae07f0a0eb907039248f920c4f05cab139664d27fbd1c5c0005b5ea0778ff17/serving/tracking-quickstart/2

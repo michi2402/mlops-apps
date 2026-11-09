@@ -1,0 +1,11 @@
+2026-10-01T12:56:47Z
+HEAD 115c072f96eca2a8608bcc5f303bcfd441778337
+tag  none
+Server Version: v1.36.2
+NODE                                             CPU   MEM          ALLOC_CPU   ALLOC_MEM    KUBELET   RUNTIME
+mlops-k8s-native-temp-control-plane-hzzt6        4     16368296Ki   4           16265896Ki   v1.36.2   containerd://2.3.2
+mlops-k8s-native-temp-control-plane-jprt7        4     16368296Ki   4           16265896Ki   v1.36.2   containerd://2.3.2
+mlops-k8s-native-temp-control-plane-r6znn        4     16368296Ki   4           16265896Ki   v1.36.2   containerd://2.3.2
+mlops-k8s-native-temp-mlops-worker-zgdx9-5mqj7   8     32857756Ki   8           32755356Ki   v1.36.2   containerd://2.3.2
+mlops-k8s-native-temp-mlops-worker-zgdx9-bghdq   8     32857756Ki   8           32755356Ki   v1.36.2   containerd://2.3.2
+mlops-k8s-native-temp-mlops-worker-zgdx9-vsbsj   8     32857756Ki   8           32755356Ki   v1.36.2   containerd://2.3.2

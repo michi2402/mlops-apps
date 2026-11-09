@@ -1,0 +1,80 @@
+NAME                                      URL                                  READY   PREV   LATEST   PREVROLLEDOUTREVISION   LATESTREADYREVISION   AGE
+inferenceservice.serving.kserve.io/iris   http://iris-team1-iris.mlops.local   True                                                                  26m
+
+NAME                                  READY   STATUS     RESTARTS      AGE
+pod/iris-predictor-6fbcf68f4d-k6842   1/2     NotReady   2 (49s ago)   5m12s
+
+NAME                                                 HOSTNAMES                                   AGE
+httproute.gateway.networking.k8s.io/iris             ["iris-team1-iris.mlops.local"]             65s
+httproute.gateway.networking.k8s.io/iris-predictor   ["iris-predictor-team1-iris.mlops.local"]   65s
+---
+Name:         iris
+Namespace:    team1-iris
+Labels:       app.kubernetes.io/instance=workloads-team1-iris
+              app.kubernetes.io/managed-by=Helm
+              app.kubernetes.io/name=iris
+              app.kubernetes.io/version=1.0.0
+              helm.sh/chart=model-0.1.0
+Annotations:  argocd.argoproj.io/tracking-id: team1_workloads-team1-iris:serving.kserve.io/InferenceService:team1-iris/iris
+              mlops.tuwien/model-name: tracking-quickstart
+              mlops.tuwien/model-version: 1
+              serving.kserve.io/deploymentMode: RawDeployment
+API Version:  serving.kserve.io/v1beta1
+Kind:         InferenceService
+Metadata:
+  Creation Timestamp:  2026-09-18T16:13:17Z
+  Finalizers:
+    inferenceservice.finalizers
+  Generation:        1
+  Resource Version:  48371
+  UID:               cb1737e4-7700-4edb-a8e4-518493ab5f49
+Spec:
+  Predictor:
+    Logger:
+      Mode:  all
+      URL:   http://platform-rp-connect-redpanda-connect.platform-rp-connect.svc.cluster.local:8080/ingest/kserve
+    Model:
+      Model Format:
+        Name:            mlflow
+      Name:              
+      Protocol Version:  v2
+      Resources:
+      Storage Uri:         s3://mlflow/main/serving/tracking-quickstart/1
+    Service Account Name:  iris-sa
+Status:
+  Address:
+    URL:  http://iris-predictor.team1-iris.svc.cluster.local
+  Components:
+    Predictor:
+      URL:  http://iris-predictor-team1-iris.mlops.local
+  Conditions:
+    Last Transition Time:  2026-09-18T16:38:43Z
+    Status:                True
+    Type:                  IngressReady
+    Last Transition Time:  2026-09-18T16:39:30Z
+    Status:                True
+    Type:                  PredictorReady
+    Last Transition Time:  2026-09-18T16:39:30Z
+    Status:                True
+    Type:                  Ready
+  Model Status:
+    Copies:
+      Failed Copies:  0
+      Total Copies:   1
+    Last Failure Info:
+      Message:  No runtime found to support specified framework/version
+      Reason:   NoSupportingRuntime
+    States:
+      Active Model State:  Loaded
+      Target Model State:  Loaded
+    Transition Status:     UpToDate
+  Observed Generation:     1
+  URL:                     http://iris-team1-iris.mlops.local
+Events:
+  Type     Reason                    Age                 From                Message
+  ----     ------                    ----                ----                -------
+  Warning  InternalError             25m (x14 over 26m)  v1beta1Controllers  no runtime found to support predictor with model type: {mlflow <nil>}
+  Warning  UpdateFailed              65s                 v1beta1Controllers  Failed to update status for InferenceService "iris": Operation cannot be fulfilled on inferenceservices.serving.kserve.io "iris": the object has been modified; please apply your changes to the latest version and try again
+  Warning  InternalError             65s                 v1beta1Controllers  fails to update InferenceService status: Operation cannot be fulfilled on inferenceservices.serving.kserve.io "iris": the object has been modified; please apply your changes to the latest version and try again
+  Warning  InferenceServiceNotReady  62s                 v1beta1Controllers  InferenceService [iris] is no longer Ready because of: PredictorReady, Ready
+  Normal   InferenceServiceReady     15s (x2 over 65s)   v1beta1Controllers  InferenceService [iris] is Ready

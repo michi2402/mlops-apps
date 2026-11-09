@@ -1,0 +1,165 @@
+2026-09-18T14:10:17Z
+$ kubectl -n platform-monitoring describe pod -l job-name=monitoring-kube-prometheus-admission-create
+Name:             monitoring-kube-prometheus-admission-create-h28sk
+Namespace:        platform-monitoring
+Priority:         0
+Service Account:  monitoring-kube-prometheus-admission
+Node:             minikube/192.168.49.2
+Start Time:       Fri, 18 Sep 2026 15:53:23 +0200
+Labels:           app=kube-prometheus-stack-admission-create
+                  app.kubernetes.io/component=prometheus-operator-webhook
+                  app.kubernetes.io/instance=monitoring
+                  app.kubernetes.io/managed-by=Helm
+                  app.kubernetes.io/name=kube-prometheus-stack-prometheus-operator
+                  app.kubernetes.io/part-of=kube-prometheus-stack
+                  app.kubernetes.io/version=77.6.1
+                  batch.kubernetes.io/controller-uid=14d43d98-cc81-458d-aecd-4ecad61df4a0
+                  batch.kubernetes.io/job-name=monitoring-kube-prometheus-admission-create
+                  chart=kube-prometheus-stack-77.6.1
+                  controller-uid=14d43d98-cc81-458d-aecd-4ecad61df4a0
+                  heritage=Helm
+                  job-name=monitoring-kube-prometheus-admission-create
+                  release=monitoring
+Annotations:      <none>
+Status:           Pending
+SeccompProfile:   RuntimeDefault
+IP:               
+IPs:              <none>
+Controlled By:    Job/monitoring-kube-prometheus-admission-create
+Containers:
+  create:
+    Container ID:  
+    Image:         registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.6.2
+    Image ID:      
+    Port:          <none>
+    Host Port:     <none>
+    Args:
+      create
+      --host=monitoring-kube-prometheus-operator,monitoring-kube-prometheus-operator.platform-monitoring.svc
+      --namespace=platform-monitoring
+      --secret-name=monitoring-kube-prometheus-admission
+    State:          Waiting
+      Reason:       ContainerCreating
+    Ready:          False
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-sjb6c (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   False 
+  Initialized                 True 
+  Ready                       False 
+  ContainersReady             False 
+  PodScheduled                True 
+Volumes:
+  kube-api-access-sjb6c:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    Optional:                false
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age   From               Message
+  ----    ------     ----  ----               -------
+  Normal  Scheduled  16m   default-scheduler  Successfully assigned platform-monitoring/monitoring-kube-prometheus-admission-create-h28sk to minikube
+  Normal  Pulling    16m   kubelet            spec.containers{create}: Pulling image "registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.6.2"
+$ kubectl -n platform-monitoring get job monitoring-kube-prometheus-admission-create -o yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: platform-monitoring:batch/Job:platform-monitoring/monitoring-kube-prometheus-admission-create
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+  creationTimestamp: "2026-09-18T13:53:23Z"
+  finalizers:
+  - argocd.argoproj.io/hook-finalizer
+  generation: 1
+  labels:
+    app: kube-prometheus-stack-admission-create
+    app.kubernetes.io/component: prometheus-operator-webhook
+    app.kubernetes.io/instance: monitoring
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: kube-prometheus-stack-prometheus-operator
+    app.kubernetes.io/part-of: kube-prometheus-stack
+    app.kubernetes.io/version: 77.6.1
+    chart: kube-prometheus-stack-77.6.1
+    heritage: Helm
+    release: monitoring
+  name: monitoring-kube-prometheus-admission-create
+  namespace: platform-monitoring
+  resourceVersion: "3420"
+  uid: 14d43d98-cc81-458d-aecd-4ecad61df4a0
+spec:
+  backoffLimit: 6
+  completionMode: NonIndexed
+  completions: 1
+  manualSelector: false
+  parallelism: 1
+  podReplacementPolicy: TerminatingOrFailed
+  selector:
+    matchLabels:
+      batch.kubernetes.io/controller-uid: 14d43d98-cc81-458d-aecd-4ecad61df4a0
+  suspend: false
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: kube-prometheus-stack-admission-create
+        app.kubernetes.io/component: prometheus-operator-webhook
+        app.kubernetes.io/instance: monitoring
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: kube-prometheus-stack-prometheus-operator
+        app.kubernetes.io/part-of: kube-prometheus-stack
+        app.kubernetes.io/version: 77.6.1
+        batch.kubernetes.io/controller-uid: 14d43d98-cc81-458d-aecd-4ecad61df4a0
+        batch.kubernetes.io/job-name: monitoring-kube-prometheus-admission-create
+        chart: kube-prometheus-stack-77.6.1
+        controller-uid: 14d43d98-cc81-458d-aecd-4ecad61df4a0
+        heritage: Helm
+        job-name: monitoring-kube-prometheus-admission-create
+        release: monitoring
+      name: monitoring-kube-prometheus-admission-create
+    spec:
+      containers:
+      - args:
+        - create
+        - --host=monitoring-kube-prometheus-operator,monitoring-kube-prometheus-operator.platform-monitoring.svc
+        - --namespace=platform-monitoring
+        - --secret-name=monitoring-kube-prometheus-admission
+        image: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.6.2
+        imagePullPolicy: IfNotPresent
+        name: create
+        resources: {}
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: OnFailure
+      schedulerName: default-scheduler
+      securityContext:
+        runAsGroup: 2000
+        runAsNonRoot: true
+        runAsUser: 2000
+        seccompProfile:
+          type: RuntimeDefault
+      serviceAccount: monitoring-kube-prometheus-admission
+      serviceAccountName: monitoring-kube-prometheus-admission
+      terminationGracePeriodSeconds: 30
+  ttlSecondsAfterFinished: 60
+status:
+  active: 1
+  ready: 0
+  startTime: "2026-09-18T13:53:23Z"
+  terminating: 0
+  uncountedTerminatedPods: {}

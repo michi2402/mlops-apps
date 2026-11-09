@@ -1,0 +1,3 @@
+2026-10-01T16:10:35Z
+$ kubectl -n platform-mlflow scale deploy mlflow --replicas=2   (declared: 1)
+VERDICT PASS reverted to the declared 1 replica(s) after 1 s

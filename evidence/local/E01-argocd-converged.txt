@@ -1,0 +1,28 @@
+NAMESPACE   NAME                                 SYNC STATUS   HEALTH STATUS   REVISION                                   PROJECT
+argocd      platform                             OutOfSync     Healthy         3e0da5e3747418b9419d7c3cd091f4ad55a0458d   platform
+argocd      platform-cert-manager                OutOfSync     Healthy                                                    platform
+argocd      platform-dask                        OutOfSync     Healthy                                                    platform
+argocd      platform-envoy-gateway               Synced        Healthy                                                    platform
+argocd      platform-external-secrets            Synced        Healthy                                                    platform
+argocd      platform-kafka                       Synced        Healthy                                                    platform
+argocd      platform-kafka-operator              OutOfSync     Healthy                                                    platform
+argocd      platform-katib                       OutOfSync     Healthy         5723604d419c5ba5bf01240b7be5ebf55aaee0bc   platform
+argocd      platform-kfp                         OutOfSync     Healthy         38c49cc125db4000e4986e65144532b78addabe0   platform
+argocd      platform-kfp-crds                    OutOfSync     Healthy                                                    platform
+argocd      platform-kserve                      OutOfSync     Healthy                                                    platform
+argocd      platform-kubeflow-namespaces         Synced        Healthy         3e0da5e3747418b9419d7c3cd091f4ad55a0458d   platform
+argocd      platform-kubeflow-spark-operator     OutOfSync     Healthy                                                    platform
+argocd      platform-kubeflow-trainer-manager    Synced        Healthy         117ad23a73d1df59ecb4998a761dab9e62e527db   platform
+argocd      platform-kubeflow-trainer-runtimes   Synced        Healthy         117ad23a73d1df59ecb4998a761dab9e62e527db   platform
+argocd      platform-lakefs                      OutOfSync     Healthy                                                    platform
+argocd      platform-minio                       OutOfSync     Healthy                                                    platform
+argocd      platform-mlflow                      OutOfSync     Healthy                                                    platform
+argocd      platform-monitoring                  OutOfSync     Healthy                                                    platform
+argocd      platform-postgres                    OutOfSync     Healthy                                                    platform
+argocd      platform-rbac-pipeline-runner        Synced        Healthy         3e0da5e3747418b9419d7c3cd091f4ad55a0458d   platform
+argocd      platform-rp-connect                  Synced        Healthy                                                    platform
+argocd      root-minikube                        Synced        Healthy         3e0da5e3747418b9419d7c3cd091f4ad55a0458d   default
+argocd      workloads-team1                      Synced        Healthy         3e0da5e3747418b9419d7c3cd091f4ad55a0458d   workloads-team1
+argocd      workloads-team2                      Synced        Healthy         3e0da5e3747418b9419d7c3cd091f4ad55a0458d   workloads-team2
+team1       workloads-team1-iris                 OutOfSync     Missing         3e0da5e3747418b9419d7c3cd091f4ad55a0458d   workloads-team1
+team2       workloads-team2-timeseries           OutOfSync     Missing         3e0da5e3747418b9419d7c3cd091f4ad55a0458d   workloads-team2

@@ -1,0 +1,5 @@
+2026-09-25T08:21:08Z
+$ git status --porcelain -- . ':!evidence'
+?? scripts/evaluation/
+(end; empty = unchanged)
+HEAD b3dd06b, origin/master 10d8c9f

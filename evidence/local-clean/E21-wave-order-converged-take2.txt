@@ -1,0 +1,29 @@
+2026-09-21T08:49:39Z
+$ kubectl get applications.argoproj.io -A -o custom-columns=NAME,WAVE,CREATED,SYNC,HEALTH  (sorted by creation)
+Traceback (most recent call last):
+  File "<string>", line 12, in <module>
+    print(f'{c}  +{int(dt):5d}s  wave={w:>4}  {n:36s} {s:10s} {h}')
+                                                      ^^^^^^^
+TypeError: unsupported format string passed to NoneType.__format__
+2026-09-21T08:36:41Z  +    0s  wave=   -  root-minikube                        Synced     Progressing
+2026-09-21T08:36:44Z  +    3s  wave=   -  platform                             OutOfSync  Progressing
+2026-09-21T08:36:44Z  +    3s  wave=   -  workloads-team1                      Synced     Progressing
+2026-09-21T08:36:44Z  +    3s  wave=   -  workloads-team2                      Synced     Progressing
+2026-09-21T08:36:46Z  +    5s  wave= -10  platform-envoy-gateway               Synced     Healthy
+2026-09-21T08:36:46Z  +    5s  wave= -10  platform-external-secrets            Synced     Healthy
+2026-09-21T08:36:46Z  +    5s  wave= -10  platform-kubeflow-namespaces         OutOfSync  Healthy
+2026-09-21T08:36:46Z  +    5s  wave= -10  platform-rbac-pipeline-runner        Synced     Healthy
+2026-09-21T08:36:46Z  +    5s  wave=   -  workloads-team1-iris                 Synced     Progressing
+2026-09-21T08:36:46Z  +    5s  wave=   -  workloads-team2-timeseries           Synced     Progressing
+2026-09-21T08:40:35Z  +  234s  wave=  -9  platform-monitoring                  Synced     Healthy
+2026-09-21T08:40:55Z  +  254s  wave=  -8  platform-cert-manager                Synced     Healthy
+2026-09-21T08:40:55Z  +  254s  wave=  -8  platform-minio                       Synced     Healthy
+2026-09-21T08:41:48Z  +  307s  wave=  -6  platform-postgres                    Synced     Healthy
+2026-09-21T08:42:43Z  +  362s  wave=  -4  platform-kfp-crds                    Synced     Healthy
+2026-09-21T08:42:43Z  +  362s  wave=  -4  platform-kserve                      Synced     Healthy
+2026-09-21T08:42:43Z  +  362s  wave=  -4  platform-lakefs                      Synced     Healthy
+2026-09-21T08:42:43Z  +  362s  wave=  -4  platform-mlflow                      Synced     Healthy
+2026-09-21T08:45:46Z  +  545s  wave=   0  platform-kafka-operator              Synced     Healthy
+2026-09-21T08:46:03Z  +  562s  wave=   1  platform-kafka                       Synced     Healthy
+2026-09-21T08:48:38Z  +  717s  wave=   2  platform-rp-connect                  Synced     Healthy
+2026-09-21T08:48:57Z  +  736s  wave=   3  platform-dask                        Synced     Progressing

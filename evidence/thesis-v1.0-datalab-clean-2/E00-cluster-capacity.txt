@@ -1,0 +1,81 @@
+2026-10-01T14:19:17Z
+$ git rev-parse HEAD
+90bf2ca8caa81da993d7adb19220bf951f955f8d
+$ kubectl get nodes -o wide
+NAME                                             STATUS   ROLES           AGE   VERSION   INTERNAL-IP     EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION               CONTAINER-RUNTIME
+mlops-k8s-native-test-control-plane-7wxs8        Ready    control-plane   34m   v1.36.2   192.168.3.195   <none>        Ubuntu 22.04.5 LTS   5.15.0-185-generic (amd64)   containerd://2.3.2
+mlops-k8s-native-test-control-plane-85cmw        Ready    control-plane   38m   v1.36.2   192.168.3.237   <none>        Ubuntu 22.04.5 LTS   5.15.0-185-generic (amd64)   containerd://2.3.2
+mlops-k8s-native-test-control-plane-tnf7n        Ready    control-plane   32m   v1.36.2   192.168.3.208   <none>        Ubuntu 22.04.5 LTS   5.15.0-185-generic (amd64)   containerd://2.3.2
+mlops-k8s-native-test-mlops-worker-bvtc6-8469t   Ready    <none>          36m   v1.36.2   192.168.3.95    <none>        Ubuntu 22.04.5 LTS   5.15.0-185-generic (amd64)   containerd://2.3.2
+mlops-k8s-native-test-mlops-worker-bvtc6-l799r   Ready    <none>          36m   v1.36.2   192.168.3.98    <none>        Ubuntu 22.04.5 LTS   5.15.0-185-generic (amd64)   containerd://2.3.2
+mlops-k8s-native-test-mlops-worker-bvtc6-xb8w9   Ready    <none>          36m   v1.36.2   192.168.3.203   <none>        Ubuntu 22.04.5 LTS   5.15.0-185-generic (amd64)   containerd://2.3.2
+$ kubectl describe nodes | grep -A6 Allocatable:
+Allocatable:
+  cpu:                4
+  ephemeral-storage:  93478772582
+  hugepages-1Gi:      0
+  hugepages-2Mi:      0
+  memory:             16265896Ki
+  pods:               110
+--
+Allocatable:
+  cpu:                4
+  ephemeral-storage:  93478772582
+  hugepages-1Gi:      0
+  hugepages-2Mi:      0
+  memory:             16265896Ki
+  pods:               110
+--
+Allocatable:
+  cpu:                4
+  ephemeral-storage:  93478772582
+  hugepages-1Gi:      0
+  hugepages-2Mi:      0
+  memory:             16265896Ki
+  pods:               110
+--
+Allocatable:
+  cpu:                8
+  ephemeral-storage:  93478772582
+  hugepages-1Gi:      0
+  hugepages-2Mi:      0
+  memory:             32755356Ki
+  pods:               110
+--
+Allocatable:
+  cpu:                8
+  ephemeral-storage:  93478772582
+  hugepages-1Gi:      0
+  hugepages-2Mi:      0
+  memory:             32755348Ki
+  pods:               110
+--
+Allocatable:
+  cpu:                8
+  ephemeral-storage:  93478772582
+  hugepages-1Gi:      0
+  hugepages-2Mi:      0
+  memory:             32755344Ki
+  pods:               110
+$ kubectl get sc
+NAME                   PROVISIONER                RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
+csi-cinder (default)   cinder.csi.openstack.org   Delete          WaitForFirstConsumer   true                   37m
+$ kubectl version
+Client Version: v1.36.1
+Kustomize Version: v5.8.1
+Server Version: v1.36.2
+$ CNI
+calico-system            calico-node                          6         6         6       6            6           kubernetes.io/os=linux                   36m
+$ kubectl get ns
+NAME                     STATUS   AGE
+calico-system            Active   36m
+default                  Active   38m
+gpu-operator             Active   37m
+kube-node-lease          Active   38m
+kube-public              Active   38m
+kube-system              Active   38m
+network-operator         Active   37m
+node-feature-discovery   Active   37m
+node-problem-detector    Active   37m
+openstack-system         Active   37m
+tigera-operator          Active   37m

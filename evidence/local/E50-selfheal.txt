@@ -1,0 +1,31 @@
+2026-09-18T18:33:00Z
+$ kubectl -n platform-minio get deploy minio
+NAME    READY   UP-TO-DATE   AVAILABLE   AGE
+minio   1/1     1            1           4h12m
+$ kubectl -n platform-minio scale deploy minio --replicas=3
+deployment.apps/minio scaled
+$ kubectl -n platform-minio get deploy minio  (after ~3min)
+NAME    READY   UP-TO-DATE   AVAILABLE   AGE
+minio   3/3     3            3           4h16m
+
+--- Analysis ---
+Drift was NOT reverted after 3+ minutes, despite platform-minio declaring
+syncPolicy.automated={"prune":true,"selfHeal":true}. Correlates exactly with FINDING-01:
+platform-minio is OutOfSync/Healthy, meaning its automated sync is dormant (its last sync attempt
+against the current revision failed during INT-01's CRD race, and ArgoCD does not retry a failed
+automated sync against the same revision without an explicit trigger). This is an important
+qualification of §5.4.1's central claim: the reconciliation loop is self-verifying *only for apps
+ArgoCD still considers actively reconcilable* -- an app stuck in this "will not retry" state does
+NOT self-heal, silently. A reader should not conclude from this run that drift-reversion is
+unconditional; it depends on the app's own sync history. Restoring platform-minio to its declared
+replica count via a manual resync (mirroring INT-02) rather than leaving it drifted:
+application.argoproj.io/platform-minio patched
+NAME    READY   UP-TO-DATE   AVAILABLE   AGE
+minio   3/3     3            3           4h16m
+NAME    READY   UP-TO-DATE   AVAILABLE   AGE
+minio   3/3     3            3           4h18m
+
+Note: the triggered resync operation stayed in phase=Running well past 2 minutes without completing
+under this session's resource contention (see INT-03) -- consistent with the broader capacity finding,
+not a new one. Restored minio to replicas=1 directly via kubectl for cluster cleanliness rather than
+continue waiting on a contended sync operation.

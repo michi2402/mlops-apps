@@ -1,0 +1,56 @@
+2026-09-21T07:27:11Z
+# BEFORE: health of the parent Applications (child Application health not assessed)
+NAME                                 SYNC        HEALTH
+platform                             Synced      Healthy
+root-minikube                        Synced      Healthy
+workloads-team1                      Synced      Healthy
+workloads-team2                      Synced      Healthy
+
+$ kubectl -n argocd patch configmap argocd-cm --type merge -p "<the heredoc in scripts/install-argo.sh @ 13894ac>"
+Error from server (BadRequest): error decoding patch: json: cannot unmarshal string into Go value of type map[string]interface {}
+
+# The attempt above failed in the operator's extraction of the heredoc (the awk pattern also matched
+# the argocd-cmd-params-cm line), not in the artefact; nothing was applied. Re-run with an exact match:
+2026-09-21T07:27:23Z
+$ kubectl -n argocd patch configmap argocd-cm --type merge -p "<the heredoc in scripts/install-argo.sh @ 13894ac>"
+configmap/argocd-cm patched
+
+2026-09-21T07:27:54Z
+# AFTER (normal refresh on the four parents; no sync triggered)
+$ kubectl get applications.argoproj.io -A -o custom-columns=NAME:.metadata.name,SYNC:.status.sync.status,HEALTH:.status.health.status
+NAME                                 SYNC        HEALTH
+platform                             Synced      Progressing
+platform-cert-manager                Synced      Healthy
+platform-dask                        OutOfSync   Healthy
+platform-envoy-gateway               Synced      Healthy
+platform-external-secrets            Synced      Healthy
+platform-kafka                       Synced      Healthy
+platform-kafka-operator              OutOfSync   Healthy
+platform-katib                       OutOfSync   Healthy
+platform-kfp                         OutOfSync   Progressing
+platform-kfp-crds                    Synced      Healthy
+platform-kserve                      Synced      Healthy
+platform-kubeflow-namespaces         OutOfSync   Healthy
+platform-kubeflow-spark-operator     OutOfSync   Healthy
+platform-kubeflow-trainer-manager    Synced      Healthy
+platform-kubeflow-trainer-runtimes   Synced      Healthy
+platform-lakefs                      OutOfSync   Healthy
+platform-minio                       OutOfSync   Healthy
+platform-mlflow                      OutOfSync   Healthy
+platform-monitoring                  OutOfSync   Healthy
+platform-postgres                    OutOfSync   Healthy
+platform-rbac-pipeline-runner        Synced      Healthy
+platform-rp-connect                  Synced      Healthy
+root-minikube                        Synced      Progressing
+workloads-team1                      Synced      Healthy
+workloads-team2                      Synced      Progressing
+workloads-team1-iris                 Synced      Healthy
+workloads-team2-timeseries           Synced      Progressing
+
+--- Capture note ---
+Before the patch every parent reported Healthy regardless of its children. After it, the parents report
+the worst health beneath them: platform <- platform-kfp (Progressing, scaled down per INT-03),
+workloads-team2 <- workloads-team2-timeseries (Progressing: the model is not yet produced, E15a), and
+root-minikube <- both. This is the precondition for sync waves to gate on readiness. It verifies the
+health check on Argo CD v3.5.3; it does NOT yet verify wave gating on a fresh sync, which needs the
+pushed commits and a clean cluster (E29 clean run / dataLAB E21).

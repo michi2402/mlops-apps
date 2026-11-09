@@ -1,0 +1,10 @@
+2026-09-21T07:25:08Z
+$ kubectl -n team1-iris get pod -l serving.kserve.io/inferenceservice=iris -o custom-columns=NAME:.metadata.name,QOS:.status.qosClass
+NAME                              QOS
+iris-predictor-6fbcf68f4d-fln8j   Burstable
+$ ... per-container resources
+  storage-initializer {"limits": {"cpu": "1", "memory": "1Gi"}, "requests": {"cpu": "100m", "memory": "100Mi"}}
+  kserve-container {"limits": {"cpu": "1", "memory": "2Gi"}, "requests": {"cpu": "1", "memory": "2Gi"}}
+  agent {"limits": {"cpu": "1", "memory": "1Gi"}, "requests": {"cpu": "100m", "memory": "100Mi"}}
+$ kubectl -n team1-iris get inferenceservice iris -o jsonpath={.spec.predictor.model.resources}
+{}

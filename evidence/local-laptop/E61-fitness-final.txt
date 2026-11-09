@@ -1,0 +1,42 @@
+2026-09-24T19:44:03Z
+NAME       CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)   
+minikube   1208m        15%      10347Mi         86%         
+Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  Resource           Requests       Limits
+  --------           --------       ------
+  cpu                4070m (50%)    18350m (229%)
+  memory             11452Mi (95%)  23210Mi (193%)
+  ephemeral-storage  0 (0%)         0 (0%)
+# pods not Running/Completed
+team2-timeseries                   timeseries-predictor-657fd89fc5-sn4vd                             0/2   Init:0/1    28 (5m21s ago)   126m
+# OOM events
+  none
+# Applications
+platform                             Synced      Healthy
+platform-cert-manager                Synced      Healthy
+platform-dask                        Synced      Healthy
+platform-envoy-gateway               Synced      Healthy
+platform-external-secrets            Synced      Healthy
+platform-kafka                       Synced      Healthy
+platform-kafka-operator              Synced      Healthy
+platform-katib                       OutOfSync   Healthy
+platform-kfp                         Synced      Healthy
+platform-kfp-crds                    Synced      Healthy
+platform-kserve                      Synced      Healthy
+platform-kubeflow-namespaces         Synced      Healthy
+platform-kubeflow-spark-operator     Synced      Healthy
+platform-kubeflow-trainer-manager    Synced      Healthy
+platform-kubeflow-trainer-runtimes   Synced      Healthy
+platform-lakefs                      Synced      Healthy
+platform-minio                       Synced      Healthy
+platform-mlflow                      Synced      Healthy
+platform-monitoring                  Synced      Healthy
+platform-postgres                    Synced      Healthy
+platform-rbac-pipeline-runner        Synced      Healthy
+platform-rp-connect                  Synced      Healthy
+root-minikube                        Synced      Progressing
+workloads-team1                      Synced      Healthy
+workloads-team2                      Synced      Progressing
+workloads-team1-iris                 Synced      Healthy
+workloads-team2-timeseries           Synced      Progressing

@@ -1,0 +1,87 @@
+2026-10-01T13:01:07Z
+NAME                                             CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)   
+mlops-k8s-native-temp-control-plane-hzzt6        158m         3%       2830Mi          17%         
+mlops-k8s-native-temp-control-plane-jprt7        264m         6%       3113Mi          19%         
+mlops-k8s-native-temp-control-plane-r6znn        314m         7%       4335Mi          27%         
+mlops-k8s-native-temp-mlops-worker-zgdx9-5mqj7   314m         3%       6805Mi          21%         
+mlops-k8s-native-temp-mlops-worker-zgdx9-bghdq   351m         4%       6728Mi          21%         
+mlops-k8s-native-temp-mlops-worker-zgdx9-vsbsj   205m         2%       6805Mi          21%         
+Name:               mlops-k8s-native-temp-control-plane-hzzt6
+Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  Resource           Requests    Limits
+  --------           --------    ------
+  cpu                705m (17%)  200m (5%)
+  memory             228Mi (1%)  640Mi (4%)
+  ephemeral-storage  0 (0%)      0 (0%)
+Name:               mlops-k8s-native-temp-control-plane-jprt7
+Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  Resource           Requests    Limits
+  --------           --------    ------
+  cpu                705m (17%)  200m (5%)
+  memory             228Mi (1%)  640Mi (4%)
+  ephemeral-storage  0 (0%)      0 (0%)
+Name:               mlops-k8s-native-temp-control-plane-r6znn
+Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  Resource           Requests     Limits
+  --------           --------     ------
+  cpu                1210m (30%)  1200m (30%)
+  memory             660Mi (4%)   5554Mi (34%)
+  ephemeral-storage  0 (0%)       0 (0%)
+Name:               mlops-k8s-native-temp-mlops-worker-zgdx9-5mqj7
+Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  Resource           Requests      Limits
+  --------           --------      ------
+  cpu                2085m (26%)   11200m (140%)
+  memory             7896Mi (24%)  13056Mi (40%)
+  ephemeral-storage  0 (0%)        0 (0%)
+Name:               mlops-k8s-native-temp-mlops-worker-zgdx9-bghdq
+Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  Resource           Requests      Limits
+  --------           --------      ------
+  cpu                2735m (34%)   10200m (127%)
+  memory             6310Mi (19%)  17152Mi (53%)
+  ephemeral-storage  0 (0%)        0 (0%)
+Name:               mlops-k8s-native-temp-mlops-worker-zgdx9-vsbsj
+Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  Resource           Requests      Limits
+  --------           --------      ------
+  cpu                2075m (25%)   9100m (113%)
+  memory             7124Mi (22%)  12544Mi (39%)
+  ephemeral-storage  0 (0%)        0 (0%)
+# pods not Running/Completed
+# OOM kills
+0
+# Applications
+platform                             Synced   Healthy
+platform-cert-manager                Synced   Healthy
+platform-dask                        Synced   Healthy
+platform-envoy-gateway               Synced   Healthy
+platform-external-secrets            Synced   Healthy
+platform-kafka                       Synced   Healthy
+platform-kafka-operator              Synced   Healthy
+platform-katib                       Synced   Healthy
+platform-kfp                         Synced   Healthy
+platform-kfp-crds                    Synced   Healthy
+platform-kserve                      Synced   Healthy
+platform-kubeflow-namespaces         Synced   Healthy
+platform-kubeflow-spark-operator     Synced   Healthy
+platform-kubeflow-trainer-manager    Synced   Healthy
+platform-kubeflow-trainer-runtimes   Synced   Healthy
+platform-lakefs                      Synced   Healthy
+platform-minio                       Synced   Healthy
+platform-mlflow                      Synced   Healthy
+platform-monitoring                  Synced   Healthy
+platform-postgres                    Synced   Healthy
+platform-rbac-pipeline-runner        Synced   Healthy
+platform-rp-connect                  Synced   Healthy
+root-datalab                         Synced   Healthy
+workloads-team1                      Synced   Healthy
+workloads-team2                      Synced   Healthy
+workloads-team1-iris                 Synced   Healthy
+workloads-team2-timeseries           Synced   Healthy

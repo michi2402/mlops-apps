@@ -1,0 +1,15 @@
+[1;36m[CHECKS][0m C1/C2 convergence and wave order
+[1;36m[CHECKS][0m C3 wave-order preflight
+[1;36m[CHECKS][0m C4 out-of-band change
+[1;36m[CHECKS][0m C5 repository
+[1;36m[CHECKS][0m C6 credential scan
+[1;36m[CHECKS][0m C7 prediction
+[1;36m[CHECKS][0m C8 lakeFS promotion and fetch
+[1;36m[CHECKS][0m C9 parity
+[1;36m[CHECKS][0m C11 tenant probes
+[1;36m[CHECKS][0m C13 inference events
+[1;36m[CHECKS][0m C14 targets and dashboards
+[1;36m[CHECKS][0m C15 model metrics
+[1;36m[CHECKS][0m resource snapshot
+[1;36m[CHECKS][0m done: evidence/thesis-v1.0-local/checks
+capture done

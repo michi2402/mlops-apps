@@ -1,0 +1,7 @@
+2026-10-01T12:56:15Z
+promoted at 12:50:23; InferenceService Ready after 352 s, no manifest change
+NAME                                            URL                                              READY   PREV   LATEST   PREVROLLEDOUTREVISION   LATESTREADYREVISION   AGE
+inferenceservice.serving.kserve.io/timeseries   http://timeseries-team2-timeseries.mlops.local   True                                                                  29m
+
+NAME                                      READY   STATUS    RESTARTS   AGE
+pod/timeseries-predictor-9d748b54-w5srd   2/2     Running   0          29m

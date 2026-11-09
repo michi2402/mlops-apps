@@ -1,0 +1,4 @@
+2026-09-21T09:12:37Z
+$ python scripts/preflight/wave-order.py --context minikube
+checked 21 Applications of k8s-native-stack: 0 inversion(s)
+exit=0

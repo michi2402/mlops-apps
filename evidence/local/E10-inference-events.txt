@@ -1,0 +1,37 @@
+All commands and output from this session will be recorded in container logs, including credentials and sensitive information passed through the command prompt.
+If you don't see a command prompt, try pressing enter.
+% Reached end of topic inference-events [1] at offset 0
+KEY=7fa8b1ac-2887-462a-b9e6-89d816d3d76d PARTITION=2
+{"body":{},"headers":{"Connection":"close","Content-Length":"2","Content-Type":"application/json","User-Agent":"Wget","http_server_remote_ip":"127.0.0.1","http_server_request_path":"/ingest/kserve","http_server_user_agent":"Wget","http_server_verb":"POST"}}
+
+KEY=5c8e2124-0084-45b6-b8b9-ce6881724713 PARTITION=2
+{"body":{"inputs":[{"data":[[5.1,3.5,1.4,0.2],[6.2,3.4,5.4,2.3],[5.9,3.0,4.2,1.5]],"datatype":"FP64","name":"predict","shape":[3,4]}]},"headers":{"Accept-Encoding":"gzip","Ce-Component":"predictor","Ce-Endpoint":"","Ce-Id":"5c8e2124-0084-45b6-b8b9-ce6881724713","Ce-Inferenceservicename":"iris","Ce-Metadata":"{}","Ce-Namespace":"team1-iris","Ce-Source":"http://localhost:9081/","Ce-Specversion":"1.0","Ce-Time":"2026-09-18T17:46:07.513927507Z","Ce-Type":"org.kubeflow.serving.inference.request","Content-Length":"183","Content-Type":"application/json","User-Agent":"Go-http-client/1.1","http_server_remote_ip":"10.244.0.99","http_server_request_path":"/ingest/kserve","http_server_user_agent":"Go-http-client/1.1","http_server_verb":"POST"}}
+
+KEY=5c8e2124-0084-45b6-b8b9-ce6881724713 PARTITION=2
+{"body":{"id":"d6b2562e-c304-4eff-b4aa-1203929b09c0","model_name":"iris","outputs":[{"data":[0,2,1],"datatype":"INT32","name":"output-1","parameters":{"content_type":"np"},"shape":[3,1]}],"parameters":{"content_type":"np"}},"headers":{"Accept-Encoding":"gzip","Ce-Component":"predictor","Ce-Endpoint":"","Ce-Id":"5c8e2124-0084-45b6-b8b9-ce6881724713","Ce-Inferenceservicename":"iris","Ce-Metadata":"null","Ce-Namespace":"team1-iris","Ce-Source":"http://localhost:9081/","Ce-Specversion":"1.0","Ce-Time":"2026-09-18T17:46:07.843838178Z","Ce-Type":"org.kubeflow.serving.inference.response","Content-Length":"215","Content-Type":"application/json","User-Agent":"Go-http-client/1.1","http_server_remote_ip":"10.244.0.99","http_server_request_path":"/ingest/kserve","http_server_user_agent":"Go-http-client/1.1","http_server_verb":"POST"}}
+
+KEY=20f1c6c0-4302-4fcd-842b-2267af87f7b7 PARTITION=3
+{"body":{},"headers":{"Connection":"close","Content-Length":"2","Content-Type":"application/json","User-Agent":"Wget","http_server_remote_ip":"127.0.0.1","http_server_request_path":"/ingest/kserve","http_server_user_agent":"Wget","http_server_verb":"POST"}}% Reached end of topic inference-events [2] at offset 3
+% Reached end of topic inference-events [3] at offset 3: exiting
+
+
+KEY=f689f832-4d7b-40c7-854e-51e3eb2e2f29 PARTITION=3
+{"body":{},"headers":{"Connection":"close","Content-Length":"2","Content-Type":"application/json","User-Agent":"Wget","http_server_remote_ip":"127.0.0.1","http_server_request_path":"/ingest/kserve","http_server_user_agent":"Wget","http_server_verb":"POST"}}
+
+KEY=ae3fe736-5fa7-4a8c-bf61-b9b21e52c5a3 PARTITION=3
+{"body":{},"headers":{"Accept":"*/*","Content-Length":"2","Content-Type":"application/json","User-Agent":"curl/8.22.0","http_server_remote_ip":"10.244.0.102","http_server_request_path":"/ingest/kserve","http_server_user_agent":"curl/8.22.0","http_server_verb":"POST"}}
+
+pod "kcat" deleted from platform-kafka namespace
+
+--- Capture note ---
+The real request/response pair is KEY=5c8e2124-0084-45b6-b8b9-ce6881724713, partition 2:
+  Ce-Type=org.kubeflow.serving.inference.request  (Ce-Time 17:46:07.513927507Z)
+  Ce-Type=org.kubeflow.serving.inference.response (Ce-Time 17:46:07.843838178Z)
+Both share the same Kafka key and land on the same partition -- confirms §7.4.2's co-partitioning
+claim. Note: the shared id (Ce-Id / Kafka key) is the KServe *logging agent's* own generated
+CloudEvent id, distinct from the "id" field inside the HTTP inference response body seen by the
+client (d6b2562e-... in E09) -- the agent mints its own id for the logging pair rather than reusing
+the response's. Worth stating precisely in §7.4.2 rather than implying they are the same id.
+
+The other records (empty {} bodies, User-Agent Wget/curl) are debug probes sent while diagnosing
+FINDING-04's port-routing fix, not real inference traffic -- disregard for the thesis capture.

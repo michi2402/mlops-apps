@@ -1,0 +1,54 @@
+2026-09-21T08:04:32Z
+# BEFORE: OutOfSync resources per Application
+  platform OutOfSync ['Application/platform-kafka', 'Application/platform-kafka-operator', 'Application/platform-kfp-crds', 'Application/platform-kubeflow-trainer-runtimes', 'Application/platform-rp-connect']
+  platform-dask OutOfSync ['ExternalSecret/platform-lakefs-secret']
+  platform-kafka-operator OutOfSync ['CustomResourceDefinition/kafkabridges.kafka.strimzi.io', 'CustomResourceDefinition/kafkaconnectors.kafka.strimzi.io', 'CustomResourceDefinition/kafkaconnects.kafka.strimzi.io', 'CustomResourceDefinition/kafkamirrormaker2s.kafka.strimzi.io', 'CustomResourceDefinition/kafkanodepools.kafka.strimzi.io', 'CustomResourceDefinition/kafkarebalances.kafka.strimzi.io']
+  platform-katib OutOfSync ['Namespace/kubeflow', 'MutatingWebhookConfiguration/katib.kubeflow.org', 'ValidatingWebhookConfiguration/katib.kubeflow.org']
+  platform-kfp OutOfSync ['ServiceAccount/pipeline-runner']
+  platform-kfp-crds OutOfSync ['Namespace/kubeflow']
+  platform-kubeflow-spark-operator OutOfSync ['ExternalSecret/ghcr-creds', 'ExternalSecret/ghcr-creds', 'ExternalSecret/ghcr-creds']
+  platform-lakefs OutOfSync ['ExternalSecret/platform-lakefs-s3-env', 'ExternalSecret/platform-lakefs-secret']
+  platform-minio OutOfSync ['ExternalSecret/platform-minio-secret']
+  platform-mlflow OutOfSync ['ExternalSecret/platform-lakefs-secret', 'ExternalSecret/platform-postgres-mlflow-secret']
+  platform-monitoring OutOfSync ['ExternalSecret/platform-grafana-secret']
+  platform-postgres OutOfSync ['ExternalSecret/platform-postgres-lakefs-secret', 'ExternalSecret/platform-postgres-mlflow-secret', 'Cluster/postgres-cluster']
+
+$ kubectl -n argocd patch configmap argocd-cmd-params-cm --type merge -p {"data":{"controller.diff.server.side":"true"}}
+configmap/argocd-cmd-params-cm patched
+$ kubectl -n argocd rollout restart statefulset/argocd-application-controller
+statefulset.apps/argocd-application-controller restarted
+Waiting for partitioned roll out to finish: 0 out of 1 new pods have been updated...
+Waiting for 1 pods to be ready...
+Waiting for 1 pods to be ready...
+Waiting for 1 pods to be ready...
+partitioned roll out complete: 1 new pods have been updated...
+
+2026-09-21T08:06:13Z
+# AFTER server-side diff (normal refresh on all Applications, no sync triggered by the operator)
+  platform                             OutOfSync  Progressing  ['Application/platform-kafka', 'Application/platform-kafka-operator', 'Application/platform-kfp-crds', 'Application/platform-kubeflow-trainer-runtimes', 'Application/platform-rp-connect']
+  platform-cert-manager                Synced     Healthy      []
+  platform-dask                        Synced     Healthy      []
+  platform-envoy-gateway               Synced     Healthy      []
+  platform-external-secrets            Synced     Healthy      []
+  platform-kafka                       Synced     Healthy      []
+  platform-kafka-operator              Synced     Healthy      []
+  platform-katib                       OutOfSync  Healthy      ['Namespace/kubeflow', 'MutatingWebhookConfiguration/katib.kubeflow.org', 'ValidatingWebhookConfiguration/katib.kubeflow.org']
+  platform-kfp                         OutOfSync  Progressing  ['ServiceAccount/pipeline-runner']
+  platform-kfp-crds                    OutOfSync  Healthy      ['Namespace/kubeflow']
+  platform-kserve                      Synced     Healthy      []
+  platform-kubeflow-namespaces         Synced     Healthy      []
+  platform-kubeflow-spark-operator     Synced     Healthy      []
+  platform-kubeflow-trainer-manager    Synced     Healthy      []
+  platform-kubeflow-trainer-runtimes   Synced     Healthy      []
+  platform-lakefs                      Synced     Healthy      []
+  platform-minio                       Synced     Healthy      []
+  platform-mlflow                      Synced     Healthy      []
+  platform-monitoring                  Synced     Healthy      []
+  platform-postgres                    Synced     Healthy      []
+  platform-rbac-pipeline-runner        OutOfSync  Healthy      ['ServiceAccount/pipeline-runner']
+  platform-rp-connect                  Synced     Healthy      []
+  root-minikube                        Synced     Progressing  []
+  workloads-team1                      Synced     Healthy      []
+  workloads-team2                      Synced     Progressing  []
+  workloads-team1-iris                 Synced     Healthy      []
+  workloads-team2-timeseries           Synced     Progressing  []

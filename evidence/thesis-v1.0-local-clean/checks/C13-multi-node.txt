@@ -1,0 +1,3 @@
+2026-10-01T14:06:33Z
+nodes: 1
+VERDICT SKIP single-node cluster

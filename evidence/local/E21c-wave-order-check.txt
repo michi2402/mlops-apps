@@ -1,0 +1,17 @@
+2026-09-21T08:12:26Z
+$ git rev-parse HEAD  (working tree: wave fix uncommitted)
+d10a1fca97dfea0e7da629df6d8d2a904a5679ab
+$ git stash-free check at the pushed waves (47881ff):
+    argocd.argoproj.io/sync-wave: "-10"
+    argocd.argoproj.io/sync-wave: "-8"
+$ python scripts/preflight/wave-order.py --context minikube   (waves from the working tree)
+checked 21 Applications of k8s-native-stack: 0 inversion(s)
+exit=0
+
+2026-09-21T08:12:39Z
+$ (in a worktree at 47881ff, the pushed revision) python wave-order.py --context minikube
+INVERSION platform-cert-manager              wave -10 needs ServiceMonitor           from platform-monitoring                wave  -8
+INVERSION platform-minio                     wave  -8 needs Probe                    from platform-monitoring                wave  -8
+INVERSION platform-minio                     wave  -8 needs ServiceMonitor           from platform-monitoring                wave  -8
+checked 21 Applications of k8s-native-stack: 3 inversion(s)
+exit=1

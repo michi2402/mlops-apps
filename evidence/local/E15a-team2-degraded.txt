@@ -1,0 +1,35 @@
+2026-09-18T18:17:02Z
+NAME                         SYNC STATUS   HEALTH STATUS   REVISION                                   PROJECT
+workloads-team2-timeseries   Synced        Progressing     a938db4aaf1a6dc5d42899c1b990e504592ccdbe   workloads-team2
+NAME                                    READY   STATUS     RESTARTS      AGE
+timeseries-predictor-7f9fcc99b5-krzl7   0/2     Init:0/1   2 (26s ago)   65s
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    Optional:                false
+    DownwardAPI:             true
+  kserve-provision-location:
+    Type:        EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:      
+    SizeLimit:   <unset>
+QoS Class:       Burstable
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                 node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason     Age               From               Message
+  ----     ------     ----              ----               -------
+  Normal   Scheduled  65s               default-scheduler  Successfully assigned team2-timeseries/timeseries-predictor-7f9fcc99b5-krzl7 to minikube
+  Normal   Pulled     9s (x3 over 63s)  kubelet            spec.initContainers{storage-initializer}: Container image "kserve/storage-initializer:v0.15.0" already present on machine
+  Normal   Created    9s (x3 over 63s)  kubelet            spec.initContainers{storage-initializer}: Created container: storage-initializer
+  Normal   Started    9s (x3 over 63s)  kubelet            spec.initContainers{storage-initializer}: Started container storage-initializer
+  Warning  BackOff    0s (x2 over 25s)  kubelet            spec.initContainers{storage-initializer}: Back-off restarting failed container storage-initializer in pod timeseries-predictor-7f9fcc99b5-krzl7_team2-timeseries(1950e525-43b5-4ce4-b3eb-1ad52326d636)
+2026-09-18 18:17:01.330 1 kserve INFO [storage.py:download():64] Copying contents of s3://mlflow/main/serving/timeseries-model/1 to local
+Traceback (most recent call last):
+  File "/storage-initializer/scripts/initializer-entrypoint", line 17, in <module>
+    Storage.download(src_uri, dest_path)
+  File "/kserve/kserve/storage/storage.py", line 91, in download
+    model_dir = Storage._download_s3(uri, out_dir)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/kserve/kserve/storage/storage.py", line 281, in _download_s3
+    raise RuntimeError(
+RuntimeError: Failed to fetch model. No model found in main/serving/timeseries-model/1.

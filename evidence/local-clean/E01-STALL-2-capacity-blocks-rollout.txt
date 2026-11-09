@@ -1,0 +1,39 @@
+2026-09-21T11:20:23Z
+# origin/master = c038c24 (phase 1b). The platform parent cannot roll it out.
+$ kubectl -n argocd get application platform -o jsonpath={.status.operationState}
+  phase Running | started 2026-09-21T09:48:44Z | syncing revision c038c24 | waiting for healthy state of argoproj.io/Application/platform-envoy-gateway
+$ kubectl get applications.argoproj.io -A (not Synced+Healthy)
+NAME                                 SYNC        HEALTH
+platform                             OutOfSync   Degraded
+platform-cert-manager                Synced      Progressing
+platform-envoy-gateway               Synced      Progressing
+platform-katib                       OutOfSync   Progressing
+platform-kfp                         OutOfSync   Degraded
+platform-kfp-crds                    OutOfSync   Healthy
+platform-kubeflow-spark-operator     Synced      Progressing
+platform-lakefs                      Synced      Progressing
+platform-monitoring                  Synced      Degraded
+platform-rbac-pipeline-runner        OutOfSync   Healthy
+root-minikube                        Synced      Degraded
+workloads-team2                      Synced      Progressing
+workloads-team2-timeseries           Synced      Progressing
+$ pods not Running/Completed
+cert-manager                       platform-cert-manager-webhook-6c87d6d86f-5rrhz                    0/1   CrashLoopBackOff   15 (4m56s ago)   159m
+kubeflow                           katib-controller-69cb7d8444-hz2c2                                 0/1   CrashLoopBackOff   16 (4m54s ago)   150m
+kubeflow                           ml-pipeline-55f48f5669-7wtx5                                      0/1   Pending            0                147m
+kubeflow                           ml-pipeline-persistenceagent-5fd47669f5-qnvzk                     0/1   CrashLoopBackOff   22 (2m42s ago)   147m
+kubeflow                           ml-pipeline-scheduledworkflow-6595dd9b7-hhchp                     0/1   CrashLoopBackOff   26 (21s ago)     147m
+kubeflow                           ml-pipeline-ui-65bf5c6f9b-msjzn                                   0/1   CrashLoopBackOff   19 (4m58s ago)   147m
+kubeflow                           ml-pipeline-visualizationserver-69d8974795-4cn8m                  0/1   Pending            0                147m
+platform-envoy-gateway             envoy-gateway-b496dbff7-hfsd6                                     0/1   CrashLoopBackOff   12 (4m31s ago)   163m
+platform-kubeflow-spark-operator   spark-operator-controller-856c4594d-bzb7f                         0/1   CrashLoopBackOff   15 (4m54s ago)   151m
+platform-lakefs                    lakefs-767f46d7f6-2k4f6                                           0/1   CrashLoopBackOff   33 (28s ago)     157m
+platform-monitoring                monitoring-kube-prometheus-operator-597f86787-9f9qf               0/1   CrashLoopBackOff   15 (4m53s ago)   159m
+platform-monitoring                prometheus-monitoring-kube-prometheus-prometheus-0                1/2   CrashLoopBackOff   14 (4m49s ago)   159m
+platform-postgres                  postgres-cluster-1                                                0/1   CrashLoopBackOff   14 (4m50s ago)   156m
+team2-timeseries                   timeseries-predictor-7f9fcc99b5-pc7w7                             0/2   Init:0/1           30 (6m41s ago)   155m
+$ docker stats minikube
+43.46% 9.464GiB / 10.25GiB
+$ does katib / kfp-crds carry the phase-1b patch yet?
+  platform-katib: 0 occurrence(s) of the guard in its live spec
+  platform-kfp-crds: 0 occurrence(s) of the guard in its live spec

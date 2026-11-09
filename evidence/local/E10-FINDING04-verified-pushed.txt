@@ -1,0 +1,6 @@
+2026-09-18T18:16:39Z
+Verification after Michael pushed a938db4 (FINDING-04's fix)
+$ git ls-remote origin master
+a938db4aaf1a6dc5d42899c1b990e504592ccdbe	refs/heads/master
+ArgoCD platform-rp-connect: synced to revisions [3.0.3, a938db4...], targetPort now 8080 via the real GitOps path (hard-refresh needed -- repo-server's cached revision was stale for ~30s after the push)
+Fresh inference request produced a new request/response pair sharing key 407c69db-524f-4df3-b757-c65691e2f8e2 on partition 3 -- confirms the fix holds without any live-cluster patch

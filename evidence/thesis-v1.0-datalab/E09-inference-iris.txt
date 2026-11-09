@@ -1,0 +1,18 @@
+2026-10-01T11:04:21Z
+$ curl -s -i -H 'Host: iris-team1-iris.mlops.local' -d @iris-request.json http://127.0.0.1:18080/v2/models/iris/infer
+HTTP/1.1 200 OK
+ce-endpoint: iris
+ce-id: c2e34e2c-10a8-4449-937a-992327230387
+ce-inferenceservicename: mlserver
+ce-modelid: iris
+ce-namespace: team1-iris
+ce-requestid: c2e34e2c-10a8-4449-937a-992327230387
+ce-source: io.seldon.serving.deployment.mlserver.team1-iris
+ce-specversion: 0.3
+ce-type: io.seldon.serving.inference.response
+content-length: 451
+content-type: application/json
+date: Thu, 01 Oct 2026 11:04:22 GMT
+server: uvicorn
+
+{"model_name":"iris","id":"c2e34e2c-10a8-4449-937a-992327230387","parameters":{"content_type":"np"},"outputs":[{"name":"output-1","shape":[120,1],"datatype":"INT32","parameters":{"content_type":"np"},"data":[0,0,1,0,0,2,1,0,0,0,2,1,1,0,0,1,2,2,1,2,1,2,1,0,2,1,0,0,0,1,2,0,0,0,1,0,1,2,0,1,2,0,2,2,1,1,2,1,0,1,2,0,0,1,2,0,2,0,0,2,1,2,2,2,2,1,0,0,2,2,0,0,0,1,2,0,2,2,0,1,1,2,1,2,0,2,1,2,1,1,1,0,1,1,0,1,2,2,0,1,2,2,0,2,0,1,2,2,1,2,1,1,2,2,0,1,2,0,1,2]}]}

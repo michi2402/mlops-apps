@@ -1,0 +1,5 @@
+2026-09-18T18:40:18Z
+$ git rev-parse HEAD
+a938db4aaf1a6dc5d42899c1b990e504592ccdbe
+$ git status --porcelain (excluding evidence/ and .venv-py310/)
+(empty above = clean)

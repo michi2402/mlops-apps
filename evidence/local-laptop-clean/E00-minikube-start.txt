@@ -1,0 +1,6 @@
+2026-09-24T19:51:49Z
+$ minikube start --driver=docker --cpus=6 --memory=11g --disk-size=40g --kubernetes-version=v1.32.0 --addons=metrics-server --extra-config=kubelet.serialize-image-pulls=false
+
+! C:\Program Files\Docker\Docker\resources\bin\kubectl.exe is version 1.36.1, which may have incompatibilities with Kubernetes 1.32.0.
+  - Want kubectl v1.32.0? Try 'minikube kubectl -- get pods -A'
+* Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default

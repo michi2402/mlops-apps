@@ -1,0 +1,7 @@
+2026-10-01T11:08:43Z
+$ kcat -C inference-events (records since the request)
+  7af99131-212d-4f3b-a7c1-ea790dbc1149 partition 0 offset 2 org.kubeflow.serving.inference.response
+  7af99131-212d-4f3b-a7c1-ea790dbc1149 partition 0 offset 3 org.kubeflow.serving.inference.request
+  171a7577-7a3e-49be-bba1-a5e3b09e118c partition 0 offset 4 org.kubeflow.serving.inference.request
+  171a7577-7a3e-49be-bba1-a5e3b09e118c partition 0 offset 5 org.kubeflow.serving.inference.response
+VERDICT FAIL 4 record(s), 2 key(s), 1 partition(s), types ['request', 'response']

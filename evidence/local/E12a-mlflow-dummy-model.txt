@@ -1,0 +1,21 @@
+2026/09/18 17:53:18 INFO mlflow.agent.hint: Load the `instrumenting-with-mlflow-tracing` skill at C:\Users\micmay\AppData\Roaming\Python\Python314\site-packages\mlflow\assistant\skills\instrumenting-with-mlflow-tracing\SKILL.md before writing any tracing code; it ships with this MLflow install. Set MLFLOW_DISABLE_AGENT_HINT=1 to silence this.
+2026/09/18 17:53:34 INFO mlflow.tracking.fluent: Experiment with name 'demo-iris' does not exist. Creating a new experiment.
+2026/09/18 17:53:47 WARNING mlflow.models.model: `artifact_path` is deprecated. Please use `name` instead.
+2026/09/18 17:54:11 WARNING mlflow.sklearn: Saving scikit-learn models in the pickle or cloudpickle format requires exercising caution because these formats rely on Python's object serialization mechanism, which can execute arbitrary code during deserialization. The recommended safe alternative is the 'skops' format. For more information, see: https://scikit-learn.org/stable/model_persistence.html
+Successfully registered model 'tracking-quickstart'.
+2026/09/18 17:54:39 INFO mlflow.store.model_registry.abstract_store: Waiting up to 300 seconds for model version to finish creation. Model name: tracking-quickstart, version 1
+Created version '1' of model 'tracking-quickstart'.
+🏃 View run enthused-shoat-713 at: http://127.0.0.1:5000/#/experiments/1/runs/290a625c3386409c8cf11cf8972df39f
+🧪 View experiment at: http://127.0.0.1:5000/#/experiments/1
+MODEL_NAME=tracking-quickstart
+MODEL_VERSION=1
+2026/09/18 19:13:23 INFO mlflow.agent.hint: Load the `instrumenting-with-mlflow-tracing` skill at C:\Users\micmay\university\bsc\thesis\poc\mlops-apps\.venv-py310\lib\site-packages\mlflow\assistant\skills\instrumenting-with-mlflow-tracing\SKILL.md before writing any tracing code; it ships with this MLflow install. Set MLFLOW_DISABLE_AGENT_HINT=1 to silence this.
+2026/09/18 19:13:38 WARNING mlflow.models.model: `artifact_path` is deprecated. Please use `name` instead.
+2026/09/18 19:13:39 WARNING mlflow.sklearn: Saving scikit-learn models in the pickle or cloudpickle format requires exercising caution because these formats rely on Python's object serialization mechanism, which can execute arbitrary code during deserialization. The recommended safe alternative is the 'skops' format. For more information, see: https://scikit-learn.org/stable/model_persistence.html
+Registered model 'tracking-quickstart' already exists. Creating a new version of this model...
+2026/09/18 19:13:50 INFO mlflow.store.model_registry.abstract_store: Waiting up to 300 seconds for model version to finish creation. Model name: tracking-quickstart, version 2
+Created version '2' of model 'tracking-quickstart'.
+🏃 View run fun-turtle-730 at: http://127.0.0.1:5000/#/experiments/1/runs/ec0d3664e0b44ce5a07ae44b534288a3
+🧪 View experiment at: http://127.0.0.1:5000/#/experiments/1
+MODEL_NAME=tracking-quickstart
+MODEL_VERSION=2

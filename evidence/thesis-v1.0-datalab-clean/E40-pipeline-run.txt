@@ -1,0 +1,23 @@
+ml-pipelines fix/trainer-py310 071bb086c8a2f4834fcd9dbab3930fe57d654976
+2026-10-01T12:36:28Z
+$ tools/bootstrap_all.sh --with-data
+MinIO-Buckets vorhanden: lakefs, dvc
+lakeFS-Repo 'datasets' mit Branch 'dev' vorhanden
+lakeFS-Repo 'mlflow' mit Branch 'main' vorhanden
+500 entities, 336000 rows, entity positive rate 0.50
+Wrote raw to s3://datasets/dev/raw/
+Committed: 702c93af605ecf3ee103bd7f31268320f4e937332c77e6e4bfa420dd19eebf0f
+$ k8s-native-stack/tools/bootstrap_stack.sh
+trainingruntime.trainer.kubeflow.org/trainer-runtime-pytorch created
+2026-10-01T12:36:37Z
+$ run_pipeline.py --kfp-host http://localhost:8888 --wait
+C:\Users\micmay\university\bsc\thesis\ml-pipelines\.venv\Lib\site-packages\kfp\client\client.py:159: FutureWarning: This client only works with Kubeflow Pipeline v2.0.0-beta.2 and later versions.
+  warnings.warn(
+C:\Users\micmay\university\bsc\thesis\ml-pipelines\k8s-native-stack\tools\run_pipeline.py:49: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  run_name = f"e2e-{args.data_branch}-{datetime.utcnow():%Y%m%dT%H%M%SZ}"
+[INFO] starte Run: e2e-dev-20261001T123640Z
+Experiment details: http://localhost:8888/#/experiments/details/606d8548-aa4b-4500-b97e-b6cfe3704fcf
+Run details: http://localhost:8888/#/runs/details/5064a14e-dc4a-4c7e-9e6e-a92ecd850405
+[OK] Run: 5064a14e-dc4a-4c7e-9e6e-a92ecd850405
+[DONE] State: SUCCEEDED
+2026-10-01T12:49:58Z

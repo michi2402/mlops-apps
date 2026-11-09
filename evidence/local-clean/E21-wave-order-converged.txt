@@ -1,0 +1,7 @@
+2026-09-21T08:49:20Z
+$ kubectl get applications.argoproj.io -A -o custom-columns=NAME,WAVE,CREATED,SYNC,HEALTH  (sorted by creation)
+Traceback (most recent call last):
+  File "<string>", line 7, in <module>
+    rows.append((m['creationTimestamp'],m['name'],w,a['status'].get('sync',{}).get('status'),a['status'].get('health',{}).get('status')))
+                                                    ~^^^^^^^^^^
+KeyError: 'status'

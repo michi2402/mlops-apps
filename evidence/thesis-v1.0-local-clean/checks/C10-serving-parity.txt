@@ -1,0 +1,6 @@
+2026-10-01T14:05:55Z
+storageUri s3://mlflow/main/serving/tracking-quickstart/1
+2026/10/01 16:06:02 INFO mlflow.agent.hint: Load the `instrumenting-with-mlflow-tracing` skill at C:\Users\micmay\university\bsc\thesis\poc\mlops-apps\.venv-py310\lib\site-packages\mlflow\assistant\skills\instrumenting-with-mlflow-tracing\SKILL.md before writing any tracing code; it ships with this MLflow install. Set MLFLOW_DISABLE_AGENT_HINT=1 to silence this.
+artefact  s3://mlflow/main/serving/tracking-quickstart/1/ (8 files)
+agreement 150 of 150 observations; accuracy on the full data set: served 0.980, local 0.980
+VERDICT PASS served and local predictions agree on 150 of 150 observations; accuracy 0.980

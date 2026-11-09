@@ -1,0 +1,4 @@
+2026-09-24T18:19:59Z
+$ kubectl -n platform-envoy-gateway port-forward service/envoy-platform-envoy-gateway-ingress-gateway-abca95db 18080:80; curl ... /v2/models/iris/infer
+{"model_name":"iris","id":"3612cec4-9097-4b00-826c-0c2b66f20285","parameters":{"content_type":"np"},"outputs":[{"name":"output-1","shape":[120,1],"datatype":"INT32","parameters":{"content_type":"np"},"data":[0,0,1,0,0,2,1,0,0,0,2,1,1,0,0,1,2,2,1,2,1,2,1,0,2,1,0,0,0,1,2,0,0,0,1,0,1,2,0,1,2,0,2,2,1,1,2,1,0,1,2,0,0,1,2,0,2,0,0,2,1,2,2,2,2,1,0,0,2,2,0,0,0,1,2,0,2,2,0,1,1,2,1,2,0,2,1,2,1,1,1,0,1,1,0,1,2,2,0,1,2,2,0,2,0,1,2,2,1,2,1,1,2,2,0,1,2,0,1,2]}]}
+HTTP 200

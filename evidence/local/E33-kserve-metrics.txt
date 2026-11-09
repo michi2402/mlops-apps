@@ -1,0 +1,10 @@
+kube_statefulset_status_current_revision
+kube_statefulset_status_update_revision
+
+--- Analysis ---
+No kserve/model-level metric series exist in Prometheus after issuing 50 inference requests. Root
+cause confirmed, not just absence: no ServiceMonitor or PodMonitor targets KServe, the `iris`
+InferenceService, or anything in team1-iris/platform-kserve at all (full E31 list has none). The
+predictor's only declared container port is `agent-port` (9081, the KServe logging agent), no metrics
+port. §8.3.4's claim that per-model latency/throughput/error metrics are exposed and scrapeable is
+**not supported by the deployed artefact** -- narrow this claim rather than leave it asserted.

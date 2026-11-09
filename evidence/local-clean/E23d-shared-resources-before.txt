@@ -1,0 +1,18 @@
+2026-09-21T10:45:24Z
+# BEFORE the ownership fix (cluster at origin/master 2967e40). Owner = Argo CD tracking annotation.
+$ kubectl get applications.argoproj.io -n argocd -o json | <SharedResourceWarning conditions>
+  platform-katib SharedResourceWarning | Namespace/kubeflow is part of applications argocd/platform-katib and platform-kfp-crds
+  platform-kubeflow-namespaces SharedResourceWarning | Namespace/kubeflow is part of applications argocd/platform-kubeflow-namespaces and platform-katib
+  platform-rbac-pipeline-runner SharedResourceWarning | ServiceAccount/pipeline-runner is part of applications argocd/platform-rbac-pipeline-runner and platform-kfp
+# owner of Namespace kubeflow and ServiceAccount kubeflow/pipeline-runner, every 6 s for 60 s:
+  10:45:25 ns=platform-kfp-crds sa=platform-kfp katib-label=enabled
+  10:45:32 ns=platform-kfp-crds sa=platform-kfp katib-label=enabled
+  10:45:39 ns=platform-kfp-crds sa=platform-kfp katib-label=enabled
+  10:45:45 ns=platform-kfp-crds sa=platform-kfp katib-label=enabled
+  10:45:53 ns=platform-kfp-crds sa=platform-kfp katib-label=enabled
+  10:46:00 ns=platform-kfp-crds sa=platform-kfp katib-label=enabled
+  10:46:07 ns=platform-kfp-crds sa=platform-kfp katib-label=enabled
+  10:46:13 ns=platform-kfp-crds sa=platform-kfp katib-label=enabled
+  10:46:20 ns=platform-kfp-crds sa=platform-kfp katib-label=enabled
+  10:46:27 ns=platform-kfp-crds sa=platform-kfp katib-label=enabled
+# earlier 90 s observation (09:48:37-09:50:21Z, console): ns owner kubeflow-namespaces -> kfp-crds -> kubeflow-namespaces; sa owner rbac-pipeline-runner -> kfp -> rbac-pipeline-runner; all five Applications re-synced in the window.

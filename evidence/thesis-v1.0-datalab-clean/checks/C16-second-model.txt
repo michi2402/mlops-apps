@@ -1,0 +1,4 @@
+2026-10-01T12:57:54Z
+promotion commit: f9a71a31d6d6 {"mlflow_run_id": "d03ab9ff80034f449f728e3cb826b034", "mlflow_source": "models:/m-32cd10b3f51c42218e9b1982cf115455", "model_name": "timeseries-model", "model_version": "1"}
+InferenceService ready=True; GET /v2/models/timeseries/ready -> 200
+VERDICT PASS second model served in team2

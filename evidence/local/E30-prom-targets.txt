@@ -1,0 +1,15 @@
+apiserver up
+kube-proxy up
+kube-state-metrics up
+kubelet up
+minio up
+mlflow up
+monitoring-grafana down
+monitoring-kube-prometheus-alertmanager up
+monitoring-kube-prometheus-operator up
+monitoring-kube-prometheus-prometheus up
+node-exporter up
+platform-cert-manager up
+platform-cert-manager-cainjector up
+platform-cert-manager-webhook up
+platform-postgres/postgres-cluster up

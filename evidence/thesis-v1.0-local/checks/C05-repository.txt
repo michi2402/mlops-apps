@@ -1,0 +1,4 @@
+2026-09-25T09:53:10Z
+$ git status --porcelain -- . ':!evidence'
+(end; empty = unchanged)
+HEAD 235c3bb, origin/master 235c3bb

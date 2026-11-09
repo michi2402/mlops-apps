@@ -1,0 +1,182 @@
+2026-09-24T19:53:59Z
+$ CLUSTER_ENV=minikube ./scripts/bootstrap-k8s-native.sh   (defaults; HEAD 36558c7, origin 36558c7)
+
+[1;36m[BOOTSTRAP][0m Start: 2026-09-24T19:54:05Z
+
+[1;36m[BOOTSTRAP][0m 1/7 Seeding external-secrets credential
+namespace/external-secrets created
+secret/azure-sp-secret created
+
+[1;36m[BOOTSTRAP][0m 2/7 Installing Argo CD
+
+[1;36m[INFO][0m Checking cluster access...
+
+[1;36m[INFO][0m Creating namespace: argocd (if not present)
+namespace/argocd created
+
+[1;36m[INFO][0m Applying Argo CD install manifest (server-side apply)
+customresourcedefinition.apiextensions.k8s.io/applications.argoproj.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/applicationsets.argoproj.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/appprojects.argoproj.io serverside-applied
+serviceaccount/argocd-application-controller serverside-applied
+serviceaccount/argocd-applicationset-controller serverside-applied
+serviceaccount/argocd-dex-server serverside-applied
+serviceaccount/argocd-notifications-controller serverside-applied
+serviceaccount/argocd-redis serverside-applied
+serviceaccount/argocd-repo-server serverside-applied
+serviceaccount/argocd-server serverside-applied
+role.rbac.authorization.k8s.io/argocd-application-controller serverside-applied
+role.rbac.authorization.k8s.io/argocd-applicationset-controller serverside-applied
+role.rbac.authorization.k8s.io/argocd-dex-server serverside-applied
+role.rbac.authorization.k8s.io/argocd-notifications-controller serverside-applied
+role.rbac.authorization.k8s.io/argocd-redis serverside-applied
+role.rbac.authorization.k8s.io/argocd-server serverside-applied
+clusterrole.rbac.authorization.k8s.io/argocd-application-controller serverside-applied
+clusterrole.rbac.authorization.k8s.io/argocd-applicationset-controller serverside-applied
+clusterrole.rbac.authorization.k8s.io/argocd-server serverside-applied
+rolebinding.rbac.authorization.k8s.io/argocd-application-controller serverside-applied
+rolebinding.rbac.authorization.k8s.io/argocd-applicationset-controller serverside-applied
+rolebinding.rbac.authorization.k8s.io/argocd-dex-server serverside-applied
+rolebinding.rbac.authorization.k8s.io/argocd-notifications-controller serverside-applied
+rolebinding.rbac.authorization.k8s.io/argocd-redis serverside-applied
+rolebinding.rbac.authorization.k8s.io/argocd-server serverside-applied
+clusterrolebinding.rbac.authorization.k8s.io/argocd-application-controller serverside-applied
+clusterrolebinding.rbac.authorization.k8s.io/argocd-applicationset-controller serverside-applied
+clusterrolebinding.rbac.authorization.k8s.io/argocd-server serverside-applied
+configmap/argocd-cm serverside-applied
+configmap/argocd-cmd-params-cm serverside-applied
+configmap/argocd-gpg-keys-cm serverside-applied
+configmap/argocd-notifications-cm serverside-applied
+configmap/argocd-rbac-cm serverside-applied
+configmap/argocd-ssh-known-hosts-cm serverside-applied
+configmap/argocd-tls-certs-cm serverside-applied
+secret/argocd-notifications-secret serverside-applied
+secret/argocd-secret serverside-applied
+service/argocd-applicationset-controller serverside-applied
+service/argocd-dex-server serverside-applied
+service/argocd-metrics serverside-applied
+service/argocd-notifications-controller-metrics serverside-applied
+service/argocd-redis serverside-applied
+service/argocd-repo-server serverside-applied
+service/argocd-server serverside-applied
+service/argocd-server-metrics serverside-applied
+deployment.apps/argocd-applicationset-controller serverside-applied
+deployment.apps/argocd-dex-server serverside-applied
+deployment.apps/argocd-notifications-controller serverside-applied
+deployment.apps/argocd-redis serverside-applied
+deployment.apps/argocd-repo-server serverside-applied
+deployment.apps/argocd-server serverside-applied
+statefulset.apps/argocd-application-controller serverside-applied
+networkpolicy.networking.k8s.io/argocd-application-controller-network-policy serverside-applied
+networkpolicy.networking.k8s.io/argocd-applicationset-controller-network-policy serverside-applied
+networkpolicy.networking.k8s.io/argocd-dex-server-network-policy serverside-applied
+networkpolicy.networking.k8s.io/argocd-notifications-controller-network-policy serverside-applied
+networkpolicy.networking.k8s.io/argocd-redis-network-policy serverside-applied
+networkpolicy.networking.k8s.io/argocd-repo-server-network-policy serverside-applied
+networkpolicy.networking.k8s.io/argocd-server-network-policy serverside-applied
+
+[1;36m[INFO][0m Enabling Applications in namespaces: team1,team2
+configmap/argocd-cmd-params-cm patched
+
+[1;36m[INFO][0m Restoring health assessment for Application resources (sync waves gate on it)
+configmap/argocd-cm patched
+configmap/argocd-cm patched (no change)
+deployment.apps/argocd-server restarted
+deployment.apps/argocd-repo-server restarted
+statefulset.apps/argocd-application-controller restarted
+
+[1;36m[INFO][0m Waiting for argocd-server rollout (timeout 180s)
+Waiting for deployment "argocd-server" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "argocd-server" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "argocd-server" rollout to finish: 1 old replicas are pending termination...
+deployment "argocd-server" successfully rolled out
+deployment "argocd-repo-server" successfully rolled out
+partitioned roll out complete: 1 new pods have been updated...
+
+[1;36m[INFO][0m Fetching initial admin password
+
+[1;36m[INFO][0m Initial admin password (user: admin):
+<redacted>
+
+
+[1;36m[INFO][0m SKIP_PORT_FORWARD set — not starting a port-forward. Reach the UI later with:
+
+[1;36m[INFO][0m   kubectl -n argocd port-forward svc/argocd-server 8080:443
+
+[1;36m[BOOTSTRAP][0m 3/7 Applying clusters/envs/minikube/k8s-native-stack/aoa-root.yaml (profile: minikube)
+application.argoproj.io/root-minikube created
+appproject.argoproj.io/platform created
+appproject.argoproj.io/workloads-team1 created
+appproject.argoproj.io/workloads-team2 created
+
+[1;36m[BOOTSTRAP][0m 4/7 Waiting up to 3600s for the platform tier (12 Applications) to be Synced/Healthy
+
+[1;36m[BOOTSTRAP][0m Platform tier Synced/Healthy
+
+[1;36m[BOOTSTRAP][0m Orchestration tier (reported, not waited on):
+NAME                                SYNC        HEALTH
+platform-dask                       Synced      Progressing
+platform-katib                      OutOfSync   Missing
+platform-kfp-crds                   Synced      Healthy
+platform-kfp                        OutOfSync   Missing
+platform-kubeflow-namespaces        Synced      Healthy
+platform-kubeflow-spark-operator    OutOfSync   Progressing
+platform-kubeflow-trainer-manager   OutOfSync   Missing
+platform-rbac-pipeline-runner       Synced      Healthy
+
+[1;36m[BOOTSTRAP][0m Convergence took 975s
+
+[1;36m[BOOTSTRAP][0m 5/7 Waiting up to 600s for the lakeFS init hook (admin + repositories)
+  created the lakeFS administrator
+  created repository mlflow (branch main)
+  created repository datasets (branch dev)
+
+[1;36m[BOOTSTRAP][0m 6/7 Registering demo model in MLflow
+2026/09/24 22:12:04 INFO mlflow.tracking.fluent: Experiment with name 'demo-iris' does not exist. Creating a new experiment.
+2026/09/24 22:12:08 WARNING mlflow.models.model: `artifact_path` is deprecated. Please use `name` instead.
+2026/09/24 22:12:09 WARNING mlflow.sklearn: Saving scikit-learn models in the pickle or cloudpickle format requires exercising caution because these formats rely on Python's object serialization mechanism, which can execute arbitrary code during deserialization. The recommended safe alternative is the 'skops' format. For more information, see: https://scikit-learn.org/stable/model_persistence.html
+Successfully registered model 'tracking-quickstart'.
+2026/09/24 22:12:48 INFO mlflow.store.model_registry.abstract_store: Waiting up to 300 seconds for model version to finish creation. Model name: tracking-quickstart, version 1
+Created version '1' of model 'tracking-quickstart'.
+🏃 View run casual-flea-759 at: http://127.0.0.1:5000/#/experiments/1/runs/3ba4ceaeaca44e428be8f3934c3046a0
+🧪 View experiment at: http://127.0.0.1:5000/#/experiments/1
+MODEL_NAME=tracking-quickstart
+MODEL_VERSION=1
+
+[1;36m[BOOTSTRAP][0m Promoting tracking-quickstart to its serving location in lakeFS
+registry     : tracking-quickstart version 1 (run 3ba4ceaeaca44e428be8f3934c3046a0)
+source       : models:/m-bf8bcbea3d0549a2a54c07409c83b3d3
+destination  : s3://mlflow/main/serving/tracking-quickstart/1
+flavours     : python_function, sklearn
+copied       : 8 files
+lakeFS commit: 3543a80f459c7de956f2cbf55b7fcd3906b198c23f825e7915d0d38155a0ad9e
+request      : wrote C:/Users/micmay/AppData/Local/Temp/iris-request.json (120x4)
+
+MODEL_NAME=tracking-quickstart
+MODEL_VERSION=1
+MODEL_URI=s3://mlflow/main/serving/tracking-quickstart/1
+MODEL_URI_PINNED=s3://mlflow/3543a80f459c7de956f2cbf55b7fcd3906b198c23f825e7915d0d38155a0ad9e/serving/tracking-quickstart/1
+
+[1;36m[BOOTSTRAP][0m 7/7 Waiting up to 1800s for workloads-team1-iris to serve the model
+
+[1;31m[ERR][0m  Timed out after 1800s (app sync=Synced health=Progressing, inferenceservice ready=)
+NAME                                      URL   READY   PREV   LATEST   PREVROLLEDOUTREVISION   LATESTREADYREVISION   AGE
+inferenceservice.serving.kserve.io/iris                                                                               40m
+
+NAME                                  READY   STATUS            RESTARTS   AGE
+pod/iris-predictor-5c4b987ff4-f6tp4   0/2     PodInitializing   0          40m
+2026-09-24 20:18:40.788 1 kserve INFO [initializer-entrypoint:<module>():16] Initializing, args: src_uri [s3://mlflow/main/serving/tracking-quickstart/1] dest_path[ [/mnt/models]
+2026-09-24 20:18:40.797 1 kserve INFO [storage.py:download():64] Copying contents of s3://mlflow/main/serving/tracking-quickstart/1 to local
+2026-09-24 20:18:48.174 1 kserve INFO [storage.py:_download_s3():274] Downloaded object main/serving/tracking-quickstart/1/MLmodel to /mnt/models/MLmodel
+2026-09-24 20:18:48.282 1 kserve INFO [storage.py:_download_s3():274] Downloaded object main/serving/tracking-quickstart/1/conda.yaml to /mnt/models/conda.yaml
+2026-09-24 20:18:48.465 1 kserve INFO [storage.py:_download_s3():274] Downloaded object main/serving/tracking-quickstart/1/input_example.json to /mnt/models/input_example.json
+2026-09-24 20:18:48.575 1 kserve INFO [storage.py:_download_s3():274] Downloaded object main/serving/tracking-quickstart/1/model.pkl to /mnt/models/model.pkl
+2026-09-24 20:18:48.676 1 kserve INFO [storage.py:_download_s3():274] Downloaded object main/serving/tracking-quickstart/1/python_env.yaml to /mnt/models/python_env.yaml
+2026-09-24 20:18:48.759 1 kserve INFO [storage.py:_download_s3():274] Downloaded object main/serving/tracking-quickstart/1/registered_model_meta to /mnt/models/registered_model_meta
+2026-09-24 20:18:48.837 1 kserve INFO [storage.py:_download_s3():274] Downloaded object main/serving/tracking-quickstart/1/requirements.txt to /mnt/models/requirements.txt
+2026-09-24 20:18:48.968 1 kserve INFO [storage.py:_download_s3():274] Downloaded object main/serving/tracking-quickstart/1/serving_input_example.json to /mnt/models/serving_input_example.json
+2026-09-24 20:18:48.969 1 kserve INFO [storage.py:download():110] Successfully copied s3://mlflow/main/serving/tracking-quickstart/1 to /mnt/models
+2026-09-24 20:18:48.970 1 kserve INFO [storage.py:download():111] Model downloaded in 8.173013587998867 seconds.
+
+[1;31m[ERR][0m  Model never became servable — see output above.
+exit=1

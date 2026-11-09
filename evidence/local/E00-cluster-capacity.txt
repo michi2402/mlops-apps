@@ -1,0 +1,19 @@
+2026-09-18T13:44:58Z
+$ kubectl get nodes -o wide
+NAME       STATUS   ROLES           AGE   VERSION   INTERNAL-IP    EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION                      CONTAINER-RUNTIME
+minikube   Ready    control-plane   10s   v1.32.0   192.168.49.2   <none>        Ubuntu 22.04.5 LTS   6.18.40.1-microsoft-standard-WSL2   docker://27.4.1
+$ kubectl describe nodes | grep -A5 'Allocatable:'
+Allocatable:
+  cpu:                8
+  ephemeral-storage:  1055762868Ki
+  hugepages-1Gi:      0
+  hugepages-2Mi:      0
+  memory:             12251512Ki
+$ kubectl get sc
+NAME                 PROVISIONER                RECLAIMPOLICY   VOLUMEBINDINGMODE   ALLOWVOLUMEEXPANSION   AGE
+standard (default)   k8s.io/minikube-hostpath   Delete          Immediate           false                  7s
+$ kubectl version
+Client Version: v1.36.1
+Kustomize Version: v5.8.1
+Server Version: v1.32.0
+Warning: version difference between client (1.36) and server (1.32) exceeds the supported minor version skew of +/-1

@@ -1,0 +1,95 @@
+2026-09-24T18:21:12Z
+$ kubectl top node; allocated; not-running pods; terminations; top pods vs requests
+NAME       CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)   
+minikube   3240m        40%      10235Mi         85%         
+Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  Resource           Requests       Limits
+  --------           --------       ------
+  cpu                3800m (47%)    16250m (203%)
+  memory             10748Mi (89%)  20522Mi (171%)
+  ephemeral-storage  0 (0%)         0 (0%)
+  hugepages-1Gi      0 (0%)         0 (0%)
+
+# pods not Running/Completed
+kubeflow                           minio-7dcbb9ff4b-f2dnp                                            0/1   ImagePullBackOff        0               38m
+kubeflow                           ml-pipeline-55f48f5669-b9w5f                                      0/1   CrashLoopBackOff        9 (103s ago)    38m
+kubeflow                           ml-pipeline-persistenceagent-5fd47669f5-tdrsh                     0/1   Error                   6 (6m12s ago)   38m
+kubeflow                           ml-pipeline-scheduledworkflow-6595dd9b7-6gc4s                     0/1   CrashLoopBackOff        7 (4m7s ago)    38m
+team2-timeseries                   timeseries-predictor-657fd89fc5-sn4vd                             0/2   Init:CrashLoopBackOff   12 (87s ago)    43m
+
+# last terminations (reason, exit code)
+  kube-system storage-provisioner storage-provisioner restarts 1 Error 1
+  kubeflow ml-pipeline-55f48f5669-b9w5f ml-pipeline-api-server restarts 9 Error 2
+  kubeflow ml-pipeline-persistenceagent-5fd47669f5-tdrsh ml-pipeline-persistenceagent restarts 6 Error 1
+  kubeflow ml-pipeline-scheduledworkflow-6595dd9b7-6gc4s ml-pipeline-scheduledworkflow restarts 7 Error 1
+  platform-kafka platform-kafka-platform-kafka-brokers-0 kafka restarts 1 Error 1
+  platform-lakefs lakefs-54844775cb-jjqf4 lakefs restarts 4 Error 1
+
+# OOM events
+  none
+
+# working set vs declared memory request, per pod
+     1853Mi used        0Mi req  kube-system/kube-apiserver-minikube  (no request)
+      717Mi used        0Mi req  argocd/argocd-application-controller-0  (no request)
+      470Mi used      800Mi req  kubeflow/mysql-6c56959ffd-zvnt4
+      430Mi used      128Mi req  platform-monitoring/monitoring-grafana-7ff5b4d8f8-g4vrs  <-- above request
+      415Mi used      256Mi req  platform-monitoring/prometheus-monitoring-kube-prometheus-prometheus-0  <-- above request
+      397Mi used      512Mi req  platform-kafka/platform-kafka-platform-kafka-brokers-0
+      382Mi used        0Mi req  kubeflow/katib-mysql-5dfcbbc87f-tpzcj  (no request)
+      322Mi used      612Mi req  team1-iris/iris-predictor-5c4b987ff4-n2pln
+      317Mi used      512Mi req  platform-mlflow/mlflow-c8966fb77-rtmns
+      289Mi used      512Mi req  platform-kafka/strimzi-cluster-operator-b6d74cc8d-pzxg5
+      234Mi used      512Mi req  platform-kafka/platform-kafka-kafka-ui-845fd7888f-n7xpq
+      214Mi used      512Mi req  platform-kafka/platform-kafka-platform-kafka-controllers-1
+      156Mi used      256Mi req  platform-postgres/postgres-cluster-1
+      148Mi used      256Mi req  platform-kafka/platform-kafka-entity-operator-6f757d6998-qbdtd
+      148Mi used        0Mi req  kube-system/kube-controller-manager-minikube  (no request)
+      147Mi used      100Mi req  kube-system/etcd-minikube  <-- above request
+      146Mi used      512Mi req  platform-compute/dask-worker-99fbb85c4-qg9ns
+      121Mi used      128Mi req  platform-rp-connect/platform-rp-connect-redpanda-connect-55f89fc8bb-qb
+      120Mi used      128Mi req  cert-manager/platform-cert-manager-cainjector-6486dc79bd-44mdg
+      114Mi used      128Mi req  platform-envoy-gateway/envoy-gateway-869f4458d4-q22fx
+      106Mi used      256Mi req  platform-compute/dask-scheduler-65d86f7457-cj7gm
+      104Mi used      128Mi req  platform-lakefs/lakefs-54844775cb-jjqf4
+      103Mi used      256Mi req  platform-minio/minio-866f864dc-trr8m
+       99Mi used       70Mi req  kubeflow/ml-pipeline-ui-65bf5c6f9b-l7pxz  <-- above request
+       95Mi used        0Mi req  argocd/argocd-dex-server-5b57b7b8ff-mx5dd  (no request)
+       89Mi used      500Mi req  kubeflow/ml-pipeline-visualizationserver-69d8974795-7gw47
+       84Mi used        0Mi req  argocd/argocd-repo-server-7787bf7c9d-969z9  (no request)
+       79Mi used      192Mi req  platform-kserve/kserve-controller-manager-5d6596d7df-h49c7
+       77Mi used      128Mi req  external-secrets/platform-external-secrets-75984c964-sgpd4
+       77Mi used        0Mi req  kube-system/kube-scheduler-minikube  (no request)
+       75Mi used      200Mi req  platform-monitoring/alertmanager-monitoring-kube-prometheus-alertmanag
+       72Mi used       64Mi req  cert-manager/platform-cert-manager-7db9c65d6f-j2pfn  <-- above request
+       72Mi used        0Mi req  platform-monitoring/monitoring-kube-prometheus-operator-597f86787-rw5w  (no request)
+       71Mi used      128Mi req  platform-postgres/platform-postgres-cloudnative-pg-9698f96dc-cksd6
+       70Mi used        0Mi req  kubeflow/metadata-writer-6b85ff6549-sjddn  (no request)
+       70Mi used        0Mi req  kube-system/kube-proxy-7v7nt  (no request)
+       68Mi used       96Mi req  platform-envoy-gateway/envoy-platform-envoy-gateway-ingress-gateway-abca9
+       65Mi used      128Mi req  external-secrets/platform-external-secrets-cert-controller-84dbf5d6
+       64Mi used      200Mi req  kube-system/metrics-server-7fbb699795-jtqxr
+       63Mi used      128Mi req  kubeflow-system/jobset-controller-manager-78bcbf6455-gdst7
+       59Mi used       70Mi req  kube-system/coredns-668d6bf9bc-7784d
+       58Mi used      500Mi req  kubeflow/workflow-controller-75667c9b8b-96lmt
+       58Mi used        0Mi req  platform-monitoring/monitoring-kube-state-metrics-7fc7c7469d-56xnz  (no request)
+       55Mi used        0Mi req  platform-kubeflow-spark-operator/spark-operator-controller-856c4594d-d48ds  (no request)
+       52Mi used       64Mi req  cert-manager/platform-cert-manager-webhook-bc5d9dbdd-lb2sf
+       51Mi used        0Mi req  kubeflow-system/kubeflow-trainer-controller-manager-84db68bdff-6sj  (no request)
+       51Mi used        0Mi req  kubeflow/katib-controller-69cb7d8444-jn8p4  (no request)
+       42Mi used        0Mi req  kubeflow/cache-server-7855b67765-z8nfp  (no request)
+       39Mi used        0Mi req  kubeflow/ml-pipeline-viewer-crd-5bd984878c-ntxrn  (no request)
+       35Mi used        0Mi req  argocd/argocd-server-5fff8d76b8-gkhff  (no request)
+       34Mi used       64Mi req  external-secrets/platform-external-secrets-webhook-6d4cd6fc64-gp9qc
+       33Mi used      500Mi req  kubeflow/ml-pipeline-persistenceagent-5fd47669f5-tdrsh
+       33Mi used        0Mi req  kube-system/storage-provisioner  (no request)
+       33Mi used        0Mi req  argocd/argocd-redis-66f8dc8554-w2fj7  (no request)
+       29Mi used        0Mi req  argocd/argocd-applicationset-controller-c4cbc5dd-jzzvx  (no request)
+       26Mi used        0Mi req  argocd/argocd-notifications-controller-b496c5dd-ct9cp  (no request)
+       24Mi used        0Mi req  platform-monitoring/monitoring-prometheus-node-exporter-g6sc4  (no request)
+       18Mi used        0Mi req  kubeflow/metadata-envoy-deployment-7fb6c5865c-jl5t5  (no request)
+       12Mi used        0Mi req  kubeflow/katib-db-manager-695bd86c4f-nv2r5  (no request)
+       10Mi used        0Mi req  kubeflow/katib-ui-76cd56bfc-mp28g  (no request)
+        3Mi used        0Mi req  kubeflow/metadata-grpc-deployment-5cc5658c5-n7hfl  (no request)
+        1Mi used        0Mi req  kubeflow/cache-deployer-deployment-65b9f65f45-r8mp7  (no request)
+  TOTAL used 9499Mi, requested 9536Mi

@@ -1,0 +1,23 @@
+RESULT C1   PASS converged in 623 s; 22/22 platform Applications healthy
+RESULT C2   PASS waves -9 to 0 opened in order
+RESULT C3   PASS checked 21 Applications of k8s-native-stack: 0 inversion(s)
+RESULT C4   PASS reverted to the declared  replica(s) after 0 s
+RESULT C5   PASS recreated after 3 s
+RESULT C6   PASS working tree clean, HEAD = origin/master
+RESULT C7   PASS 16 of 16 ExternalSecrets synced
+RESULT C8   PASS gitleaks over the full history of both repositories
+RESULT C9   PASS HTTP 200, [0, 2, 1] (expected [0, 2, 1])
+RESULT C10  PASS served and local predictions agree on 150 of 150 observations; accuracy 0.980
+RESULT C11  PASS version 1: promoted path, recorded by a LakeFS commit, fetched by the initialiser
+RESULT C12  PASS Application layer identical; environment surface enumerated
+RESULT C13  PASS converged on 6 nodes; 3 brokers on 3 distinct nodes
+RESULT C14  PASS both probes refused; tenant model ready
+RESULT C15  PASS the store refused the tenant namespace
+RESULT C16  PASS second model served in team2
+RESULT C17  FAIL 4 record(s), 2 key(s), 1 partition(s), types ['request', 'response']
+RESULT C18  FAIL no target up within 120 s
+RESULT C19  PASS 59/59 up; 0 down unexpectedly; four platform dashboards provisioned
+RESULT C20  PASS counter rose by 20 for 20 requests; latency and failure series present
+RESULT C21  PASS promoted in 65 s, rolled back in 397 s; 377 requests, 0 not answered with 200
+RESULT C22  PASS reached the Secret in 6 s without a commit; consumer without restart: HTTP 401
+RESULT C23  FAIL recovery timeout s; 1194 request events for 1166 answered requests

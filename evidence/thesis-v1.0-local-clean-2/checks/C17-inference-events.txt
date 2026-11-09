@@ -1,0 +1,5 @@
+2026-10-01T16:13:25Z
+$ kcat -C inference-events (records since the request)
+  46139d45-0377-4949-b747-26c450e7989c partition 3 offset 2 org.kubeflow.serving.inference.request
+  46139d45-0377-4949-b747-26c450e7989c partition 3 offset 3 org.kubeflow.serving.inference.response
+VERDICT PASS 1 answered inference(s) in the window, 1 with request and response in one partition

@@ -1,0 +1,98 @@
+2026-09-21T09:12:33Z
+$ kubectl get ns; kubectl get pods -A -o wide
+NAME                               STATUS   AGE
+argocd                             Active   36m
+cert-manager                       Active   31m
+compute                            Active   35m
+default                            Active   37m
+external-secrets                   Active   36m
+kube-node-lease                    Active   37m
+kube-public                        Active   37m
+kube-system                        Active   37m
+kubeflow                           Active   35m
+kubeflow-system                    Active   22m
+mlops                              Active   35m
+platform-compute                   Active   23m
+platform-envoy-gateway             Active   35m
+platform-kafka                     Active   26m
+platform-kserve                    Active   29m
+platform-kubeflow                  Active   29m
+platform-kubeflow-spark-operator   Active   23m
+platform-kubeflow-system           Active   35m
+platform-lakefs                    Active   29m
+platform-minio                     Active   31m
+platform-mlflow                    Active   28m
+platform-monitoring                Active   31m
+platform-postgres                  Active   30m
+platform-rp-connect                Active   23m
+team1                              Active   35m
+team1-iris                         Active   27m
+team2                              Active   35m
+team2-timeseries                   Active   27m
+NAMESPACE                          NAME                                                              READY   STATUS                  RESTARTS        AGE   IP             NODE       NOMINATED NODE   READINESS GATES
+argocd                             argocd-application-controller-0                                   1/1     Running                 0               17m   10.244.0.71    minikube   <none>           <none>
+argocd                             argocd-applicationset-controller-c4cbc5dd-tzp22                   1/1     Running                 0               36m   10.244.0.8     minikube   <none>           <none>
+argocd                             argocd-dex-server-5b57b7b8ff-t2f7q                                1/1     Running                 0               36m   10.244.0.3     minikube   <none>           <none>
+argocd                             argocd-notifications-controller-b496c5dd-pzknh                    1/1     Running                 0               36m   10.244.0.7     minikube   <none>           <none>
+argocd                             argocd-redis-66f8dc8554-r7vm8                                     1/1     Running                 0               36m   10.244.0.4     minikube   <none>           <none>
+argocd                             argocd-repo-server-7787bf7c9d-vbw4s                               1/1     Running                 0               36m   10.244.0.9     minikube   <none>           <none>
+argocd                             argocd-server-5f4c6895cc-xs8xr                                    1/1     Running                 0               17m   10.244.0.70    minikube   <none>           <none>
+cert-manager                       platform-cert-manager-c55f48cd4-ln7k5                             1/1     Running                 0               31m   10.244.0.23    minikube   <none>           <none>
+cert-manager                       platform-cert-manager-cainjector-84db76dfbb-99xv8                 1/1     Running                 0               31m   10.244.0.22    minikube   <none>           <none>
+cert-manager                       platform-cert-manager-webhook-6c87d6d86f-5rrhz                    1/1     Running                 0               31m   10.244.0.24    minikube   <none>           <none>
+external-secrets                   platform-external-secrets-5f58449f8d-5k7jr                        1/1     Running                 0               35m   10.244.0.15    minikube   <none>           <none>
+external-secrets                   platform-external-secrets-cert-controller-6d4bbc9c-88fqk          1/1     Running                 0               35m   10.244.0.14    minikube   <none>           <none>
+external-secrets                   platform-external-secrets-webhook-6ff7f694c7-zgrcl                1/1     Running                 0               35m   10.244.0.13    minikube   <none>           <none>
+kube-system                        coredns-668d6bf9bc-mpt5l                                          1/1     Running                 0               37m   10.244.0.2     minikube   <none>           <none>
+kube-system                        etcd-minikube                                                     1/1     Running                 0               37m   192.168.49.2   minikube   <none>           <none>
+kube-system                        kube-apiserver-minikube                                           1/1     Running                 0               37m   192.168.49.2   minikube   <none>           <none>
+kube-system                        kube-controller-manager-minikube                                  1/1     Running                 0               37m   192.168.49.2   minikube   <none>           <none>
+kube-system                        kube-proxy-9lp2j                                                  1/1     Running                 0               37m   192.168.49.2   minikube   <none>           <none>
+kube-system                        kube-scheduler-minikube                                           1/1     Running                 0               37m   192.168.49.2   minikube   <none>           <none>
+kube-system                        storage-provisioner                                               1/1     Running                 1 (37m ago)     37m   192.168.49.2   minikube   <none>           <none>
+kubeflow-system                    jobset-controller-manager-78bcbf6455-7d7hx                        1/1     Running                 0               22m   10.244.0.55    minikube   <none>           <none>
+kubeflow-system                    kubeflow-trainer-controller-manager-84db68bdff-qjdvw              1/1     Running                 0               22m   10.244.0.54    minikube   <none>           <none>
+kubeflow                           cache-deployer-deployment-65b9f65f45-pf6pr                        1/1     Running                 0               19m   10.244.0.64    minikube   <none>           <none>
+kubeflow                           cache-server-7855b67765-fh5jc                                     1/1     Running                 0               19m   10.244.0.69    minikube   <none>           <none>
+kubeflow                           katib-controller-69cb7d8444-hz2c2                                 1/1     Running                 0               22m   10.244.0.53    minikube   <none>           <none>
+kubeflow                           katib-db-manager-695bd86c4f-hpw82                                 1/1     Running                 0               22m   10.244.0.52    minikube   <none>           <none>
+kubeflow                           katib-mysql-5dfcbbc87f-cpknm                                      1/1     Running                 0               22m   10.244.0.51    minikube   <none>           <none>
+kubeflow                           katib-ui-76cd56bfc-wbcdx                                          1/1     Running                 0               22m   10.244.0.50    minikube   <none>           <none>
+kubeflow                           metadata-envoy-deployment-7fb6c5865c-fgdvp                        1/1     Running                 0               19m   10.244.0.59    minikube   <none>           <none>
+kubeflow                           metadata-grpc-deployment-5cc5658c5-lm2pj                          1/1     Running                 2 (16m ago)     19m   10.244.0.63    minikube   <none>           <none>
+kubeflow                           metadata-writer-6b85ff6549-b2hhq                                  1/1     Running                 0               19m   10.244.0.60    minikube   <none>           <none>
+kubeflow                           minio-7dcbb9ff4b-tsw27                                            1/1     Running                 0               19m   10.244.0.66    minikube   <none>           <none>
+kubeflow                           ml-pipeline-55f48f5669-7wtx5                                      0/1     Pending                 0               19m   <none>         <none>     <none>           <none>
+kubeflow                           ml-pipeline-persistenceagent-5fd47669f5-qnvzk                     1/1     Running                 5 (2m42s ago)   19m   10.244.0.68    minikube   <none>           <none>
+kubeflow                           ml-pipeline-scheduledworkflow-6595dd9b7-hhchp                     0/1     CrashLoopBackOff        6 (2m36s ago)   19m   10.244.0.67    minikube   <none>           <none>
+kubeflow                           ml-pipeline-ui-65bf5c6f9b-msjzn                                   1/1     Running                 0               19m   10.244.0.65    minikube   <none>           <none>
+kubeflow                           ml-pipeline-viewer-crd-5bd984878c-vwv7g                           1/1     Running                 0               19m   10.244.0.61    minikube   <none>           <none>
+kubeflow                           ml-pipeline-visualizationserver-69d8974795-4cn8m                  0/1     Pending                 0               19m   <none>         <none>     <none>           <none>
+kubeflow                           mysql-6c56959ffd-r4z8g                                            1/1     Running                 0               19m   10.244.0.62    minikube   <none>           <none>
+kubeflow                           workflow-controller-75667c9b8b-vxznc                              1/1     Running                 0               19m   10.244.0.58    minikube   <none>           <none>
+platform-compute                   dask-jupyter-f7d6d75f5-gpc9p                                      1/1     Running                 0               23m   10.244.0.47    minikube   <none>           <none>
+platform-compute                   dask-scheduler-65d86f7457-v7jb5                                   1/1     Running                 0               23m   10.244.0.48    minikube   <none>           <none>
+platform-compute                   dask-worker-99fbb85c4-qwp9w                                       1/1     Running                 2 (20m ago)     23m   10.244.0.46    minikube   <none>           <none>
+platform-envoy-gateway             envoy-gateway-b496dbff7-hfsd6                                     1/1     Running                 0               35m   10.244.0.16    minikube   <none>           <none>
+platform-envoy-gateway             envoy-platform-envoy-gateway-ingress-gateway-abca95db-74d6qr4dw   2/2     Running                 0               35m   10.244.0.17    minikube   <none>           <none>
+platform-kafka                     platform-kafka-entity-operator-6c9484b648-78nfm                   2/2     Running                 0               24m   10.244.0.44    minikube   <none>           <none>
+platform-kafka                     platform-kafka-kafka-ui-7bd4d4dfc4-t96zl                          1/1     Running                 0               26m   10.244.0.41    minikube   <none>           <none>
+platform-kafka                     platform-kafka-platform-kafka-brokers-0                           1/1     Running                 0               25m   10.244.0.42    minikube   <none>           <none>
+platform-kafka                     platform-kafka-platform-kafka-controllers-1                       1/1     Running                 0               25m   10.244.0.43    minikube   <none>           <none>
+platform-kafka                     strimzi-cluster-operator-885d85dcc-5fj5j                          1/1     Running                 0               26m   10.244.0.40    minikube   <none>           <none>
+platform-kserve                    kserve-controller-manager-59d84566d-szkj9                         2/2     Running                 1 (14m ago)     29m   10.244.0.32    minikube   <none>           <none>
+platform-kubeflow-spark-operator   spark-operator-controller-856c4594d-bzb7f                         1/1     Running                 0               23m   10.244.0.49    minikube   <none>           <none>
+platform-lakefs                    lakefs-767f46d7f6-2k4f6                                           1/1     Running                 4 (28m ago)     29m   10.244.0.31    minikube   <none>           <none>
+platform-minio                     minio-8659c85b8d-cj8bq                                            1/1     Running                 0               31m   10.244.0.27    minikube   <none>           <none>
+platform-mlflow                    mlflow-8645fd799b-44dnb                                           1/1     Running                 0               28m   10.244.0.37    minikube   <none>           <none>
+platform-monitoring                alertmanager-monitoring-kube-prometheus-alertmanager-0            2/2     Running                 0               31m   10.244.0.25    minikube   <none>           <none>
+platform-monitoring                monitoring-grafana-7ff5b4d8f8-g9tqh                               2/3     Running                 1 (4m14s ago)   31m   10.244.0.20    minikube   <none>           <none>
+platform-monitoring                monitoring-kube-prometheus-operator-597f86787-9f9qf               1/1     Running                 0               31m   10.244.0.19    minikube   <none>           <none>
+platform-monitoring                monitoring-kube-state-metrics-7fc7c7469d-k2jvh                    1/1     Running                 0               31m   10.244.0.21    minikube   <none>           <none>
+platform-monitoring                monitoring-prometheus-node-exporter-v6vbw                         1/1     Running                 0               31m   192.168.49.2   minikube   <none>           <none>
+platform-monitoring                prometheus-monitoring-kube-prometheus-prometheus-0                2/2     Running                 0               31m   10.244.0.26    minikube   <none>           <none>
+platform-postgres                  platform-postgres-cloudnative-pg-d7d5d7fdc-dx4m4                  1/1     Running                 0               30m   10.244.0.30    minikube   <none>           <none>
+platform-postgres                  postgres-cluster-1                                                1/1     Running                 0               28m   10.244.0.35    minikube   <none>           <none>
+platform-rp-connect                platform-rp-connect-redpanda-connect-55f89fc8bb-mgvr9             1/1     Running                 0               23m   10.244.0.45    minikube   <none>           <none>
+team1-iris                         iris-predictor-6fbcf68f4d-x6kq5                                   2/2     Running                 0               27m   10.244.0.39    minikube   <none>           <none>
+team2-timeseries                   timeseries-predictor-7f9fcc99b5-pc7w7                             0/2     Init:CrashLoopBackOff   9 (3m33s ago)   27m   10.244.0.38    minikube   <none>           <none>

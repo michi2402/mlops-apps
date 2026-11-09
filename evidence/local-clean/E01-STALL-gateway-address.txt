@@ -1,0 +1,24 @@
+2026-09-21T08:39:58Z
+# root applied 08:36:44Z. Rollout halted in wave -10.
+$ kubectl -n argocd get application platform -o jsonpath={.status.operationState.message}
+waiting for healthy state of argoproj.io/Application/platform-envoy-gateway
+$ kubectl get applications.argoproj.io -A
+NAMESPACE   NAME                            SYNC STATUS   HEALTH STATUS
+argocd      platform                        OutOfSync     Progressing
+argocd      platform-envoy-gateway          Synced        Progressing
+argocd      platform-external-secrets       Synced        Healthy
+argocd      platform-kubeflow-namespaces    Synced        Healthy
+argocd      platform-rbac-pipeline-runner   OutOfSync     Healthy
+argocd      root-minikube                   Synced        Progressing
+argocd      workloads-team1                 Synced        Healthy
+argocd      workloads-team2                 Synced        Healthy
+team1       workloads-team1-iris            OutOfSync     Missing
+team2       workloads-team2-timeseries      OutOfSync     Missing
+$ kubectl get gateway -A (Programmed condition)
+NS                       NAME              PROGRAMMED   REASON               MSG
+platform-envoy-gateway   ingress-gateway   False        AddressNotAssigned   No addresses have been assigned to the Gateway
+$ kubectl get svc -A --field-selector spec.type=LoadBalancer
+NAMESPACE                NAME                                                    TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+platform-envoy-gateway   envoy-platform-envoy-gateway-ingress-gateway-abca95db   LoadBalancer   10.100.182.33   <pending>     80:32032/TCP   2m43s
+$ kubectl -n argocd get application platform-envoy-gateway -o jsonpath={.status.health}
+{"lastTransitionTime":"2026-09-21T08:37:52Z","status":"Progressing"}

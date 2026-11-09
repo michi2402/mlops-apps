@@ -1,0 +1,10 @@
+2026-09-21T09:46:59Z
+# Offline evaluation of the Gateway health override in scripts/install-argo.sh (working tree), by Argo CD's
+# own evaluator: argocd admin settings resource-overrides health <gateway.yaml> --argocd-cm-path <argocd-cm.yaml>
+# Fixtures: the live Gateway (minikube, 2026-09-21) and five variants of it.
+live             STATUS: Healthy MESSAGE: Gateway is healthy 
+noaddr           STATUS: Healthy MESSAGE: Accepted, but no address assigned: the environment provides no LoadBalancer address, so the gateway is not reachable from outside the cluster 
+notaccepted      STATUS: Degraded MESSAGE: Accepted False (InvalidParameters) 
+invalid          STATUS: Progressing MESSAGE: Programmed False (Invalid) 
+listenerpending  STATUS: Progressing MESSAGE: Listener: Programmed False (Pending) 
+nostatus         STATUS: Progressing MESSAGE: Waiting for Gateway status 

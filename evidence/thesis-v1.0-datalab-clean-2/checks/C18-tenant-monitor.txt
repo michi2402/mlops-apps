@@ -1,0 +1,3 @@
+2026-10-01T14:57:35Z
+target(s) of podMonitor/team1-iris/probe-tenant-monitor: up
+VERDICT PASS tenant-declared target up after 251 s

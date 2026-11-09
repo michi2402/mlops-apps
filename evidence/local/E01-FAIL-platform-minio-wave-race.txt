@@ -1,0 +1,208 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+    argocd.argoproj.io/sync-wave: "-8"
+    argocd.argoproj.io/tracking-id: platform:argoproj.io/Application:argocd/platform-minio
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{"argocd.argoproj.io/sync-options":"SkipDryRunOnMissingResource=true","argocd.argoproj.io/sync-wave":"-8","argocd.argoproj.io/tracking-id":"platform:argoproj.io/Application:argocd/platform-minio"},"name":"platform-minio","namespace":"argocd"},"spec":{"destination":{"namespace":"platform-minio","server":"https://kubernetes.default.svc"},"project":"platform","sources":[{"helm":{"releaseName":"minio","valueFiles":["$values/clusters/base/k8s-native-stack/platform/components/minio/values.yaml","$values/clusters/envs/minikube/k8s-native-stack/platform/components/minio/values.yaml"]},"path":"helm/minio","repoURL":"https://github.com/minio/minio","targetRevision":"RELEASE.2025-09-07T16-13-09Z"},{"path":"clusters/base/k8s-native-stack/platform/components/minio","ref":"values","repoURL":"https://github.com/michi2402/mlops-apps","targetRevision":"master"}],"syncPolicy":{"automated":{"prune":true,"selfHeal":true},"syncOptions":["CreateNamespace=true","ServerSideApply=true"]}}}
+  creationTimestamp: "2026-09-18T13:47:22Z"
+  generation: 26
+  name: platform-minio
+  namespace: argocd
+  resourceVersion: "5971"
+  uid: 1e52e795-7c54-4fc8-ba2c-0a8ed1460ff6
+spec:
+  destination:
+    namespace: platform-minio
+    server: https://kubernetes.default.svc
+  project: platform
+  sources:
+  - helm:
+      releaseName: minio
+      valueFiles:
+      - $values/clusters/base/k8s-native-stack/platform/components/minio/values.yaml
+      - $values/clusters/envs/minikube/k8s-native-stack/platform/components/minio/values.yaml
+    path: helm/minio
+    repoURL: https://github.com/minio/minio
+    targetRevision: RELEASE.2025-09-07T16-13-09Z
+  - path: clusters/base/k8s-native-stack/platform/components/minio
+    ref: values
+    repoURL: https://github.com/michi2402/mlops-apps
+    targetRevision: master
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+    - ServerSideApply=true
+status:
+  conditions:
+  - lastTransitionTime: "2026-09-18T13:54:56Z"
+    message: 'Failed last sync attempt to [07c3a429bfed433e49018cb0f78a52145d4bedeb
+      3e0da5e3747418b9419d7c3cd091f4ad55a0458d]: one or more synchronization tasks
+      are not valid: failed to discover server resources for group version monitoring.coreos.com/v1:
+      the server could not find the requested resource (retried 5 times).'
+    type: SyncError
+  controllerNamespace: argocd
+  health:
+    lastTransitionTime: "2026-09-18T13:49:32Z"
+    status: Missing
+  operationState:
+    finishedAt: "2026-09-18T13:54:55Z"
+    message: 'one or more synchronization tasks are not valid: failed to discover
+      server resources for group version monitoring.coreos.com/v1: the server could
+      not find the requested resource (retried 5 times).'
+    operation:
+      initiatedBy:
+        automated: true
+      retry:
+        limit: 5
+      sync:
+        prune: true
+        revisions:
+        - 07c3a429bfed433e49018cb0f78a52145d4bedeb
+        - 3e0da5e3747418b9419d7c3cd091f4ad55a0458d
+        sources:
+        - helm:
+            releaseName: minio
+            valueFiles:
+            - $values/clusters/base/k8s-native-stack/platform/components/minio/values.yaml
+            - $values/clusters/envs/minikube/k8s-native-stack/platform/components/minio/values.yaml
+          path: helm/minio
+          repoURL: https://github.com/minio/minio
+          targetRevision: RELEASE.2025-09-07T16-13-09Z
+        - path: clusters/base/k8s-native-stack/platform/components/minio
+          ref: values
+          repoURL: https://github.com/michi2402/mlops-apps
+          targetRevision: master
+        syncOptions:
+        - CreateNamespace=true
+        - ServerSideApply=true
+    phase: Failed
+    retryCount: 5
+    startedAt: "2026-09-18T13:49:32Z"
+    syncResult:
+      resources:
+      - group: monitoring.coreos.com
+        kind: Probe
+        message: The Kubernetes API could not find monitoring.coreos.com/Probe for
+          requested resource platform-minio/minio-cluster. Make sure the "Probe" CRD
+          is installed on the destination cluster.
+        name: minio-cluster
+        namespace: platform-minio
+        status: SyncFailed
+        syncPhase: Sync
+        version: v1
+      - group: monitoring.coreos.com
+        kind: ServiceMonitor
+        message: The Kubernetes API could not find monitoring.coreos.com/ServiceMonitor
+          for requested resource platform-minio/minio. Make sure the "ServiceMonitor"
+          CRD is installed on the destination cluster.
+        name: minio
+        namespace: platform-minio
+        status: SyncFailed
+        syncPhase: Sync
+        version: v1
+      revision: ""
+      revisions:
+      - 07c3a429bfed433e49018cb0f78a52145d4bedeb
+      - 3e0da5e3747418b9419d7c3cd091f4ad55a0458d
+      source:
+        repoURL: ""
+      sources:
+      - helm:
+          releaseName: minio
+          valueFiles:
+          - $values/clusters/base/k8s-native-stack/platform/components/minio/values.yaml
+          - $values/clusters/envs/minikube/k8s-native-stack/platform/components/minio/values.yaml
+        path: helm/minio
+        repoURL: https://github.com/minio/minio
+        targetRevision: RELEASE.2025-09-07T16-13-09Z
+      - path: clusters/base/k8s-native-stack/platform/components/minio
+        ref: values
+        repoURL: https://github.com/michi2402/mlops-apps
+        targetRevision: master
+  reconciledAt: "2026-09-18T14:07:15Z"
+  resourceHealthSource: appTree
+  resources:
+  - kind: ConfigMap
+    name: minio
+    namespace: platform-minio
+    status: OutOfSync
+    version: v1
+  - kind: PersistentVolumeClaim
+    name: minio
+    namespace: platform-minio
+    status: OutOfSync
+    version: v1
+  - kind: Service
+    name: minio
+    namespace: platform-minio
+    status: OutOfSync
+    version: v1
+  - kind: Service
+    name: minio-console
+    namespace: platform-minio
+    status: OutOfSync
+    version: v1
+  - kind: ServiceAccount
+    name: minio-sa
+    namespace: platform-minio
+    status: OutOfSync
+    version: v1
+  - group: apps
+    kind: Deployment
+    name: minio
+    namespace: platform-minio
+    status: OutOfSync
+    version: v1
+  - group: external-secrets.io
+    kind: ExternalSecret
+    name: platform-minio-secret
+    namespace: platform-minio
+    status: OutOfSync
+    version: v1
+  - group: monitoring.coreos.com
+    kind: Probe
+    name: minio-cluster
+    namespace: platform-minio
+    status: OutOfSync
+    version: v1
+  - group: monitoring.coreos.com
+    kind: ServiceMonitor
+    name: minio
+    namespace: platform-minio
+    status: OutOfSync
+    version: v1
+  sourceHydrator: {}
+  sourceTypes:
+  - Helm
+  - Directory
+  summary: {}
+  sync:
+    comparedTo:
+      destination:
+        namespace: platform-minio
+        server: https://kubernetes.default.svc
+      source:
+        repoURL: ""
+      sources:
+      - helm:
+          releaseName: minio
+          valueFiles:
+          - $values/clusters/base/k8s-native-stack/platform/components/minio/values.yaml
+          - $values/clusters/envs/minikube/k8s-native-stack/platform/components/minio/values.yaml
+        path: helm/minio
+        repoURL: https://github.com/minio/minio
+        targetRevision: RELEASE.2025-09-07T16-13-09Z
+      - path: clusters/base/k8s-native-stack/platform/components/minio
+        ref: values
+        repoURL: https://github.com/michi2402/mlops-apps
+        targetRevision: master
+    revisions:
+    - 07c3a429bfed433e49018cb0f78a52145d4bedeb
+    - 3e0da5e3747418b9419d7c3cd091f4ad55a0458d
+    status: OutOfSync

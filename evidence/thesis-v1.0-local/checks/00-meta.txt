@@ -1,0 +1,7 @@
+2026-09-25T09:53:01Z
+HEAD 235c3bb59141566fcaef62cba648c5cd3cdc0367
+tag  thesis-v1.0
+Server Version: v1.32.0
+minikube   8     12251512Ki   12251512Ki
+serializeImagePulls: false
+maxParallelImagePulls: 3

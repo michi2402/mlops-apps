@@ -1,0 +1,74 @@
+[1;36m[CHECKS][0m C1 convergence
+RESULT C1   PASS converged in 751 s; 22/22 platform Applications healthy
+[1;36m[CHECKS][0m C2 wave order
+RESULT C2   PASS waves -9 to 0 opened in order
+[1;36m[CHECKS][0m C3 CRD order
+RESULT C3   PASS checked 21 Applications of k8s-native-stack: 0 inversion(s)
+[1;36m[CHECKS][0m C4 drift: changed field
+RESULT C4   PASS reverted to the declared 1 replica(s) after 2 s
+[1;36m[CHECKS][0m C5 drift: deleted object
+RESULT C5   PASS recreated after 0 s
+[1;36m[CHECKS][0m C6 repository
+RESULT C6   PASS working tree clean, HEAD = origin/master
+[1;36m[CHECKS][0m C7 credentials materialised
+RESULT C7   PASS 16 of 16 ExternalSecrets synced
+[1;36m[CHECKS][0m C8 credential scan
+RESULT C8   PASS gitleaks over the full history of both repositories
+[1;36m[CHECKS][0m C9 prediction
+RESULT C9   PASS HTTP 200, [0, 2, 1] (expected [0, 2, 1])
+[1;36m[CHECKS][0m C10 served = promoted predictions
+RESULT C10  PASS served and local predictions agree on 150 of 150 observations; accuracy 0.980
+[1;36m[CHECKS][0m C11 promoted path through LakeFS
+RESULT C11  PASS version 1: promoted path, recorded by a LakeFS commit, fetched by the initialiser
+[1;36m[CHECKS][0m C12 parity
+RESULT C12  PASS Application layer identical; environment surface enumerated
+[1;36m[CHECKS][0m C13 multi-node
+RESULT C13  PASS converged on 6 nodes; 3 brokers on 3 distinct nodes
+[1;36m[CHECKS][0m C14 tenant project boundary
+RESULT C14  PASS both probes refused; tenant model ready
+[1;36m[CHECKS][0m C15 tenant secret boundary
+RESULT C15  FAIL the tenant namespace obtained the platform credential (hashes equal; expected at this revision)
+[1;36m[CHECKS][0m C16 second model
+RESULT C16  PASS second model served in team2
+[1;36m[CHECKS][0m C17 inference events
+RESULT C17  PASS 2 answered inference(s) in the window, 2 with request and response in one partition
+[1;36m[CHECKS][0m C18 tenant-declared monitor
+RESULT C18  PASS tenant-declared target up after 98 s
+[1;36m[CHECKS][0m C19 targets and dashboards
+RESULT C19  PASS 59/59 up; 0 down unexpectedly; four platform dashboards provisioned
+[1;36m[CHECKS][0m C20 model metrics
+RESULT C20  PASS counter rose by 20 for 20 requests; latency and failure series present
+[1;36m[CHECKS][0m resource snapshot
+[1;36m[CHECKS][0m C21 promotion and rollback by commit
+warning: in the working copy of 'clusters/base/k8s-native-stack/workloads/team1/apps/iris.yaml', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'clusters/base/k8s-native-stack/workloads/team1/apps/iris.yaml', LF will be replaced by CRLF the next time Git touches it
+RESULT C21  PASS promoted in 527 s, rolled back in 287 s; 667 requests, 0 not answered with 200
+[1;36m[CHECKS][0m C22 credential rotation
+RESULT C22  PASS reached the Secret in 6 s without a commit; consumer without restart: HTTP 401
+[1;36m[CHECKS][0m C23 node drain
+RESULT C23  PASS recovered in 109 s; 22 request events for 6 answered requests
+[1;36m[CHECKS][0m done: /c/Users/micmay/university/bsc/thesis/poc/mlops-apps/evidence/thesis-v1.0-datalab-clean/checks
+
+RESULT C1   PASS converged in 751 s; 22/22 platform Applications healthy
+RESULT C2   PASS waves -9 to 0 opened in order
+RESULT C3   PASS checked 21 Applications of k8s-native-stack: 0 inversion(s)
+RESULT C4   PASS reverted to the declared 1 replica(s) after 2 s
+RESULT C5   PASS recreated after 0 s
+RESULT C6   PASS working tree clean, HEAD = origin/master
+RESULT C7   PASS 16 of 16 ExternalSecrets synced
+RESULT C8   PASS gitleaks over the full history of both repositories
+RESULT C9   PASS HTTP 200, [0, 2, 1] (expected [0, 2, 1])
+RESULT C10  PASS served and local predictions agree on 150 of 150 observations; accuracy 0.980
+RESULT C11  PASS version 1: promoted path, recorded by a LakeFS commit, fetched by the initialiser
+RESULT C12  PASS Application layer identical; environment surface enumerated
+RESULT C13  PASS converged on 6 nodes; 3 brokers on 3 distinct nodes
+RESULT C14  PASS both probes refused; tenant model ready
+RESULT C15  FAIL the tenant namespace obtained the platform credential (hashes equal; expected at this revision)
+RESULT C16  PASS second model served in team2
+RESULT C17  PASS 2 answered inference(s) in the window, 2 with request and response in one partition
+RESULT C18  PASS tenant-declared target up after 98 s
+RESULT C19  PASS 59/59 up; 0 down unexpectedly; four platform dashboards provisioned
+RESULT C20  PASS counter rose by 20 for 20 requests; latency and failure series present
+RESULT C21  PASS promoted in 527 s, rolled back in 287 s; 667 requests, 0 not answered with 200
+RESULT C22  PASS reached the Secret in 6 s without a commit; consumer without restart: HTTP 401
+RESULT C23  PASS recovered in 109 s; 22 request events for 6 answered requests

@@ -1,0 +1,8 @@
+2026-09-25T09:53:13Z
+  compared 25 files per environment (minikube, datalab), environment token substituted
+  RESULT: PASS -- sources, chart versions, sync waves, destination
+M2  Environment surface
+  overlay files ............ 14
+  keys set ................. minikube: 53, datalab: 42
+  base config lines ........ 1048
+  environment surface ...... minikube: 7.9%, datalab: 8.3% of the base configuration

@@ -1,0 +1,12 @@
+2026-10-01T11:07:45Z
+storageUri s3://mlflow/main/serving/tracking-quickstart/1  ready=True
+$ lakeFS: commits on mlflow/main
+  70c4aa123543 promote timeseries-model v2 for serving {"mlflow_run_id": "f1009ecd366242e0938c9a0855bf55bd", "mlflow_source": "models:/m-953ac1efa21e4f2d83f3ae303edd1ce4", "model_name": "timeseries-model", "model_version": "2"}
+  5a0683284552 promote timeseries-model v1 for serving {"mlflow_run_id": "04107095d6b34e65b4085a1cf78b61ff", "mlflow_source": "models:/m-9c2a77d419d34e8a84d73902e7671465", "model_name": "timeseries-model", "model_version": "1"}
+  63b89988f141 promote tracking-quickstart v1 for serving {"mlflow_run_id": "2e2e30bb36c64938b6232514a1dd732d", "mlflow_source": "models:/m-a4eda0e8b10e4095a15c4c60b5d456bd", "model_name": "tracking-quickstart", "model_version": "1"}
+  fd1cde612ab5 Repository created {}
+$ storage initializer of the iris predictor
+2026-10-01 09:43:46.450 1 kserve INFO [storage.py:_download_s3():274] Downloaded object main/serving/tracking-quickstart/1/serving_input_example.json to /mnt/models/serving_input_example.json
+2026-10-01 09:43:46.451 1 kserve INFO [storage.py:download():110] Successfully copied s3://mlflow/main/serving/tracking-quickstart/1 to /mnt/models
+2026-10-01 09:43:46.451 1 kserve INFO [storage.py:download():111] Model downloaded in 0.8170784059998368 seconds.
+VERDICT PASS version 1: promoted path, recorded by a LakeFS commit, fetched by the initialiser

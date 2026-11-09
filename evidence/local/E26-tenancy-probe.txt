@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"argoproj.io/v1alpha1","kind":"Application","metadata":{"annotations":{},"name":"probe-cross-ns","namespace":"team1"},"spec":{"destination":{"namespace":"platform-mlflow","server":"https://kubernetes.default.svc"},"project":"workloads-team1","source":{"helm":{"valuesObject":{"fullnameOverride":"probe-cross-ns","model":{"name":"tracking-quickstart","version":"1"}}},"path":"base/charts/model","repoURL":"https://github.com/michi2402/mlops-apps","targetRevision":"master"},"syncPolicy":{}}}
+  creationTimestamp: "2026-09-18T18:17:12Z"
+  generation: 2
+  name: probe-cross-ns
+  namespace: team1
+  resourceVersion: "73422"
+  uid: e80a86f9-e315-4a25-bc3f-76ccd13dcd20
+spec:
+  destination:
+    namespace: platform-mlflow
+    server: https://kubernetes.default.svc
+  project: workloads-team1
+  source:
+    helm:
+      valuesObject:
+        fullnameOverride: probe-cross-ns
+        model:
+          name: tracking-quickstart
+          version: "1"
+    path: base/charts/model
+    repoURL: https://github.com/michi2402/mlops-apps
+    targetRevision: master
+  syncPolicy: {}
+status:
+  conditions:
+  - lastTransitionTime: "2026-09-18T18:17:12Z"
+    message: application destination server 'https://kubernetes.default.svc' and namespace
+      'platform-mlflow' do not match any of the allowed destinations in project 'workloads-team1'
+    type: InvalidSpecError
+  health:
+    lastTransitionTime: "2026-09-18T18:17:12Z"
+    status: Unknown
+  sync:
+    status: Unknown

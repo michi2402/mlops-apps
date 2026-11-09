@@ -1,0 +1,91 @@
+2026-09-24T17:46:23Z
+$ kubectl top node; describe node (allocated); pending pods; restarts
+NAME       CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)   
+minikube   2952m        36%      9077Mi          75%         
+Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  Resource           Requests       Limits
+  --------           --------       ------
+  cpu                3810m (47%)    16350m (204%)
+  memory             10764Mi (89%)  20586Mi (172%)
+  ephemeral-storage  0 (0%)         0 (0%)
+  hugepages-1Gi      0 (0%)         0 (0%)
+  hugepages-2Mi      0 (0%)         0 (0%)
+Events:
+
+# pods not Running/Completed
+kubeflow-system                    jobset-controller-manager-78bcbf6455-gdst7                        0/1   ContainerCreating       0               3m14s
+kubeflow-system                    kubeflow-trainer-controller-manager-84db68bdff-6sjvk              0/1   ContainerCreating       0               3m14s
+kubeflow                           cache-deployer-deployment-65b9f65f45-r8mp7                        0/1   ContainerCreating       0               3m41s
+kubeflow                           cache-server-7855b67765-z8nfp                                     0/1   ContainerCreating       0               3m41s
+kubeflow                           katib-controller-69cb7d8444-jn8p4                                 0/1   ContainerCreating       0               3m33s
+kubeflow                           katib-db-manager-695bd86c4f-nv2r5                                 0/1   ContainerCreating       0               3m33s
+kubeflow                           katib-mysql-5dfcbbc87f-tpzcj                                      0/1   ContainerCreating       0               3m33s
+kubeflow                           katib-ui-76cd56bfc-mp28g                                          0/1   ContainerCreating       0               3m33s
+kubeflow                           metadata-envoy-deployment-7fb6c5865c-jl5t5                        0/1   ContainerCreating       0               3m41s
+kubeflow                           metadata-grpc-deployment-5cc5658c5-n7hfl                          0/1   ContainerCreating       0               3m41s
+kubeflow                           metadata-writer-6b85ff6549-sjddn                                  0/1   ContainerCreating       0               3m41s
+kubeflow                           minio-7dcbb9ff4b-f2dnp                                            0/1   ContainerCreating       0               3m41s
+kubeflow                           ml-pipeline-55f48f5669-b9w5f                                      0/1   ContainerCreating       0               3m40s
+kubeflow                           ml-pipeline-persistenceagent-5fd47669f5-tdrsh                     0/1   ContainerCreating       0               3m41s
+kubeflow                           ml-pipeline-scheduledworkflow-6595dd9b7-6gc4s                     0/1   ContainerCreating       0               3m41s
+kubeflow                           ml-pipeline-ui-65bf5c6f9b-l7pxz                                   0/1   ContainerCreating       0               3m41s
+kubeflow                           ml-pipeline-viewer-crd-5bd984878c-ntxrn                           0/1   ContainerCreating       0               3m41s
+kubeflow                           ml-pipeline-visualizationserver-69d8974795-7gw47                  0/1   ContainerCreating       0               3m41s
+kubeflow                           mysql-6c56959ffd-zvnt4                                            0/1   ContainerCreating       0               3m41s
+kubeflow                           workflow-controller-75667c9b8b-96lmt                              0/1   ContainerCreating       0               3m40s
+platform-kubeflow-spark-operator   spark-operator-controller-856c4594d-d48ds                         0/1   ContainerCreating       0               4m16s
+platform-lakefs                    lakefs-init-2dgjp                                                 0/1   CrashLoopBackOff        3 (27s ago)     2m18s
+platform-minio                     minio-8659c85b8d-x8lkn                                            0/1   ImagePullBackOff        0               16m
+platform-mlflow                    mlflow-c8966fb77-rtmns                                            0/1   Init:0/1                0               2m8s
+team1-iris                         iris-predictor-5c4b987ff4-n2pln                                   0/2   Init:CrashLoopBackOff   5 (2m32s ago)   8m47s
+team2-timeseries                   timeseries-predictor-657fd89fc5-sn4vd                             0/2   Init:CrashLoopBackOff   5 (2m38s ago)   8m48s
+
+# restarts > 0
+kube-system                        storage-provisioner                                               1/1   Running                 1 (27m ago)     27m
+platform-kafka                     platform-kafka-platform-kafka-brokers-0                           1/1   Running                 1 (6m57s ago)   10m
+platform-lakefs                    lakefs-54844775cb-jjqf4                                           1/1   Running                 4 (13m ago)     14m
+platform-lakefs                    lakefs-init-2dgjp                                                 0/1   CrashLoopBackOff        3 (27s ago)     2m18s
+team1-iris                         iris-predictor-5c4b987ff4-n2pln                                   0/2   Init:CrashLoopBackOff   5 (2m32s ago)   8m47s
+team2-timeseries                   timeseries-predictor-657fd89fc5-sn4vd                             0/2   Init:CrashLoopBackOff   5 (2m38s ago)   8m48s
+
+NAMESPACE                NAME                                                              CPU(cores)   MEMORY(bytes)   
+kube-system              kube-apiserver-minikube                                           259m         1779Mi          
+argocd                   argocd-application-controller-0                                   133m         788Mi           
+platform-monitoring      monitoring-grafana-7ff5b4d8f8-g4vrs                               54m          394Mi           
+argocd                   argocd-repo-server-7787bf7c9d-969z9                               102m         392Mi           
+platform-kafka           platform-kafka-platform-kafka-brokers-0                           88m          352Mi           
+platform-monitoring      prometheus-monitoring-kube-prometheus-prometheus-0                83m          348Mi           
+platform-kafka           strimzi-cluster-operator-b6d74cc8d-pzxg5                          90m          261Mi           
+platform-kafka           platform-kafka-kafka-ui-845fd7888f-n7xpq                          14m          235Mi           
+kube-system              etcd-minikube                                                     94m          221Mi           
+platform-kafka           platform-kafka-platform-kafka-controllers-1                       58m          201Mi           
+platform-compute         dask-worker-99fbb85c4-qg9ns                                       105m         187Mi           
+platform-kafka           platform-kafka-entity-operator-6f757d6998-qbdtd                   14m          146Mi           
+platform-postgres        postgres-cluster-1                                                37m          146Mi           
+platform-rp-connect      platform-rp-connect-redpanda-connect-55f89fc8bb-qbx8f             6m           137Mi           
+argocd                   argocd-dex-server-5b57b7b8ff-mx5dd                                1m           128Mi           
+platform-compute         dask-scheduler-65d86f7457-cj7gm                                   43m          114Mi           
+kube-system              kube-controller-manager-minikube                                  39m          113Mi           
+cert-manager             platform-cert-manager-cainjector-6486dc79bd-44mdg                 22m          104Mi           
+platform-envoy-gateway   envoy-gateway-869f4458d4-q22fx                                    4m           90Mi            
+external-secrets         platform-external-secrets-75984c964-sgpd4                         11m          76Mi            
+platform-lakefs          lakefs-54844775cb-jjqf4                                           4m           65Mi            
+platform-kserve          kserve-controller-manager-5d6596d7df-h49c7                        14m          64Mi            
+cert-manager             platform-cert-manager-7db9c65d6f-j2pfn                            5m           59Mi            
+kube-system              kube-proxy-7v7nt                                                  3m           54Mi            
+kube-system              kube-scheduler-minikube                                           17m          52Mi            
+platform-monitoring      alertmanager-monitoring-kube-prometheus-alertmanager-0            5m           50Mi            
+platform-postgres        platform-postgres-cloudnative-pg-9698f96dc-cksd6                  7m           50Mi            
+kube-system              metrics-server-7fbb699795-jtqxr                                   7m           42Mi            
+platform-monitoring      monitoring-kube-state-metrics-7fc7c7469d-56xnz                    7m           40Mi            
+external-secrets         platform-external-secrets-cert-controller-84dbf5d655-s5v9w        2m           38Mi            
+kube-system              coredns-668d6bf9bc-7784d                                          10m          37Mi            
+cert-manager             platform-cert-manager-webhook-bc5d9dbdd-lb2sf                     6m           37Mi            
+external-secrets         platform-external-secrets-webhook-6d4cd6fc64-gp9qc                2m           36Mi            
+platform-envoy-gateway   envoy-platform-envoy-gateway-ingress-gateway-abca95db-7fdfxtcv6   13m          35Mi            
+platform-monitoring      monitoring-kube-prometheus-operator-597f86787-rw5wq               7m           34Mi            
+argocd                   argocd-redis-66f8dc8554-w2fj7                                     9m           31Mi            
+argocd                   argocd-server-647cc95bb4-h9kkx                                    4m           27Mi            
+argocd                   argocd-applicationset-controller-c4cbc5dd-jzzvx                   4m           26Mi            
+argocd                   argocd-notifications-controller-b496c5dd-ct9cp                    5m           20Mi            

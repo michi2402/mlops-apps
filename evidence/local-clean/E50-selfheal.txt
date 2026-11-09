@@ -1,0 +1,12 @@
+2026-09-21T09:12:08Z
+$ kubectl -n argocd get application platform-minio (sync/health before)
+Synced   Healthy
+$ kubectl -n platform-minio get deploy minio
+minio   1/1   1     1     30m
+$ kubectl -n platform-minio scale deploy minio --replicas=3   @ 09:12:09.363
+deployment.apps/minio scaled
+  +1s spec.replicas=3 app.sync=Synced
+  +7s spec.replicas=1 app.sync=Synced
+REVERTED to declared replicas=1 after 7s
+$ kubectl -n argocd get application platform-minio -o jsonpath={.status.operationState}
+ phase Succeeded | initiatedBy {'automated': True} | finished 2026-09-21T09:12:10Z | successfully synced (all tasks run)

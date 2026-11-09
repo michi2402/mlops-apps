@@ -1,0 +1,40 @@
+$ curl .../repositories/mlflow/refs/main/commits
+{
+    "pagination": {
+        "has_more": false,
+        "max_per_page": 1000,
+        "next_offset": "",
+        "results": 2
+    },
+    "results": [
+        {
+            "committer": "admin",
+            "creation_date": 1789746980,
+            "generation": 2,
+            "id": "19c9a728c0a18c86cb0f22ca56332c73a01f4b5e413b7867ece2645b821dad49",
+            "message": "promote tracking-quickstart v1 for serving",
+            "meta_range_id": "d2f95f522a6703a9e638549c51bd23730848e6746435f3ab9dbe49d4ddd1e6b8",
+            "metadata": {
+                "mlflow_run_id": "290a625c3386409c8cf11cf8972df39f",
+                "mlflow_source": "models:/m-54192098b7464687aadc2fb3899bbbc1",
+                "model_name": "tracking-quickstart",
+                "model_version": "1"
+            },
+            "parents": [
+                "32516582136c169b21ac2eee64a9d51570325227d083b13d9e1cb67a43932d0c"
+            ],
+            "version": 1
+        },
+        {
+            "committer": "",
+            "creation_date": 1789746246,
+            "generation": 1,
+            "id": "32516582136c169b21ac2eee64a9d51570325227d083b13d9e1cb67a43932d0c",
+            "message": "Repository created",
+            "meta_range_id": "",
+            "metadata": {},
+            "parents": [],
+            "version": 1
+        }
+    ]
+}

@@ -1,0 +1,51 @@
+NS       NAME                                 SYNC
+argocd   platform                             Synced
+argocd   platform-cert-manager                Synced
+argocd   platform-dask                        OutOfSync
+argocd   platform-envoy-gateway               Synced
+argocd   platform-external-secrets            Synced
+argocd   platform-kafka                       Synced
+argocd   platform-kafka-operator              OutOfSync
+argocd   platform-katib                       OutOfSync
+argocd   platform-kfp                         OutOfSync
+argocd   platform-kfp-crds                    OutOfSync
+argocd   platform-kserve                      Synced
+argocd   platform-kubeflow-namespaces         Synced
+argocd   platform-kubeflow-spark-operator     OutOfSync
+argocd   platform-kubeflow-trainer-manager    Synced
+argocd   platform-kubeflow-trainer-runtimes   Synced
+argocd   platform-lakefs                      OutOfSync
+argocd   platform-minio                       OutOfSync
+argocd   platform-mlflow                      OutOfSync
+argocd   platform-monitoring                  OutOfSync
+argocd   platform-postgres                    OutOfSync
+argocd   platform-rbac-pipeline-runner        Synced
+argocd   platform-rp-connect                  Synced
+argocd   root-minikube                        Synced
+argocd   workloads-team1                      Synced
+argocd   workloads-team2                      Synced
+team1    workloads-team1-iris                 Synced
+team2    workloads-team2-timeseries           Synced
+
+--- Analysis (discharges F06/P7.4) ---
+Two distinct causes are mixed in the OutOfSync set above:
+1. dask, katib, kfp, kfp-crds, kubeflow-spark-operator, monitoring: syncPolicy.automated was
+   deliberately disabled this session (INT-03, capacity management for the local profile). Expected
+   and self-inflicted -- not a platform finding.
+2. lakefs, minio, mlflow, postgres, kafka-operator: automated={"prune":true,"selfHeal":true} is still
+   active (confirmed via `kubectl get applications.argoproj.io <app> -o jsonpath='{.spec.syncPolicy.automated}'`)
+   and all five are Healthy, yet none is Synced. This is FINDING-01: ArgoCD does not retry an
+   automated sync that already failed against the exact same source revision -- confirmed from
+   argocd-application-controller logs ("Skipping auto-sync: failed previous sync attempt to [rev],
+   will not retry for [rev]"). All five failed their very first sync attempt during the CRD/webhook
+   races of INT-01/INT-02 and have not re-synced since, though their live state has long matched
+   desired state.
+
+§12.2.1's claim ("precisely the applications that own ExternalSecret resources") is not the right
+generalisation -- it is neither necessary (platform-kafka-operator owns no ExternalSecret and is
+OutOfSync for reason 2) nor sufficient (platform-external-secrets owns none and is trivially Synced;
+platform-monitoring owns one (platform-grafana-secret, per E24) and is OutOfSync for reason 1, not
+because of the secret). The true statement: an app is OutOfSync either because an operator has
+deliberately paused its automated sync, or because its first sync attempt against the current
+revision failed and nothing has since triggered a fresh attempt -- ExternalSecret ownership is
+incidental to both.

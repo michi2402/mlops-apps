@@ -1,0 +1,36 @@
+2026-09-24T18:20:54Z
+# Prometheus targets of podMonitor model-predictors
+down http://10.244.0.42:8082/metrics team2-timeseries timeseries Get "http://10.244.0.42:8082/metrics": dial tcp 10.244.0.42:8082: connect: connection refused
+up http://10.244.0.41:8082/metrics team1-iris iris 
+
+# model-level series after 21 inference requests
+$ query: count by (__name__) ({job=~".*model-predictors.*"})
+   {'__name__': 'up'} 2
+   {'__name__': 'scrape_duration_seconds'} 2
+   {'__name__': 'scrape_samples_scraped'} 2
+   {'__name__': 'scrape_samples_post_metric_relabeling'} 2
+   {'__name__': 'scrape_series_added'} 2
+   {'__name__': 'count:up0'} 1
+   {'__name__': 'ALERTS_FOR_STATE'} 1
+   {'__name__': 'ALERTS'} 1
+   {'__name__': 'parallel_request_queue_sum'} 1
+   {'__name__': 'parallel_request_queue_bucket'} 15
+   {'__name__': 'parallel_request_queue_count'} 1
+   {'__name__': 'count:up1'} 1
+   {'__name__': 'model_infer_request_duration_count'} 1
+   {'__name__': 'model_infer_request_duration_sum'} 1
+   {'__name__': 'model_infer_request_failure_total'} 1
+   {'__name__': 'model_infer_request_success_total'} 1
+   {'__name__': 'rest_server_requests_total'} 1
+   {'__name__': 'rest_server_request_duration_seconds_sum'} 1
+   {'__name__': 'rest_server_request_duration_seconds_bucket'} 15
+   {'__name__': 'rest_server_request_duration_seconds_count'} 1
+   {'__name__': 'rest_server_requests_in_progress'} 1
+   ( 21 series )
+$ query: model_infer_request_success
+   ( 0 series )
+$ query: sum by (model) (model_infer_request_success)
+   ( 0 series )
+$ query: rest_server_requests_total
+   {'__name__': 'rest_server_requests_total', 'inferenceservice': 'iris', 'method': 'POST', 'namespace': 'team1-iris', 'status_code': '200'} 21
+   ( 1 series )

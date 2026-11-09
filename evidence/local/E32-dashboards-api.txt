@@ -1,0 +1,14 @@
+Live confirmation via Grafana's /api/search was not completed: this local profile's resource pressure
+(see INT-03) made the observability tier too unstable to hold a port-forward + auth session open long
+enough (Grafana/Prometheus/Alertmanager kept cycling as ArgoCD's cascading selfHeal -- root -> platform
+-> platform-monitoring -- restored replicas faster than they could be scaled down for capacity relief,
+even after individually disabling automated sync at two levels of the AoA hierarchy). Recorded as
+NOT MEASURED for the live-dashboard-content half of E32, not silently rounded to a pass.
+
+What IS confirmed from source (clusters/base/k8s-native-stack/platform/components/monitoring/values.yaml):
+four dashboards are declared -- minio-overview (gnetId 13502), cloud-native-pg (gnetId 20417),
+cert-manager (gnetId 20340), and mlflow (fetched directly from this repo's own
+base/dashboards/mlflow.json via raw.githubusercontent.com). All four require Grafana's sidecar to
+reach either grafana.com or GitHub at pod startup; this was not independently verified to have
+succeeded. Revisit on dataLAB, where the observability tier does not have to compete with the full
+orchestration tier for the same 7 vCPU / 10.5 GiB.

@@ -1,0 +1,17 @@
+2026-09-21T07:26:06Z
+$ curl -s localhost:9090/api/v1/targets | jq '.data.activeTargets[] | {job:.labels.job, health}'   (deduplicated, counted)
+  apiserver                                     up     x1
+  kube-proxy                                    up     x1
+  kube-state-metrics                            up     x1
+  kubelet                                       up     x3
+  minio                                         up     x2
+  mlflow                                        up     x1
+  monitoring-grafana                            up     x1
+  monitoring-kube-prometheus-alertmanager       up     x2
+  monitoring-kube-prometheus-operator           up     x1
+  monitoring-kube-prometheus-prometheus         up     x2
+  node-exporter                                 up     x1
+  platform-cert-manager                         up     x1
+  platform-cert-manager-cainjector              up     x1
+  platform-cert-manager-webhook                 up     x1
+  platform-postgres/postgres-cluster            up     x1

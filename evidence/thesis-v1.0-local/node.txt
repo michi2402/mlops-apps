@@ -1,0 +1,8 @@
+2026-09-25T09:19:06Z
+$ minikube delete --all --purge; ./scripts/minikube-up.sh
+[1;36m[MINIKUBE-UP][0m Starting minikube (6 CPUs, 11g, Kubernetes v1.32.0)
+* Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
+[1;36m[MINIKUBE-UP][0m Kubelet: parallel image pulls, at most 3
+serializeImagePulls: false
+maxParallelImagePulls: 3
+[1;36m[MINIKUBE-UP][0m Node ready

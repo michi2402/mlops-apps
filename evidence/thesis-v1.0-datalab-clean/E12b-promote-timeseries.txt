@@ -1,0 +1,13 @@
+2026-10-01T12:50:18Z
+$ promote-model.py --name timeseries-model --version 1 --write-request timeseries-request.json
+registry     : timeseries-model version 1 (run d03ab9ff80034f449f728e3cb826b034)
+source       : models:/m-32cd10b3f51c42218e9b1982cf115455
+destination  : s3://mlflow/main/serving/timeseries-model/1
+flavours     : python_function, pytorch
+copied       : 9 files
+lakeFS commit: f9a71a31d6d64ca6cbbb1df57dbc06f0e002af388945cdc94ced772286f4f4e9
+request      : wrote evidence/thesis-v1.0-datalab-clean/timeseries-request.json (5x783)
+
+MODEL_NAME=timeseries-model
+MODEL_VERSION=1
+MODEL_URI=s3://mlflow/main/serving/timeseries-model/1

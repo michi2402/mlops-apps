@@ -1,0 +1,450 @@
+2026-09-24T17:21:07Z
+$ CLUSTER_ENV=minikube ./scripts/bootstrap-k8s-native.sh   (HEAD c793ff6)
+
+[1;36m[BOOTSTRAP][0m Start: 2026-09-24T17:21:13Z
+
+[1;36m[BOOTSTRAP][0m 1/7 Seeding external-secrets credential
+namespace/external-secrets created
+secret/azure-sp-secret created
+
+[1;36m[BOOTSTRAP][0m 2/7 Installing Argo CD
+
+[1;36m[INFO][0m Checking cluster access...
+
+[1;36m[INFO][0m Creating namespace: argocd (if not present)
+namespace/argocd created
+
+[1;36m[INFO][0m Applying Argo CD install manifest (server-side apply)
+customresourcedefinition.apiextensions.k8s.io/applications.argoproj.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/applicationsets.argoproj.io serverside-applied
+customresourcedefinition.apiextensions.k8s.io/appprojects.argoproj.io serverside-applied
+serviceaccount/argocd-application-controller serverside-applied
+serviceaccount/argocd-applicationset-controller serverside-applied
+serviceaccount/argocd-dex-server serverside-applied
+serviceaccount/argocd-notifications-controller serverside-applied
+serviceaccount/argocd-redis serverside-applied
+serviceaccount/argocd-repo-server serverside-applied
+serviceaccount/argocd-server serverside-applied
+role.rbac.authorization.k8s.io/argocd-application-controller serverside-applied
+role.rbac.authorization.k8s.io/argocd-applicationset-controller serverside-applied
+role.rbac.authorization.k8s.io/argocd-dex-server serverside-applied
+role.rbac.authorization.k8s.io/argocd-notifications-controller serverside-applied
+role.rbac.authorization.k8s.io/argocd-redis serverside-applied
+role.rbac.authorization.k8s.io/argocd-server serverside-applied
+clusterrole.rbac.authorization.k8s.io/argocd-application-controller serverside-applied
+clusterrole.rbac.authorization.k8s.io/argocd-applicationset-controller serverside-applied
+clusterrole.rbac.authorization.k8s.io/argocd-server serverside-applied
+rolebinding.rbac.authorization.k8s.io/argocd-application-controller serverside-applied
+rolebinding.rbac.authorization.k8s.io/argocd-applicationset-controller serverside-applied
+rolebinding.rbac.authorization.k8s.io/argocd-dex-server serverside-applied
+rolebinding.rbac.authorization.k8s.io/argocd-notifications-controller serverside-applied
+rolebinding.rbac.authorization.k8s.io/argocd-redis serverside-applied
+rolebinding.rbac.authorization.k8s.io/argocd-server serverside-applied
+clusterrolebinding.rbac.authorization.k8s.io/argocd-application-controller serverside-applied
+clusterrolebinding.rbac.authorization.k8s.io/argocd-applicationset-controller serverside-applied
+clusterrolebinding.rbac.authorization.k8s.io/argocd-server serverside-applied
+configmap/argocd-cm serverside-applied
+configmap/argocd-cmd-params-cm serverside-applied
+configmap/argocd-gpg-keys-cm serverside-applied
+configmap/argocd-notifications-cm serverside-applied
+configmap/argocd-rbac-cm serverside-applied
+configmap/argocd-ssh-known-hosts-cm serverside-applied
+configmap/argocd-tls-certs-cm serverside-applied
+secret/argocd-notifications-secret serverside-applied
+secret/argocd-secret serverside-applied
+service/argocd-applicationset-controller serverside-applied
+service/argocd-dex-server serverside-applied
+service/argocd-metrics serverside-applied
+service/argocd-notifications-controller-metrics serverside-applied
+service/argocd-redis serverside-applied
+service/argocd-repo-server serverside-applied
+service/argocd-server serverside-applied
+service/argocd-server-metrics serverside-applied
+deployment.apps/argocd-applicationset-controller serverside-applied
+deployment.apps/argocd-dex-server serverside-applied
+deployment.apps/argocd-notifications-controller serverside-applied
+deployment.apps/argocd-redis serverside-applied
+deployment.apps/argocd-repo-server serverside-applied
+deployment.apps/argocd-server serverside-applied
+statefulset.apps/argocd-application-controller serverside-applied
+networkpolicy.networking.k8s.io/argocd-application-controller-network-policy serverside-applied
+networkpolicy.networking.k8s.io/argocd-applicationset-controller-network-policy serverside-applied
+networkpolicy.networking.k8s.io/argocd-dex-server-network-policy serverside-applied
+networkpolicy.networking.k8s.io/argocd-notifications-controller-network-policy serverside-applied
+networkpolicy.networking.k8s.io/argocd-redis-network-policy serverside-applied
+networkpolicy.networking.k8s.io/argocd-repo-server-network-policy serverside-applied
+networkpolicy.networking.k8s.io/argocd-server-network-policy serverside-applied
+
+[1;36m[INFO][0m Enabling Applications in namespaces: team1,team2
+configmap/argocd-cmd-params-cm patched
+
+[1;36m[INFO][0m Restoring health assessment for Application resources (sync waves gate on it)
+configmap/argocd-cm patched
+configmap/argocd-cm patched (no change)
+deployment.apps/argocd-server restarted
+statefulset.apps/argocd-application-controller restarted
+
+[1;36m[INFO][0m Waiting for argocd-server rollout (timeout 180s)
+Waiting for deployment "argocd-server" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "argocd-server" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "argocd-server" rollout to finish: 1 old replicas are pending termination...
+deployment "argocd-server" successfully rolled out
+partitioned roll out complete: 1 new pods have been updated...
+
+[1;36m[INFO][0m Fetching initial admin password
+
+[1;36m[INFO][0m Initial admin password (user: admin):
+<redacted>
+
+
+[1;36m[INFO][0m SKIP_PORT_FORWARD set — not starting a port-forward. Reach the UI later with:
+
+[1;36m[INFO][0m   kubectl -n argocd port-forward svc/argocd-server 8080:443
+
+[1;36m[BOOTSTRAP][0m 3/7 Applying clusters/envs/minikube/k8s-native-stack/aoa-root.yaml (profile: minikube)
+application.argoproj.io/root-minikube created
+appproject.argoproj.io/platform created
+appproject.argoproj.io/workloads-team1 created
+appproject.argoproj.io/workloads-team2 created
+
+[1;36m[BOOTSTRAP][0m 4/7 Waiting up to 2400s for the platform tier (12 Applications) to be Synced/Healthy
+
+[1;31m[ERR][0m  Timed out after 2400s waiting on: platform-mlflow
+--- kubectl describe applications.argoproj.io -n argocd platform-mlflow ---
+Name:         platform-mlflow
+Namespace:    argocd
+Labels:       mlops.tuwien/tier=platform
+Annotations:  argocd.argoproj.io/sync-wave: -5
+              argocd.argoproj.io/tracking-id: platform:argoproj.io/Application:argocd/platform-mlflow
+API Version:  argoproj.io/v1alpha1
+Kind:         Application
+Metadata:
+  Creation Timestamp:  2026-09-24T17:31:31Z
+  Generation:          23
+  Resource Version:    12047
+  UID:                 8a4fb589-db07-4fbf-b55e-720a9deec11f
+Spec:
+  Destination:
+    Namespace:  platform-mlflow
+    Server:     https://kubernetes.default.svc
+  Project:      platform
+  Sources:
+    Helm:
+      Release Name:  mlflow
+      Value Files:
+        $values/clusters/base/k8s-native-stack/platform/components/mlflow/values.yaml
+        $values/clusters/envs/minikube/k8s-native-stack/platform/components/mlflow/values.yaml
+    Path:             charts/mlflow
+    Repo URL:         https://github.com/community-charts/helm-charts
+    Target Revision:  mlflow-1.6.2
+    Path:             clusters/base/k8s-native-stack/platform/components/mlflow
+    Ref:              values
+    Repo URL:         https://github.com/michi2402/mlops-apps
+    Target Revision:  master
+  Sync Policy:
+    Automated:
+      Prune:      true
+      Self Heal:  true
+    Retry:
+      Backoff:
+        Duration:      10s
+        Factor:        2
+        Max Duration:  3m
+      Limit:           -1
+      Refresh:         true
+    Sync Options:
+      CreateNamespace=true
+      ServerSideApply=true
+Status:
+  Controller Namespace:  argocd
+  Health:
+    Last Transition Time:  2026-09-24T17:54:18Z
+    Status:                Degraded
+  History:
+    Deploy Started At:  2026-09-24T17:43:40Z
+    Deployed At:        2026-09-24T17:44:18Z
+    Id:                 0
+    Initiated By:
+      Automated:  true
+    Revisions:
+      cc0ccef9edf8016b5f440e6d991eb2278e149f20
+      c793ff60e197427711dd9ae09f8af8426fe0912d
+    Source:
+      Repo URL:  
+    Sources:
+      Helm:
+        Release Name:  mlflow
+        Value Files:
+          $values/clusters/base/k8s-native-stack/platform/components/mlflow/values.yaml
+          $values/clusters/envs/minikube/k8s-native-stack/platform/components/mlflow/values.yaml
+      Path:             charts/mlflow
+      Repo URL:         https://github.com/community-charts/helm-charts
+      Target Revision:  mlflow-1.6.2
+      Path:             clusters/base/k8s-native-stack/platform/components/mlflow
+      Ref:              values
+      Repo URL:         https://github.com/michi2402/mlops-apps
+      Target Revision:  master
+  Operation State:
+    Finished At:  2026-09-24T17:44:18Z
+    Message:      successfully synced (all tasks run)
+    Operation:
+      Initiated By:
+        Automated:  true
+      Retry:
+        Backoff:
+          Duration:      10s
+          Factor:        2
+          Max Duration:  3m
+        Limit:           -1
+        Refresh:         true
+      Sync:
+        Prune:  true
+        Revisions:
+          cc0ccef9edf8016b5f440e6d991eb2278e149f20
+          c793ff60e197427711dd9ae09f8af8426fe0912d
+        Sources:
+          Helm:
+            Release Name:  mlflow
+            Value Files:
+              $values/clusters/base/k8s-native-stack/platform/components/mlflow/values.yaml
+              $values/clusters/envs/minikube/k8s-native-stack/platform/components/mlflow/values.yaml
+          Path:             charts/mlflow
+          Repo URL:         https://github.com/community-charts/helm-charts
+          Target Revision:  mlflow-1.6.2
+          Path:             clusters/base/k8s-native-stack/platform/components/mlflow
+          Ref:              values
+          Repo URL:         https://github.com/michi2402/mlops-apps
+          Target Revision:  master
+        Sync Options:
+          CreateNamespace=true
+          ServerSideApply=true
+    Phase:       Succeeded
+    Started At:  2026-09-24T17:43:40Z
+    Sync Result:
+      Resources:
+        Group:       
+        Hook Phase:  Running
+        Kind:        Namespace
+        Message:     namespace/platform-mlflow serverside-applied
+        Name:        platform-mlflow
+        Namespace:   
+        Status:      Synced
+        Sync Phase:  PreSync
+        Version:     v1
+        Group:       
+        Hook Phase:  Succeeded
+        Hook Type:   PreSync
+        Kind:        Secret
+        Message:     mlflow-flask-server-secret-key created
+        Name:        mlflow-flask-server-secret-key
+        Namespace:   platform-mlflow
+        Status:      Synced
+        Sync Phase:  PreSync
+        Version:     v1
+        Group:       
+        Hook Phase:  Running
+        Kind:        ServiceAccount
+        Message:     serviceaccount/mlflow serverside-applied
+        Name:        mlflow
+        Namespace:   platform-mlflow
+        Status:      Synced
+        Sync Phase:  Sync
+        Version:     v1
+        Group:       
+        Hook Phase:  Running
+        Kind:        Secret
+        Message:     secret/mlflow-env-secret serverside-applied
+        Name:        mlflow-env-secret
+        Namespace:   platform-mlflow
+        Status:      Synced
+        Sync Phase:  Sync
+        Version:     v1
+        Group:       
+        Hook Phase:  Running
+        Kind:        ConfigMap
+        Message:     configmap/mlflow-env-configmap serverside-applied
+        Name:        mlflow-env-configmap
+        Namespace:   platform-mlflow
+        Status:      Synced
+        Sync Phase:  Sync
+        Version:     v1
+        Group:       
+        Hook Phase:  Running
+        Kind:        ConfigMap
+        Message:     configmap/mlflow-migrations serverside-applied
+        Name:        mlflow-migrations
+        Namespace:   platform-mlflow
+        Status:      Synced
+        Sync Phase:  Sync
+        Version:     v1
+        Group:       
+        Hook Phase:  Running
+        Kind:        Service
+        Message:     service/mlflow serverside-applied
+        Name:        mlflow
+        Namespace:   platform-mlflow
+        Status:      Synced
+        Sync Phase:  Sync
+        Version:     v1
+        Group:       apps
+        Hook Phase:  Running
+        Images:
+          burakince/mlflow:3.3.2
+        Kind:        Deployment
+        Message:     deployment.apps/mlflow serverside-applied
+        Name:        mlflow
+        Namespace:   platform-mlflow
+        Status:      Synced
+        Sync Phase:  Sync
+        Version:     v1
+        Group:       monitoring.coreos.com
+        Hook Phase:  Running
+        Kind:        ServiceMonitor
+        Message:     servicemonitor.monitoring.coreos.com/mlflow serverside-applied
+        Name:        mlflow
+        Namespace:   platform-mlflow
+        Status:      Synced
+        Sync Phase:  Sync
+        Version:     v1
+        Group:       external-secrets.io
+        Hook Phase:  Running
+        Kind:        ExternalSecret
+        Message:     externalsecret.external-secrets.io/platform-lakefs-secret serverside-applied
+        Name:        platform-lakefs-secret
+        Namespace:   platform-mlflow
+        Status:      Synced
+        Sync Phase:  Sync
+        Version:     v1
+        Group:       external-secrets.io
+        Hook Phase:  Running
+        Kind:        ExternalSecret
+        Message:     externalsecret.external-secrets.io/platform-postgres-mlflow-secret serverside-applied
+        Name:        platform-postgres-mlflow-secret
+        Namespace:   platform-mlflow
+        Status:      Synced
+        Sync Phase:  Sync
+        Version:     v1
+      Revision:      
+      Revisions:
+        cc0ccef9edf8016b5f440e6d991eb2278e149f20
+        c793ff60e197427711dd9ae09f8af8426fe0912d
+      Source:
+        Repo URL:  
+      Sources:
+        Helm:
+          Release Name:  mlflow
+          Value Files:
+            $values/clusters/base/k8s-native-stack/platform/components/mlflow/values.yaml
+            $values/clusters/envs/minikube/k8s-native-stack/platform/components/mlflow/values.yaml
+        Path:              charts/mlflow
+        Repo URL:          https://github.com/community-charts/helm-charts
+        Target Revision:   mlflow-1.6.2
+        Path:              clusters/base/k8s-native-stack/platform/components/mlflow
+        Ref:               values
+        Repo URL:          https://github.com/michi2402/mlops-apps
+        Target Revision:   master
+  Reconciled At:           2026-09-24T18:01:01Z
+  Resource Health Source:  appTree
+  Resources:
+    Kind:              ConfigMap
+    Name:              mlflow-env-configmap
+    Namespace:         platform-mlflow
+    Status:            Synced
+    Version:           v1
+    Kind:              ConfigMap
+    Name:              mlflow-migrations
+    Namespace:         platform-mlflow
+    Status:            Synced
+    Version:           v1
+    Kind:              Secret
+    Name:              mlflow-env-secret
+    Namespace:         platform-mlflow
+    Status:            Synced
+    Version:           v1
+    Hook:              true
+    Kind:              Secret
+    Name:              mlflow-flask-server-secret-key
+    Namespace:         platform-mlflow
+    Requires Pruning:  true
+    Version:           v1
+    Kind:              Service
+    Name:              mlflow
+    Namespace:         platform-mlflow
+    Status:            Synced
+    Version:           v1
+    Kind:              ServiceAccount
+    Name:              mlflow
+    Namespace:         platform-mlflow
+    Status:            Synced
+    Version:           v1
+    Group:             apps
+    Kind:              Deployment
+    Name:              mlflow
+    Namespace:         platform-mlflow
+    Status:            Synced
+    Version:           v1
+    Group:             external-secrets.io
+    Kind:              ExternalSecret
+    Name:              platform-lakefs-secret
+    Namespace:         platform-mlflow
+    Status:            Synced
+    Version:           v1
+    Group:             external-secrets.io
+    Kind:              ExternalSecret
+    Name:              platform-postgres-mlflow-secret
+    Namespace:         platform-mlflow
+    Status:            Synced
+    Version:           v1
+    Group:             monitoring.coreos.com
+    Kind:              ServiceMonitor
+    Name:              mlflow
+    Namespace:         platform-mlflow
+    Status:            Synced
+    Version:           v1
+  Source Hydrator:
+  Source Types:
+    Helm
+    Directory
+  Summary:
+    Images:
+      burakince/mlflow:3.3.2
+  Sync:
+    Compared To:
+      Destination:
+        Namespace:  platform-mlflow
+        Server:     https://kubernetes.default.svc
+      Source:
+        Repo URL:  
+      Sources:
+        Helm:
+          Release Name:  mlflow
+          Value Files:
+            $values/clusters/base/k8s-native-stack/platform/components/mlflow/values.yaml
+            $values/clusters/envs/minikube/k8s-native-stack/platform/components/mlflow/values.yaml
+        Path:             charts/mlflow
+        Repo URL:         https://github.com/community-charts/helm-charts
+        Target Revision:  mlflow-1.6.2
+        Path:             clusters/base/k8s-native-stack/platform/components/mlflow
+        Ref:              values
+        Repo URL:         https://github.com/michi2402/mlops-apps
+        Target Revision:  master
+    Revisions:
+      cc0ccef9edf8016b5f440e6d991eb2278e149f20
+      6d77579e8451c9d8f5f96b9691978bad72a34676
+    Status:  Synced
+Events:
+  Type    Reason              Age    From                           Message
+  ----    ------              ----   ----                           -------
+  Normal  ResourceUpdated     30m    argocd-application-controller  Updated sync status:  -> Unknown
+  Normal  ResourceUpdated     30m    argocd-application-controller  Updated health status:  -> Healthy
+  Normal  OperationStarted    18m    argocd-application-controller  Initiated automated sync to 'cc0ccef9edf8016b5f440e6d991eb2278e149f20, c793ff60e197427711dd9ae09f8af8426fe0912d'
+  Normal  ResourceUpdated     18m    argocd-application-controller  Updated sync status: Unknown -> OutOfSync
+  Normal  ResourceUpdated     18m    argocd-application-controller  Updated health status: Healthy -> Missing
+  Normal  ResourceUpdated     18m    argocd-application-controller  Updated health status: Missing -> Healthy
+  Normal  OperationCompleted  18m    argocd-application-controller  Sync operation to  succeeded
+  Normal  ResourceUpdated     18m    argocd-application-controller  Updated sync status: OutOfSync -> Synced
+  Normal  ResourceUpdated     18m    argocd-application-controller  Updated health status: Healthy -> Progressing
+  Normal  ResourceUpdated     8m16s  argocd-application-controller  Updated health status: Progressing -> Degraded
+
+[1;31m[ERR][0m  Convergence failed — see descriptions above. Not proceeding to model registration.
+exit=1

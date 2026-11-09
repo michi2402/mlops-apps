@@ -1,0 +1,6 @@
+$ kubectl -n platform-kafka get deploy strimzi-cluster-operator -o yaml | grep -A2 STRIMZI_NAMESPACE
+        - name: STRIMZI_NAMESPACE
+          valueFrom:
+            fieldRef:
+$ kubectl get clusterrolebinding | grep -i strimzi | wc -l
+3

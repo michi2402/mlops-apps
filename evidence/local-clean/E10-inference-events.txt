@@ -1,0 +1,2 @@
+2026-09-21T09:10:28Z
+$ kubectl -n platform-kafka run kcat --rm -i --restart=Never --image=edenhill/kcat:1.7.1 -- -b platform-kafka-kafka-bootstrap:9092 -t inference-events -C -o beginning -e -f 'KEY=%k PARTITION=%p TYPE=<ce-type>\n'

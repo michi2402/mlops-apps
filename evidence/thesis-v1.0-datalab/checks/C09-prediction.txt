@@ -1,0 +1,5 @@
+2026-10-01T11:07:32Z
+$ POST /v2/models/iris/infer via the gateway (Host: iris-team1-iris.mlops.local)
+{"model_name":"iris","id":"f71f82ca-4f31-47c0-afbb-dd503edbae04","parameters":{"content_type":"np"},"outputs":[{"name":"output-1","shape":[3,1],"datatype":"INT32","parameters":{"content_type":"np"},"data":[0,2,1]}]}
+200
+VERDICT PASS HTTP 200, [0, 2, 1] (expected [0, 2, 1])

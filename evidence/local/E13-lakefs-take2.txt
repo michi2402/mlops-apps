@@ -1,0 +1,23 @@
+2026-09-21T07:25:21Z
+$ curl -u $LAKEFS_ACCESS_KEY:*** $LAKEFS_ENDPOINT/api/v1/repositories/mlflow/refs/main/commits?amount=20
+960c7e27ec4f 2026-09-18T17:39:03Z 'fix tracking-quickstart v1 serving artefact: rebuild with numpy<2 (FINDING-03)' {"fix": "numpy-2.x-incompatibility", "model_name": "tracking-quickstart", "model_version": "1"}
+fae07f0a0eb9 2026-09-18T17:14:24Z 'promote tracking-quickstart v2 for serving' {"mlflow_run_id": "ec0d3664e0b44ce5a07ae44b534288a3", "mlflow_source": "models:/m-312efebb06b24fb0ae3e280a6894e760", "model_name": "tracking-quickstart", "model_version": "2"}
+19c9a728c0a1 2026-09-18T15:56:20Z 'promote tracking-quickstart v1 for serving' {"mlflow_run_id": "290a625c3386409c8cf11cf8972df39f", "mlflow_source": "models:/m-54192098b7464687aadc2fb3899bbbc1", "model_name": "tracking-quickstart", "model_version": "1"}
+32516582136c 2026-09-18T15:44:06Z 'Repository created' {}
+$ curl .../repositories/mlflow/refs/main/objects/ls?prefix=serving/
+  serving/tracking-quickstart/1/MLmodel 1107 1e436b01536d
+  serving/tracking-quickstart/1/conda.yaml 246 c6fe9059c537
+  serving/tracking-quickstart/1/input_example.json 2640 51bc4a283387
+  serving/tracking-quickstart/1/model.pkl 791 67ef20941141
+  serving/tracking-quickstart/1/python_env.yaml 121 bbc54a664da4
+  serving/tracking-quickstart/1/registered_model_meta 37 5f7bfbf4cd4b
+  serving/tracking-quickstart/1/requirements.txt 111 99800d9261f6
+  serving/tracking-quickstart/1/serving_input_example.json 7463 f94b7e45d69d
+  serving/tracking-quickstart/2/MLmodel 1107 1e436b01536d
+  serving/tracking-quickstart/2/conda.yaml 246 c6fe9059c537
+  serving/tracking-quickstart/2/input_example.json 2640 51bc4a283387
+  serving/tracking-quickstart/2/model.pkl 791 67ef20941141
+  serving/tracking-quickstart/2/python_env.yaml 121 bbc54a664da4
+  serving/tracking-quickstart/2/registered_model_meta 37 5f7bfbf4cd4b
+  serving/tracking-quickstart/2/requirements.txt 111 99800d9261f6
+  serving/tracking-quickstart/2/serving_input_example.json 7463 f94b7e45d69d

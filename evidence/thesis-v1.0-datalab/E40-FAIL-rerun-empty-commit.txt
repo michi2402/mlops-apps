@@ -1,0 +1,17 @@
+2026-10-01T10:45:50Z
+$ tools/bootstrap_all.sh --with-data
+MinIO-Buckets vorhanden: lakefs, dvc
+lakeFS-Repo 'datasets' mit Branch 'dev' vorhanden
+lakeFS-Repo 'mlflow' mit Branch 'main' vorhanden
+500 entities, 336000 rows, entity positive rate 0.50
+Wrote raw to s3://datasets/dev/raw/
+Traceback (most recent call last):
+  File "C:\Users\micmay\university\bsc\thesis\ml-pipelines\k8s-native-stack\tools\generate_timeseries_lakefs.py", line 124, in <module>
+    commit_lakefs("seed: synthetic timeseries raw data")
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\micmay\university\bsc\thesis\ml-pipelines\k8s-native-stack\tools\generate_timeseries_lakefs.py", line 89, in commit_lakefs
+    r.raise_for_status()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\micmay\university\bsc\thesis\ml-pipelines\.venv\Lib\site-packages\requests\models.py", line 1167, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: http://localhost:18000/api/v1/repositories/datasets/branches/dev/commits

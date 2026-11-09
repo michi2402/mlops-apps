@@ -1,0 +1,14 @@
+2026-10-01T10:02:42Z
+$ promote-model.py --name timeseries-model --version 1 --write-request timeseries-request.json
+2026/10/01 12:02:45 INFO mlflow.agent.hint: Load the `instrumenting-with-mlflow-tracing` skill at C:\Users\micmay\university\bsc\thesis\poc\mlops-apps\.venv-py310\lib\site-packages\mlflow\assistant\skills\instrumenting-with-mlflow-tracing\SKILL.md before writing any tracing code; it ships with this MLflow install. Set MLFLOW_DISABLE_AGENT_HINT=1 to silence this.
+registry     : timeseries-model version 1 (run 04107095d6b34e65b4085a1cf78b61ff)
+source       : models:/m-9c2a77d419d34e8a84d73902e7671465
+destination  : s3://mlflow/main/serving/timeseries-model/1
+flavours     : python_function, pytorch
+copied       : 9 files
+lakeFS commit: 5a0683284552127af99f4ed6834fed5b36b436162b2e1fa1464ec63ada99c0ff
+request      : wrote evidence/thesis-v1.0-datalab/timeseries-request.json (5x783)
+
+MODEL_NAME=timeseries-model
+MODEL_VERSION=1
+MODEL_URI=s3://mlflow/main/serving/timeseries-model/1

@@ -1,0 +1,27 @@
+2026-10-01T13:38:13Z
+$ git rev-parse HEAD
+71c9fabc45ea8659acc71515b2a7ee62b48cb6e6
+$ minikube version
+minikube version: v1.35.0
+commit: dd5d320e41b5451cdf3c01891bc4e13d189586ed-dirty
+$ kubectl get nodes -o wide
+NAME       STATUS   ROLES           AGE   VERSION   INTERNAL-IP    EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION                      CONTAINER-RUNTIME
+minikube   Ready    control-plane   18s   v1.32.0   192.168.49.2   <none>        Ubuntu 22.04.5 LTS   6.18.40.1-microsoft-standard-WSL2   docker://27.4.1
+$ kubectl describe node minikube | grep -A6 Allocatable:
+Allocatable:
+  cpu:                8
+  ephemeral-storage:  1055762868Ki
+  hugepages-1Gi:      0
+  hugepages-2Mi:      0
+  memory:             12251512Ki
+  pods:               110
+$ kubectl version
+Client Version: v1.36.1
+Kustomize Version: v5.8.1
+Server Version: v1.32.0
+Warning: version difference between client (1.36) and server (1.32) exceeds the supported minor version skew of +/-1
+$ minikube ssh -- grep -E maxParallelImagePulls /var/lib/kubelet/config.yaml
+grep: /var/lib/kubelet/config.yaml: Permission denied
+ssh: Process exited with status 2
+$ minikube ssh -- docker images | wc -l
+9

@@ -1,0 +1,12 @@
+2026-10-01T16:10:23Z
+wave  -9: created +    4 s  envoy-gateway, external-secrets, kubeflow-namespaces, rbac-pipeline-runner
+wave  -8: created +  150 s  monitoring
+wave  -7: created +  171 s  cert-manager, minio
+wave  -6: created +  210 s  postgres
+wave  -5: created +  260 s  kfp-crds, kserve, lakefs, mlflow
+wave  -4: created +  695 s  kafka-operator
+wave  -3: created +  777 s  kafka
+wave  -2: created +  780 s  rp-connect
+wave  -1: created +  790 s  dask, katib, kfp, kubeflow-spark-operator, kubeflow-trainer-manager
+wave   0: created + 2948 s  kubeflow-trainer-runtimes
+VERDICT PASS waves -9 to 0 opened in order

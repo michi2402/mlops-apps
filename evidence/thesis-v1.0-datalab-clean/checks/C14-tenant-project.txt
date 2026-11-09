@@ -1,0 +1,9 @@
+2026-10-01T12:57:10Z
+## probe-cross-ns
+InvalidSpecError: application destination server 'https://kubernetes.default.svc' and namespace 'platform-mlflow' do not match any of the allowed destinations in project 'workloads-team1'
+## probe-escalate
+UnknownError: application 'probe-escalate' in namespace 'team1' is not permitted to use project 'default'
+## platform-mlflow afterwards
+  mlflow-595cb8766-wfhb4 Running
+## tenant's own model ready: True
+VERDICT PASS both probes refused; tenant model ready

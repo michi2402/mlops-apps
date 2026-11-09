@@ -1,0 +1,6 @@
+2026-10-01T15:11:24Z
+rotated platform-grafana-password in the vault at 2026-10-01T15:11:29Z
+Secret updated after 5 s (no commit)
+consumer (Grafana) accepts the new password without a restart: HTTP 401
+original value restored
+VERDICT PASS reached the Secret in 5 s without a commit; consumer without restart: HTTP 401

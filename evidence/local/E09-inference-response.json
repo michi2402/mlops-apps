@@ -1,0 +1,28 @@
+{"model_name":"iris","id":"e1f83dd8-21d6-444e-b482-65a095b3ed52","parameters":{"content_type":"np"},"outputs":[{"name":"output-1","shape":[3,1],"datatype":"INT32","parameters":{"content_type":"np"},"data":[0,2,1]}]}*   Trying 127.0.0.1:80...
+* Connected to 127.0.0.1 (127.0.0.1) port 80
+> POST /v2/models/iris/infer HTTP/1.1
+> Host: iris-team1-iris.mlops.local
+> User-Agent: curl/8.7.1
+> Accept: */*
+> Content-Type: application/json
+> Content-Length: 183
+> 
+} [183 bytes data]
+* upload completely sent off: 183 bytes
+< HTTP/1.1 200 OK
+< ce-endpoint: iris
+< ce-id: e1f83dd8-21d6-444e-b482-65a095b3ed52
+< ce-inferenceservicename: mlserver
+< ce-modelid: iris
+< ce-namespace: team1-iris
+< ce-requestid: e1f83dd8-21d6-444e-b482-65a095b3ed52
+< ce-source: io.seldon.serving.deployment.mlserver.team1-iris
+< ce-specversion: 0.3
+< ce-type: io.seldon.serving.inference.response
+< content-length: 215
+< content-type: application/json
+< date: Fri, 18 Sep 2026 17:41:19 GMT
+< server: uvicorn
+< 
+{ [215 bytes data]
+* Connection #0 to host 127.0.0.1 left intact

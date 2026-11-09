@@ -1,0 +1,27 @@
+2026-09-24T19:44:36Z
+# Prometheus active targets by scrape pool
+  1/1  podMonitor/platform-kafka/strimzi-cluster-operator/0 
+  1/1  podMonitor/platform-monitoring/envoy-proxy/0 
+  1/1  podMonitor/platform-monitoring/external-secrets/0 
+  1/2  podMonitor/platform-monitoring/model-predictors/0   Get "http://10.244.0.42:8082/metrics": dial tcp 10.244.0.42:8082: connect: conne
+  1/1  podMonitor/platform-postgres/postgres-cluster/0 
+  1/1  probe/platform-minio/minio-cluster 
+  3/3  serviceMonitor/cert-manager/platform-cert-manager/0 
+  1/1  serviceMonitor/platform-lakefs/lakefs/0 
+  1/1  serviceMonitor/platform-minio/minio/0 
+  1/1  serviceMonitor/platform-mlflow/mlflow/0 
+  1/1  serviceMonitor/platform-monitoring/monitoring-grafana/0 
+  1/1  serviceMonitor/platform-monitoring/monitoring-kube-prometheus-alertmanager/0 
+  1/1  serviceMonitor/platform-monitoring/monitoring-kube-prometheus-alertmanager/1 
+  1/1  serviceMonitor/platform-monitoring/monitoring-kube-prometheus-apiserver/0 
+  1/1  serviceMonitor/platform-monitoring/monitoring-kube-prometheus-kube-proxy/0 
+  1/1  serviceMonitor/platform-monitoring/monitoring-kube-prometheus-kubelet/0 
+  1/1  serviceMonitor/platform-monitoring/monitoring-kube-prometheus-kubelet/1 
+  1/1  serviceMonitor/platform-monitoring/monitoring-kube-prometheus-kubelet/2 
+  1/1  serviceMonitor/platform-monitoring/monitoring-kube-prometheus-operator/0 
+  1/1  serviceMonitor/platform-monitoring/monitoring-kube-prometheus-prometheus/0 
+  1/1  serviceMonitor/platform-monitoring/monitoring-kube-prometheus-prometheus/1 
+  1/1  serviceMonitor/platform-monitoring/monitoring-kube-state-metrics/0 
+  1/1  serviceMonitor/platform-monitoring/monitoring-prometheus-node-exporter/0 
+  1/1  serviceMonitor/platform-rp-connect/platform-rp-connect-redpanda-connect/0 
+  TOTAL 26/27 up

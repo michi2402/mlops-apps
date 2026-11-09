@@ -1,0 +1,14 @@
+2026-09-21T08:49:22Z
+$ kubectl get applications.argoproj.io -A -o json | <OutOfSync resources per app>
+Traceback (most recent call last):
+  File "<string>", line 4, in <module>
+    oos=[r['kind']+'/'+r['name'] for r in a['status'].get('resources',[]) if r.get('status')=='OutOfSync']
+                                          ~^^^^^^^^^^
+KeyError: 'status'
+  platform                             OutOfSync  Progressing  op=Running retries=1 ['Application/platform-kfp-crds', 'Application/platform-kubeflow-trainer-runtimes']
+  platform-cert-manager                Synced     Healthy      op=Succeeded retries=0 []
+  platform-dask                        Synced     Progressing  op=Succeeded retries=0 []
+  platform-envoy-gateway               Synced     Healthy      op=Succeeded retries=0 []
+  platform-external-secrets            Synced     Healthy      op=Succeeded retries=0 []
+  platform-kafka                       Synced     Healthy      op=Succeeded retries=0 []
+  platform-kafka-operator              Synced     Healthy      op=Succeeded retries=0 []

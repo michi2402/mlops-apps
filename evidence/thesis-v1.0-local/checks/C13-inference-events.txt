@@ -1,0 +1,4 @@
+2026-09-25T09:53:47Z
+$ kcat -C inference-events (records of one inference)
+  e5651c0e-e884-46f9-84c9-48a456bdc313 partition 3 offset 0 org.kubeflow.serving.inference.request
+  e5651c0e-e884-46f9-84c9-48a456bdc313 partition 3 offset 1 org.kubeflow.serving.inference.response

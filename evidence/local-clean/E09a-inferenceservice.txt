@@ -1,0 +1,18 @@
+2026-09-21T09:10:21Z
+$ kubectl -n team1-iris get inferenceservice,pod,httproute
+NAME                                      URL                                  READY   PREV   LATEST   PREVROLLEDOUTREVISION   LATESTREADYREVISION   AGE
+inferenceservice.serving.kserve.io/iris   http://iris-team1-iris.mlops.local   True                                                                  25m
+
+NAME                                  READY   STATUS    RESTARTS   AGE
+pod/iris-predictor-6fbcf68f4d-x6kq5   2/2     Running   0          25m
+
+NAME                                                 HOSTNAMES                                   AGE
+httproute.gateway.networking.k8s.io/iris             ["iris-team1-iris.mlops.local"]             15s
+httproute.gateway.networking.k8s.io/iris-predictor   ["iris-predictor-team1-iris.mlops.local"]   15s
+2026-09-21T09:10:22Z
+$ kubectl -n team1-iris get pod -l serving.kserve.io/inferenceservice=iris -o custom-columns=NAME,QOS
+NAME                              QOS
+iris-predictor-6fbcf68f4d-x6kq5   Burstable
+2026-09-21T09:10:22Z
+$ kubectl -n team1-iris get secret iris-storage -o jsonpath={.metadata.annotations}
+{"reconcile.external-secrets.io/data-hash":"d3e40291ff0f755d0bd2a21700873fedf56b840c65daaad5aa4d7376","serving.kserve.io/s3-endpoint":"lakefs.platform-lakefs.svc.cluster.local:80","serving.kserve.io/s3-region":"us-east-1","serving.kserve.io/s3-usehttps":"0","serving.kserve.io/s3-usevirtualbucket":"false"}

@@ -1,0 +1,8 @@
+2026-10-01T16:10:17Z
+HEAD 69cb2df2fa532db871168c506850db85c9268d20
+tag  none
+Server Version: v1.32.0
+NODE       CPU   MEM          ALLOC_CPU   ALLOC_MEM    KUBELET   RUNTIME
+minikube   8     12251508Ki   8           12251508Ki   v1.32.0   docker://27.4.1
+serializeImagePulls: false
+maxParallelImagePulls: 3

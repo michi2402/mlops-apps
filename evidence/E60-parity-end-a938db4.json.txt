@@ -1,0 +1,165 @@
+2026-09-21T06:57:50Z
+$ git rev-parse HEAD
+a938db4aaf1a6dc5d42899c1b990e504592ccdbe
+$ python scripts/preflight/env-parity.py --json
+{
+  "m1_app_layer_identical": true,
+  "m1_problems": [],
+  "m1_files_compared": 25,
+  "m2_surface": {
+    "minikube": {
+      "dask": [
+        "worker.replicas",
+        "worker.resources.limits.cpu",
+        "worker.resources.limits.memory",
+        "worker.resources.requests.cpu",
+        "worker.resources.requests.memory"
+      ],
+      "kafka": [
+        "Kafka/platform-kafka:spec.kafka.config.default.replication.factor",
+        "Kafka/platform-kafka:spec.kafka.config.min.insync.replicas",
+        "Kafka/platform-kafka:spec.kafka.config.offsets.topic.replication.factor",
+        "Kafka/platform-kafka:spec.kafka.config.transaction.state.log.min.isr",
+        "Kafka/platform-kafka:spec.kafka.config.transaction.state.log.replication.factor",
+        "KafkaNodePool/platform-kafka-brokers:spec.jvmOptions.-Xms",
+        "KafkaNodePool/platform-kafka-brokers:spec.jvmOptions.-Xmx",
+        "KafkaNodePool/platform-kafka-brokers:spec.replicas",
+        "KafkaNodePool/platform-kafka-brokers:spec.resources.limits.cpu",
+        "KafkaNodePool/platform-kafka-brokers:spec.resources.limits.memory",
+        "KafkaNodePool/platform-kafka-brokers:spec.resources.requests.cpu",
+        "KafkaNodePool/platform-kafka-brokers:spec.resources.requests.memory",
+        "KafkaNodePool/platform-kafka-brokers:spec.storage.deleteClaim",
+        "KafkaNodePool/platform-kafka-brokers:spec.storage.size",
+        "KafkaNodePool/platform-kafka-brokers:spec.storage.type",
+        "KafkaNodePool/platform-kafka-controllers:spec.jvmOptions.-Xms",
+        "KafkaNodePool/platform-kafka-controllers:spec.jvmOptions.-Xmx",
+        "KafkaNodePool/platform-kafka-controllers:spec.replicas",
+        "KafkaNodePool/platform-kafka-controllers:spec.resources.limits.cpu",
+        "KafkaNodePool/platform-kafka-controllers:spec.resources.limits.memory",
+        "KafkaNodePool/platform-kafka-controllers:spec.resources.requests.cpu",
+        "KafkaNodePool/platform-kafka-controllers:spec.resources.requests.memory",
+        "KafkaTopic/inference-events:spec.config.min.insync.replicas",
+        "KafkaTopic/inference-events:spec.replicas"
+      ],
+      "minio": [
+        "mode",
+        "persistence.size",
+        "replicas",
+        "resources.limits.cpu",
+        "resources.limits.memory",
+        "resources.requests.cpu",
+        "resources.requests.memory"
+      ],
+      "monitoring": [
+        "prometheus.prometheusSpec.resources.limits.cpu",
+        "prometheus.prometheusSpec.resources.limits.memory",
+        "prometheus.prometheusSpec.resources.requests.cpu",
+        "prometheus.prometheusSpec.resources.requests.memory",
+        "prometheus.prometheusSpec.retention"
+      ],
+      "postgres": [
+        "cluster.instances"
+      ],
+      "rp-connect": [
+        "replicaCount"
+      ]
+    },
+    "datalab": {
+      "dask": [
+        "worker.replicas",
+        "worker.resources.limits.cpu",
+        "worker.resources.limits.memory",
+        "worker.resources.requests.cpu",
+        "worker.resources.requests.memory"
+      ],
+      "kafka": [
+        "Kafka/platform-kafka:spec.kafka.config.default.replication.factor",
+        "Kafka/platform-kafka:spec.kafka.config.min.insync.replicas",
+        "Kafka/platform-kafka:spec.kafka.config.offsets.topic.replication.factor",
+        "Kafka/platform-kafka:spec.kafka.config.transaction.state.log.min.isr",
+        "Kafka/platform-kafka:spec.kafka.config.transaction.state.log.replication.factor",
+        "KafkaNodePool/platform-kafka-brokers:spec.replicas",
+        "KafkaNodePool/platform-kafka-brokers:spec.storage.deleteClaim",
+        "KafkaNodePool/platform-kafka-brokers:spec.storage.size",
+        "KafkaNodePool/platform-kafka-brokers:spec.storage.type",
+        "KafkaNodePool/platform-kafka-brokers:spec.template.pod.topologySpreadConstraints[0].labelSelector.matchLabels.strimzi.io/pool-name",
+        "KafkaNodePool/platform-kafka-brokers:spec.template.pod.topologySpreadConstraints[0].maxSkew",
+        "KafkaNodePool/platform-kafka-brokers:spec.template.pod.topologySpreadConstraints[0].topologyKey",
+        "KafkaNodePool/platform-kafka-brokers:spec.template.pod.topologySpreadConstraints[0].whenUnsatisfiable",
+        "KafkaNodePool/platform-kafka-controllers:spec.replicas",
+        "KafkaNodePool/platform-kafka-controllers:spec.template.pod.topologySpreadConstraints[0].labelSelector.matchLabels.strimzi.io/pool-name",
+        "KafkaNodePool/platform-kafka-controllers:spec.template.pod.topologySpreadConstraints[0].maxSkew",
+        "KafkaNodePool/platform-kafka-controllers:spec.template.pod.topologySpreadConstraints[0].topologyKey",
+        "KafkaNodePool/platform-kafka-controllers:spec.template.pod.topologySpreadConstraints[0].whenUnsatisfiable",
+        "KafkaTopic/inference-events:spec.config.min.insync.replicas",
+        "KafkaTopic/inference-events:spec.replicas"
+      ],
+      "minio": [
+        "mode",
+        "persistence.size",
+        "replicas",
+        "resources.limits.cpu",
+        "resources.limits.memory",
+        "resources.requests.cpu",
+        "resources.requests.memory"
+      ],
+      "monitoring": [
+        "prometheus.prometheusSpec.resources.limits.cpu",
+        "prometheus.prometheusSpec.resources.limits.memory",
+        "prometheus.prometheusSpec.resources.requests.cpu",
+        "prometheus.prometheusSpec.resources.requests.memory",
+        "prometheus.prometheusSpec.retention",
+        "prometheus.prometheusSpec.storageSpec.volumeClaimTemplate.spec.accessModes[0]",
+        "prometheus.prometheusSpec.storageSpec.volumeClaimTemplate.spec.resources.requests.storage"
+      ],
+      "postgres": [
+        "cluster.instances"
+      ],
+      "rp-connect": [
+        "replicaCount"
+      ]
+    }
+  },
+  "m2_overlay_files": 12,
+  "m2_keys": {
+    "minikube": 43,
+    "datalab": 41
+  },
+  "m2_overlay_lines_per_env": {
+    "minikube": 72,
+    "datalab": 85
+  },
+  "m2_base_config_lines": 835,
+  "m3_kafka_differing_fields": [
+    "Kafka/platform-kafka:spec.kafka.config.default.replication.factor",
+    "Kafka/platform-kafka:spec.kafka.config.min.insync.replicas",
+    "Kafka/platform-kafka:spec.kafka.config.offsets.topic.replication.factor",
+    "Kafka/platform-kafka:spec.kafka.config.transaction.state.log.min.isr",
+    "Kafka/platform-kafka:spec.kafka.config.transaction.state.log.replication.factor",
+    "KafkaNodePool/platform-kafka-brokers:spec.jvmOptions.-Xms",
+    "KafkaNodePool/platform-kafka-brokers:spec.jvmOptions.-Xmx",
+    "KafkaNodePool/platform-kafka-brokers:spec.replicas",
+    "KafkaNodePool/platform-kafka-brokers:spec.resources.limits.cpu",
+    "KafkaNodePool/platform-kafka-brokers:spec.resources.limits.memory",
+    "KafkaNodePool/platform-kafka-brokers:spec.resources.requests.cpu",
+    "KafkaNodePool/platform-kafka-brokers:spec.resources.requests.memory",
+    "KafkaNodePool/platform-kafka-brokers:spec.storage.size",
+    "KafkaNodePool/platform-kafka-brokers:spec.template.pod.topologySpreadConstraints[0].labelSelector.matchLabels.strimzi.io/pool-name",
+    "KafkaNodePool/platform-kafka-brokers:spec.template.pod.topologySpreadConstraints[0].maxSkew",
+    "KafkaNodePool/platform-kafka-brokers:spec.template.pod.topologySpreadConstraints[0].topologyKey",
+    "KafkaNodePool/platform-kafka-brokers:spec.template.pod.topologySpreadConstraints[0].whenUnsatisfiable",
+    "KafkaNodePool/platform-kafka-controllers:spec.jvmOptions.-Xms",
+    "KafkaNodePool/platform-kafka-controllers:spec.jvmOptions.-Xmx",
+    "KafkaNodePool/platform-kafka-controllers:spec.replicas",
+    "KafkaNodePool/platform-kafka-controllers:spec.resources.limits.cpu",
+    "KafkaNodePool/platform-kafka-controllers:spec.resources.limits.memory",
+    "KafkaNodePool/platform-kafka-controllers:spec.resources.requests.cpu",
+    "KafkaNodePool/platform-kafka-controllers:spec.resources.requests.memory",
+    "KafkaNodePool/platform-kafka-controllers:spec.template.pod.topologySpreadConstraints[0].labelSelector.matchLabels.strimzi.io/pool-name",
+    "KafkaNodePool/platform-kafka-controllers:spec.template.pod.topologySpreadConstraints[0].maxSkew",
+    "KafkaNodePool/platform-kafka-controllers:spec.template.pod.topologySpreadConstraints[0].topologyKey",
+    "KafkaNodePool/platform-kafka-controllers:spec.template.pod.topologySpreadConstraints[0].whenUnsatisfiable",
+    "KafkaTopic/inference-events:spec.config.min.insync.replicas",
+    "KafkaTopic/inference-events:spec.replicas"
+  ]
+}

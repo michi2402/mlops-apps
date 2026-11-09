@@ -1,0 +1,62 @@
+2026-09-18T18:32:48Z
+$ kubectl top nodes
+NAME       CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)   
+minikube   4594m        57%      10013Mi         83%         
+$ kubectl top pods -A --sort-by=memory | head -30
+NAMESPACE                          NAME                                                              CPU(cores)   MEMORY(bytes)   
+kube-system                        kube-apiserver-minikube                                           1503m        2103Mi          
+argocd                             argocd-application-controller-0                                   1390m        889Mi           
+platform-mlflow                    mlflow-8645fd799b-cxtnh                                           8m           779Mi           
+platform-kafka                     platform-kafka-platform-kafka-brokers-0                           55m          404Mi           
+platform-kafka                     platform-kafka-kafka-ui-7bd4d4dfc4-2n98m                          18m          402Mi           
+kubeflow                           katib-mysql-5dfcbbc87f-jm75f                                      26m          379Mi           
+platform-kafka                     platform-kafka-entity-operator-7855ff649b-8x87x                   30m          311Mi           
+platform-kafka                     strimzi-cluster-operator-885d85dcc-kcdzx                          16m          277Mi           
+team1-iris                         iris-predictor-6fbcf68f4d-fln8j                                   10m          271Mi           
+platform-kafka                     platform-kafka-platform-kafka-controllers-1                       52m          246Mi           
+platform-postgres                  postgres-cluster-1                                                60m          157Mi           
+platform-minio                     minio-8659c85b8d-brtkn                                            68m          156Mi           
+platform-compute                   dask-worker-99fbb85c4-fg6mm                                       74m          156Mi           
+kube-system                        etcd-minikube                                                     113m         136Mi           
+kube-system                        kube-controller-manager-minikube                                  77m          130Mi           
+platform-compute                   dask-scheduler-65d86f7457-wtf5m                                   30m          110Mi           
+cert-manager                       platform-cert-manager-cainjector-84db76dfbb-zh2vk                 7m           107Mi           
+platform-kserve                    kserve-controller-manager-59d84566d-258px                         13m          95Mi            
+platform-envoy-gateway             envoy-gateway-b496dbff7-xc6pn                                     22m          94Mi            
+platform-rp-connect                platform-rp-connect-redpanda-connect-55f89fc8bb-xb68g             22m          87Mi            
+platform-compute                   dask-jupyter-f7d6d75f5-5rpbl                                      1m           84Mi            
+argocd                             argocd-repo-server-7787bf7c9d-p9pk2                               95m          80Mi            
+platform-postgres                  platform-postgres-cloudnative-pg-d7d5d7fdc-kd5p7                  17m          73Mi            
+external-secrets                   platform-external-secrets-cert-controller-6d4bbc9c-2488p          6m           69Mi            
+platform-lakefs                    lakefs-767f46d7f6-gftl2                                           16m          67Mi            
+external-secrets                   platform-external-secrets-5f58449f8d-6f6ft                        7m           66Mi            
+kube-system                        metrics-server-7fbb699795-8slqz                                   14m          65Mi            
+platform-envoy-gateway             envoy-platform-envoy-gateway-ingress-gateway-abca95db-74d6kbzmc   8m           62Mi            
+kube-system                        kube-scheduler-minikube                                           26m          61Mi            
+containers with restarts: 31
+  platform-lakefs lakefs-767f46d7f6-gftl2 29 Error
+  platform-postgres platform-postgres-cloudnative-pg-d7d5d7fdc-kd5p7 26 Error
+  platform-rp-connect platform-rp-connect-redpanda-connect-55f89fc8bb-xb68g 22 Error
+  platform-kserve kserve-controller-manager-59d84566d-258px 17 Error
+  platform-kubeflow-spark-operator spark-operator-controller-856c4594d-wwrrb 16 Error
+  platform-kafka platform-kafka-entity-operator-7855ff649b-8x87x 14 Completed
+  platform-kafka platform-kafka-platform-kafka-brokers-0 12 Error
+  platform-monitoring monitoring-prometheus-node-exporter-whpq4 12 Error
+  platform-postgres postgres-cluster-1 12 Completed
+  platform-kafka platform-kafka-platform-kafka-controllers-1 10 
+  platform-kafka strimzi-cluster-operator-885d85dcc-kcdzx 10 Completed
+  kubeflow-system kubeflow-trainer-controller-manager-84db68bdff-p9hzv 9 Completed
+  kubeflow cache-server-7855b67765-gtcl5 9 Error
+  platform-kafka platform-kafka-kafka-ui-7bd4d4dfc4-2n98m 9 Error
+  cert-manager platform-cert-manager-webhook-6c87d6d86f-9wh8q 8 Error
+  kube-system storage-provisioner 8 Error
+  kubeflow katib-db-manager-695bd86c4f-mncqq 8 Error
+  platform-kafka platform-kafka-entity-operator-7855ff649b-8x87x 8 Completed
+  kubeflow-system jobset-controller-manager-78bcbf6455-bzjzg 7 Error
+  argocd argocd-repo-server-7787bf7c9d-p9pk2 6 Completed
+  platform-mlflow mlflow-8645fd799b-cxtnh 6 Error
+  argocd argocd-server-95c5ccf85-c98b8 4 
+  kubeflow katib-mysql-5dfcbbc87f-jm75f 4 Error
+  platform-envoy-gateway envoy-gateway-b496dbff7-xc6pn 4 Completed
+  cert-manager platform-cert-manager-cainjector-84db76dfbb-zh2vk 3 Error
+No resources found

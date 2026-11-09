@@ -1,0 +1,17 @@
+2026-09-21T08:37:51Z
+# root applied 2026-09-21T08:36:44Z
+$ kubectl get applications.argoproj.io -A -o custom-columns=NAME,WAVE,CREATED,SYNC,HEALTH
+NAME                            WAVE     CREATED                SYNC        HEALTH
+root-minikube                   <none>   2026-09-21T08:36:41Z   Synced      Degraded
+platform                        <none>   2026-09-21T08:36:44Z   OutOfSync   Degraded
+workloads-team1                 <none>   2026-09-21T08:36:44Z   Synced      Healthy
+workloads-team2                 <none>   2026-09-21T08:36:44Z   Synced      Healthy
+platform-envoy-gateway          -10      2026-09-21T08:36:46Z   OutOfSync   Degraded
+platform-external-secrets       -10      2026-09-21T08:36:46Z   Synced      Healthy
+platform-kubeflow-namespaces    -10      2026-09-21T08:36:46Z   Synced      Healthy
+platform-rbac-pipeline-runner   -10      2026-09-21T08:36:46Z   OutOfSync   Healthy
+workloads-team1-iris            <none>   2026-09-21T08:36:46Z   OutOfSync   Missing
+workloads-team2-timeseries      <none>   2026-09-21T08:36:46Z   OutOfSync   Missing
+
+$ kubectl -n argocd get application platform -o jsonpath={.status.operationState.message}
+one or more synchronization tasks completed unsuccessfully. Retrying attempt #1 at 8:37AM.

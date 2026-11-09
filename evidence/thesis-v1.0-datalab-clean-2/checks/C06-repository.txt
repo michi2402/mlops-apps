@@ -1,0 +1,5 @@
+2026-10-01T14:56:19Z
+$ git status --porcelain -- . ':!evidence'
+
+HEAD 90bf2ca, origin/master 90bf2ca
+VERDICT PASS working tree clean, HEAD = origin/master

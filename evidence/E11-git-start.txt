@@ -1,0 +1,10 @@
+2026-09-18T13:28:55Z
+$ git rev-parse --abbrev-ref HEAD
+master
+$ git rev-parse HEAD
+3e0da5e3747418b9419d7c3cd091f4ad55a0458d
+$ git status --porcelain
+?? evidence/
+$ git log --oneline master..HEAD
+$ git ls-remote origin master
+3e0da5e3747418b9419d7c3cd091f4ad55a0458d	refs/heads/master

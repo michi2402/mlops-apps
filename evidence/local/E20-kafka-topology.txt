@@ -1,0 +1,48 @@
+2026-09-18T14:43:03Z
+$ kubectl -n platform-kafka get kafka,kafkanodepool,kafkatopic,pods
+NAME                                    READY   METADATA STATE   WARNINGS
+kafka.kafka.strimzi.io/platform-kafka   True    KRaft            
+
+NAME                                                        DESIRED REPLICAS   ROLES            NODEIDS
+kafkanodepool.kafka.strimzi.io/platform-kafka-brokers       1                  ["broker"]       [0]
+kafkanodepool.kafka.strimzi.io/platform-kafka-controllers   1                  ["controller"]   [1]
+
+NAME                                           CLUSTER          PARTITIONS   REPLICATION FACTOR   READY
+kafkatopic.kafka.strimzi.io/inference-events   platform-kafka   4            1                    True
+
+NAME                                                  READY   STATUS    RESTARTS      AGE
+pod/platform-kafka-entity-operator-7855ff649b-8x87x   2/2     Running   4 (46m ago)   48m
+pod/platform-kafka-kafka-ui-7bd4d4dfc4-2n98m          1/1     Running   0             55m
+pod/platform-kafka-platform-kafka-brokers-0           1/1     Running   0             51m
+pod/platform-kafka-platform-kafka-controllers-1       1/1     Running   0             51m
+pod/strimzi-cluster-operator-885d85dcc-kcdzx          1/1     Running   1 (31m ago)   55m
+$ kubectl -n platform-kafka get kafkatopic inference-events -o yaml
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaTopic
+metadata:
+  annotations:
+    argocd.argoproj.io/tracking-id: platform-kafka:kafka.strimzi.io/KafkaTopic:platform-kafka/inference-events
+  creationTimestamp: "2026-09-18T13:47:51Z"
+  finalizers:
+  - strimzi.io/topic-operator
+  generation: 1
+  labels:
+    strimzi.io/cluster: platform-kafka
+  name: inference-events
+  namespace: platform-kafka
+  resourceVersion: "3858"
+  uid: f8332242-cf14-4c11-9b3a-e2858c525298
+spec:
+  config:
+    min.insync.replicas: 1
+    retention.ms: 604800000
+  partitions: 4
+  replicas: 1
+status:
+  conditions:
+  - lastTransitionTime: "2026-09-18T13:54:51.030271798Z"
+    status: "True"
+    type: Ready
+  observedGeneration: 1
+  topicId: moFFspfbTva0N0bc8c2boQ
+  topicName: inference-events

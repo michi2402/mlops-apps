@@ -1,0 +1,52 @@
+2026-09-21T07:25:52Z
+$ curl -u $GRAFANA_USER:*** localhost:3300/api/search?type=dash-db
+dashboards provisioned: 28
+  alertmanager-overview | Alertmanager / Overview | General
+  cert-manager | cert-manager | General
+  cloudnative-pg | CloudNativePG | General
+  6be0s85Mk | Grafana Overview | General
+  09ec8aa1e996d6ffcd6817bbaff4db1b | Kubernetes / API server | General
+  b59e6c9f2fcbe2e16d77fc492374cc4f | Kubernetes / Compute Resources /  Multi-Cluster | General
+  efa86fd1d0c121a26444b636a3f509a8 | Kubernetes / Compute Resources / Cluster | General
+  85a562078cdf77779eaa1add43ccec1e | Kubernetes / Compute Resources / Namespace (Pods) | General
+  a87fb0d919ec0ea5f6543124e16c42a5 | Kubernetes / Compute Resources / Namespace (Workloads) | General
+  200ac8fdbfbb74b39aff88118e4d1c2c | Kubernetes / Compute Resources / Node (Pods) | General
+  6581e46e4e5c7ba40a07646395ef7b23 | Kubernetes / Compute Resources / Pod | General
+  a164a7f0339f99e89cea5cb47e9be617 | Kubernetes / Compute Resources / Workload | General
+  3138fa155d5915769fbded898ac09fd9 | Kubernetes / Kubelet | General
+  ff635a025bcfea7bc3dd4f508990a3e9 | Kubernetes / Networking / Cluster | General
+  8b7a8b326d7a6f1f04244066368c67af | Kubernetes / Networking / Namespace (Pods) | General
+  bbb2a765a623ae38130206c7d94a160f | Kubernetes / Networking / Namespace (Workload) | General
+  7a18067ce943a40ae25454675c19ff5c | Kubernetes / Networking / Pod | General
+  728bf77cc1166d2f3133bf25846876cc | Kubernetes / Networking / Workload | General
+  919b92a8e8041bd567af9edab12c840c | Kubernetes / Persistent Volumes | General
+  632e265de029684c40b21cb76bca4f94 | Kubernetes / Proxy | General
+  TgmJnqnnk | MinIO Dashboard | General
+  _eX4mpl4 | Mlflow Dashboard | General
+  7e0a61e486f727d763fb1d86fdd629c2 | Node Exporter / AIX | General
+  629701ea43bf69291922ea45f4a87d37 | Node Exporter / MacOS | General
+  7d57716318ee0dddbac5a7f451fb7753 | Node Exporter / Nodes | General
+  3e97d1d02672cdd0861f4c97c64f89b2 | Node Exporter / USE Method / Cluster | General
+  fac67cfbe174d3ef53eb473d73d9212f | Node Exporter / USE Method / Node | General
+  9fa0d141-d019-4ad7-8bc5-42196ee308bd | Prometheus / Overview | General
+
+# Is there data behind each dashboard? One PromQL per dashboard source, instant query:
+$ promql count(minio_node_process_uptime_seconds or minio_cluster_capacity_raw_total_bytes) -> 1
+$ promql count(cnpg_collector_up) -> 1
+$ promql count(certmanager_controller_sync_call_count) -> 14
+$ promql count({job="mlflow"}) -> 7
+$ promql count({__name__=~"flask_http_request_.*"}) -> EMPTY
+
+# Correction to the last probe: the MLflow dashboard does not query flask_* series.
+$ grafana /api/dashboards/uid/_eX4mpl4 -> metric names in panel expressions
+  mlflow_http_request_duration_seconds_{bucket,count,sum}, mlflow_http_request_total
+$ prometheus /api/v1/series?match[]={job="mlflow"} -> all four present
+
+--- Capture note ---
+Discharges E32's live half (NOT MEASURED in the 2026-09-18 session). The four dashboards the
+artefact declares -- MinIO (gnetId 13502, "MinIO Dashboard"), CloudNativePG (20417),
+cert-manager (20340) and MLflow (base/dashboards/mlflow.json, fetched by URL) -- are all
+provisioned in Grafana, and each has live series behind it in Prometheus. The other 24
+dashboards are kube-prometheus-stack defaults, not artefact declarations.
+Taken on the same minikube cluster as the 2026-09-18 run, restarted 2026-09-21, with the
+orchestration tier still scaled down per INT-03.

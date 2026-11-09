@@ -1,0 +1,3 @@
+2026-10-01T11:07:22Z
+$ kubectl -n platform-minio scale deploy minio --replicas=3
+VERDICT PASS reverted to the declared  replica(s) after 0 s

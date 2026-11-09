@@ -1,0 +1,22 @@
+2026-09-21T09:11:46Z
+$ kubectl -n platform-kafka run kcat-take3 --restart=Never --image=edenhill/kcat:1.7.1 -- -b platform-kafka-kafka-bootstrap:9092 -t inference-events -C -o beginning -e -f 'KEY=%k PARTITION=%p OFFSET=%o\n%s\n\n'; kubectl logs pod/kcat-take3
+% Reached end of topic inference-events [0] at offset 0
+% Reached end of topic inference-events [2] at offset 0
+% Reached end of topic inference-events [3] at offset 0
+KEY=3d5f88af-4e1c-4d08-8a0b-521960be422e PARTITION=1 OFFSET=0
+{"body":{"id":"5f2cf926-be1d-4572-8e4f-f01db0922642","model_name":"iris","outputs":[{"data":[0,2,1],"datatype":"INT32","name":"output-1","parameters":{"content_type":"np"},"shape":[3,1]}],"parameters":{"content_type":"np"}},"headers":{"Accept-Encoding":"gzip","Ce-Component":"predictor","Ce-Endpoint":"","Ce-Id":"3d5f88af-4e1c-4d08-8a0b-521960be422e","Ce-Inferenceservicename":"iris","Ce-Metadata":"null","Ce-Namespace":"team1-iris","Ce-Source":"http://localhost:9081/","Ce-Specversion":"1.0","Ce-Time":"2026-09-21T09:10:23.463035564Z","Ce-Type":"org.kubeflow.serving.inference.response","Content-Length":"215","Content-Type":"application/json","User-Agent":"Go-http-client/1.1","http_server_remote_ip":"10.244.0.39","http_server_request_path":"/ingest/kserve","http_server_user_agent":"Go-http-client/1.1","http_server_verb":"POST"}}
+
+KEY=3d5f88af-4e1c-4d08-8a0b-521960be422e PARTITION=1 OFFSET=1
+% Reached end of topic inference-events [1] at offset 2: exiting
+{"body":{"inputs":[{"data":[[5.1,3.5,1.4,0.2],[6.2,3.4,5.4,2.3],[5.9,3.0,4.2,1.5]],"datatype":"FP64","name":"predict","shape":[3,4]}]},"headers":{"Accept-Encoding":"gzip","Ce-Component":"predictor","Ce-Endpoint":"","Ce-Id":"3d5f88af-4e1c-4d08-8a0b-521960be422e","Ce-Inferenceservicename":"iris","Ce-Metadata":"{}","Ce-Namespace":"team1-iris","Ce-Source":"http://localhost:9081/","Ce-Specversion":"1.0","Ce-Time":"2026-09-21T09:10:23.294170355Z","Ce-Type":"org.kubeflow.serving.inference.request","Content-Length":"126","Content-Type":"application/json","User-Agent":"Go-http-client/1.1","http_server_remote_ip":"10.244.0.39","http_server_request_path":"/ingest/kserve","http_server_user_agent":"Go-http-client/1.1","http_server_verb":"POST"}}
+
+
+--- Capture note ---
+The E09 inference (client-visible response id 5f2cf926-...) produced exactly two records on
+inference-events, both under key 3d5f88af-4e1c-4d08-8a0b-521960be422e (the logging agent's CloudEvent
+id), both on partition 1: offset 0 = org.kubeflow.serving.inference.response, offset 1 =
+org.kubeflow.serving.inference.request (with the 3x4 inputs). The pair is co-partitioned as claimed,
+but NOT ordered request-before-response: the agent sends both asynchronously (agent log: work
+requests 1 and 2 received 09:10:23.29/.46, both sent 09:10:24.8). A consumer must join on key and
+Ce-Type, not on offset order. (On 2026-09-18 the request happened to land first.)
+Method: pod logs after completion; take2's 'kubectl run -i' lost output while attaching.

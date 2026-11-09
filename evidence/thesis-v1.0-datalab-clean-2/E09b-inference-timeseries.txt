@@ -1,0 +1,18 @@
+2026-10-01T14:56:02Z
+$ curl -s -i -H 'Host: timeseries-team2-timeseries.mlops.local' -d @timeseries-request.json http://127.0.0.1:18080/v2/models/timeseries/infer
+HTTP/1.1 200 OK
+ce-endpoint: timeseries
+ce-id: 02ed9a13-d6da-4f01-9aa3-f409579c3bc2
+ce-inferenceservicename: mlserver
+ce-modelid: timeseries
+ce-namespace: team2-timeseries
+ce-requestid: 02ed9a13-d6da-4f01-9aa3-f409579c3bc2
+ce-source: io.seldon.serving.deployment.mlserver.team2-timeseries
+ce-specversion: 0.3
+ce-type: io.seldon.serving.inference.response
+content-length: 420
+content-type: application/json
+date: Thu, 01 Oct 2026 14:56:04 GMT
+server: uvicorn
+
+{"model_name":"timeseries","id":"02ed9a13-d6da-4f01-9aa3-f409579c3bc2","parameters":{"content_type":"pd"},"outputs":[{"name":"0","shape":[5,1],"datatype":"FP32","data":[7.144966125488281,-0.09370708465576172,-2.2123847007751465,44.60839080810547,0.7983401417732239]},{"name":"1","shape":[5,1],"datatype":"FP32","data":[-6.9233527183532715,0.12384533137083054,3.9579553604125977,-35.021759033203125,1.0765914916992188]}]}

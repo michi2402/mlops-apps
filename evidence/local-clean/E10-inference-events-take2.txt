@@ -1,0 +1,25 @@
+2026-09-21T09:10:52Z
+$ kubectl -n platform-kafka run kcat-take2 --rm -i --restart=Never --pod-running-timeout=5m --image=edenhill/kcat:1.7.1 -- -b platform-kafka-kafka-bootstrap:9092 -t inference-events -C -o beginning -e -f 'KEY=%k PARTITION=%p\n%s\n\n'
+% Reached end of topic inference-events [0] at offset 0
+KEY=3d5f88af-4e1c-4d08-8a0b-521960be422e PARTITION=1
+{"body":{"id":"5f2cf926-be1d-4572-8e4f-f01db0922642","model_name":"iris","outputs":[{"data":[0,2,1],"datatype":"INT32","name":"output-1","parameters":{"content_type":"np"},"shape":[3,1]}],"parameters":{"content_type":"np"}},"headers":{"Accept-Encoding":"gzip","Ce-Component":"predictor","Ce-Endpoint":"","Ce-Id":"3d5f88af-4e1c-4d08-8a0b-521960be422e","Ce-Inferenceservicename":"iris","Ce-Metadata":"null","Ce-Namespace":"team1-iris","Ce-Source":"http://localhost:9081/","Ce-Specversion":"1.0","Ce-Time":"2026-09-21T09:10:23.463035564Z","Ce-Type":"org.kubeflow.serving.inference.response","Content-Length":"215","Content-Type":"application/json","User-Agent":"Go-http-client/1.1","http_server_remote_ip":"10.244.0.39","http_server_request_path":"/ingest/kserve","http_server_user_agent":"Go-http-client/1.1","http_server_verb":"POST"}}
+
+KEY=3d5f88af-4e1c-4d08-8a0b-521960be422e PARTITION=1
+% Reached end of topic inference-events [2] at offset 0
+% Reached end of topic inference-events [3] at offset 0
+All commands and output from this session will be recorded in container logs, including credentials and sensitive information passed through the command prompt.
+If you don't see a command prompt, try pressing enter.
+% Reached end of topic inference-events [1] at offset 2: exiting
+
+
+pod "kcat-take2" deleted from platform-kafka namespace
+
+--- Capture note ---
+Both records of the E09 inference (response id 5f2cf926-...) are on the topic under ONE key,
+3d5f88af-4e1c-4d08-8a0b-521960be422e, on ONE partition (1): the request (inputs) and the response
+(org.kubeflow.serving.inference.response). kcat's "% Reached end" lines are stderr, interleaved.
+The key is the logging agent's CloudEvent id, distinct from the response id returned to the client --
+as on 2026-09-18. Agent log: both work requests "Sent with status code 200" (09:10:24Z).
+First capture (E10-inference-events.txt) is empty because its grep filter dropped kcat's output
+while its image was still being pulled; this take2 is unfiltered.
+CORRECTION (written after re-reading the raw output above): the second record's body is NOT in this capture -- only its key line survived; 'kubectl run -i' loses output while attaching. The note above over-claims. See E10-inference-events-take3.txt.

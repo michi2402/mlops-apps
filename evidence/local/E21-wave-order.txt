@@ -1,0 +1,25 @@
+platform-cert-manager                    wave=  -10 created=2026-09-18T13:47:20Z
+platform-envoy-gateway                   wave=  -10 created=2026-09-18T13:47:20Z
+platform-external-secrets                wave=  -10 created=2026-09-18T13:47:20Z
+platform-kubeflow-namespaces             wave=  -10 created=2026-09-18T13:47:20Z
+platform-rbac-pipeline-runner            wave=  -10 created=2026-09-18T13:47:20Z
+platform-dask                            wave=   -2 created=2026-09-18T13:47:30Z
+platform-katib                           wave=   -2 created=2026-09-18T13:47:30Z
+platform-kfp                             wave=   -2 created=2026-09-18T13:47:30Z
+platform-kubeflow-spark-operator         wave=   -2 created=2026-09-18T13:47:30Z
+platform-kubeflow-trainer-manager        wave=   -2 created=2026-09-18T13:47:30Z
+platform-kfp-crds                        wave=   -4 created=2026-09-18T13:47:27Z
+platform-kserve                          wave=   -4 created=2026-09-18T13:47:27Z
+platform-lakefs                          wave=   -4 created=2026-09-18T13:47:27Z
+platform-mlflow                          wave=   -4 created=2026-09-18T13:47:27Z
+platform-postgres                        wave=   -6 created=2026-09-18T13:47:25Z
+platform-minio                           wave=   -8 created=2026-09-18T13:47:22Z
+platform-monitoring                      wave=   -8 created=2026-09-18T13:47:22Z
+platform-kafka-operator                  wave=    0 created=2026-09-18T13:47:32Z
+platform-kubeflow-trainer-runtimes       wave=    0 created=2026-09-18T13:47:32Z
+platform-kafka                           wave=    1 created=2026-09-18T13:47:35Z
+platform-rp-connect                      wave=    2 created=2026-09-18T13:47:37Z
+root-minikube                            wave=<none> created=2026-09-18T13:47:15Z
+platform                                 wave=<none> created=2026-09-18T13:47:18Z
+workloads-team1                          wave=<none> created=2026-09-18T13:47:18Z
+workloads-team2                          wave=<none> created=2026-09-18T13:47:18Z

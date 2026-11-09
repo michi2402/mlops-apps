@@ -1,0 +1,2 @@
+minikube-up 57s, cache load 1657s
+bootstrap 1072s

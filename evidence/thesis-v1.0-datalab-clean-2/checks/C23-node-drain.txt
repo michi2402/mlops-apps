@@ -1,0 +1,13 @@
+2026-10-01T15:11:58Z
+draining mlops-k8s-native-test-mlops-worker-bvtc6-8469t; brokers before:
+  platform-kafka-platform-kafka-brokers-0   mlops-k8s-native-test-mlops-worker-bvtc6-l799r
+  platform-kafka-platform-kafka-brokers-1   mlops-k8s-native-test-mlops-worker-bvtc6-xb8w9
+  platform-kafka-platform-kafka-brokers-2   mlops-k8s-native-test-mlops-worker-bvtc6-8469t
+evicting pod platform-kafka/platform-kafka-platform-kafka-brokers-2
+pod/platform-kafka-platform-kafka-brokers-2 evicted
+node/mlops-k8s-native-test-mlops-worker-bvtc6-8469t drained
+during the drain: 130 requests, 41 not answered with 200
+recovered after drain: 107 s
+request events since the drain began: 111 (answered requests: 89, plus the probes of the recovery loop)
+uncordoned mlops-k8s-native-test-mlops-worker-bvtc6-8469t
+VERDICT PASS recovered in 107 s; 111 request events for 89 answered requests

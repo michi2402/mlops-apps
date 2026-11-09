@@ -1,0 +1,20 @@
+T0 (root applied)       = 2026-09-21T08:36:44Z   (E29-bootstrap-clean.txt, step 3)
+T1 (platform tier 12/12 Synced+Healthy) = 2026-09-21T08:49:01Z   (watcher log, labels mlops.tuwien/tier=platform)
+E07 = 737 s = 12 min 17 s
+Of which: wave -10 held 08:36:46 -> 08:40:35 (3 min 49 s) on the Gateway's missing LoadBalancer address until
+minikube tunnel was started at 08:40:33 (INTERVENTIONS CLEAN-02). Interventions in the window: exactly one.
+Compare 2026-09-18: 46.4 min, two interventions (INT-01 image pull, INT-02 manual resync).
+
+--- watcher log ---
+08:43:57 13/22 created, 6 ready | not ready: p-kfp-crds p-kserve p-lakefs p-mlflow p-postgres p-rbac-pipeline-runner platform
+08:44:28 13/22 created, 7 ready | not ready: p-kserve p-kubeflow-namespaces p-lakefs p-mlflow p-rbac-pipeline-runner platform
+08:44:44 13/22 created, 8 ready | not ready: p-kubeflow-namespaces p-lakefs p-mlflow p-rbac-pipeline-runner platform
+08:45:00 13/22 created, 9 ready | not ready: p-kubeflow-namespaces p-lakefs p-mlflow platform
+08:45:31 13/22 created, 10 ready | not ready: p-kubeflow-namespaces p-mlflow platform
+08:45:47 14/22 created, 11 ready | not ready: p-kafka-operator p-kubeflow-namespaces platform
+--- platform-tier watch from 08:46:24: platform-cert-manager platform-envoy-gateway platform-external-secrets platform-kafka platform-kserve platform-lakefs platform-minio platform-mlflow platform-monitoring platform-postgres platform-rp-connect platform-kafka-operator 
+08:46:25 platform tier 9/12 ready | not ready: p-kafka p-rp-connect p-kafka-operator | orchestration 3/9 created, 3 healthy
+08:47:27 platform tier 10/12 ready | not ready: p-kafka p-rp-connect | orchestration 3/9 created, 3 healthy
+08:48:45 platform tier 11/12 ready | not ready: p-rp-connect | orchestration 3/9 created, 3 healthy
+08:49:01 DONE platform tier 12/12 ready | not ready:  | orchestration 8/9 created, 4 healthy
+PLATFORM TIER CONVERGED 2026-09-21T08:49:01Z

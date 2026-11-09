@@ -1,0 +1,7 @@
+2026-09-25T08:20:55Z
+HEAD b3dd06bece9dc08111e6835f27c96a0f5adc1942
+tag  none
+Server Version: v1.32.0
+minikube   8     12251512Ki   12251512Ki
+serializeImagePulls: false
+maxParallelImagePulls: 3

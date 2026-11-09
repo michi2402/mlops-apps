@@ -1,0 +1,25 @@
+2026-10-01T12:56:47Z
+  platform                               Synced     Healthy
+  platform-cert-manager                  Synced     Healthy
+  platform-dask                          Synced     Healthy
+  platform-envoy-gateway                 Synced     Healthy
+  platform-external-secrets              Synced     Healthy
+  platform-kafka                         Synced     Healthy
+  platform-kafka-operator                Synced     Healthy
+  platform-katib                         Synced     Healthy
+  platform-kfp                           Synced     Healthy
+  platform-kfp-crds                      Synced     Healthy
+  platform-kserve                        Synced     Healthy
+  platform-kubeflow-namespaces           Synced     Healthy
+  platform-kubeflow-spark-operator       Synced     Healthy
+  platform-kubeflow-trainer-manager      Synced     Healthy
+  platform-kubeflow-trainer-runtimes     Synced     Healthy
+  platform-lakefs                        Synced     Healthy
+  platform-minio                         Synced     Healthy
+  platform-mlflow                        Synced     Healthy
+  platform-monitoring                    Synced     Healthy
+  platform-postgres                      Synced     Healthy
+  platform-rbac-pipeline-runner          Synced     Healthy
+  platform-rp-connect                    Synced     Healthy
+serving path converged after 751 s (bootstrap); 22 of 22 platform Applications Synced/Healthy
+VERDICT PASS converged in 751 s; 22/22 platform Applications healthy
